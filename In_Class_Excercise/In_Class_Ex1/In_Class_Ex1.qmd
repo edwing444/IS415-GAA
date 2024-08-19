@@ -1,8 +1,8 @@
 ---
-title: "In_Class_Ex1"
+title: "In_Class_Ex1: Geospatial Data Science"
 author: "Edwin"
-format: html
-editor: visual
+date: "August 19,2024"
+date-modified: "last-modified"
 ---
 
 ## Quarto

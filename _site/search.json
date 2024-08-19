@@ -37,21 +37,21 @@
   {
     "objectID": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html",
     "href": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html",
-    "title": "In_Class_Ex1",
+    "title": "In_Class_Ex1: Geospatial Data Science",
     "section": "",
     "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
   },
   {
     "objectID": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html#quarto",
     "href": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html#quarto",
-    "title": "In_Class_Ex1",
+    "title": "In_Class_Ex1: Geospatial Data Science",
     "section": "",
     "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
   },
   {
     "objectID": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html#running-code",
     "href": "In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html#running-code",
-    "title": "In_Class_Ex1",
+    "title": "In_Class_Ex1: Geospatial Data Science",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   },
