@@ -12,5 +12,26 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "In_Class_Ex/In_class_ex1/In_class_ex1.html",
+    "href": "In_Class_Ex/In_class_ex1/In_class_ex1.html",
+    "title": "IS415-GAA",
+    "section": "",
+    "text": "title: “In-Class Ex1” author: “Edwin” format: html editor: visual"
+  },
+  {
+    "objectID": "In_Class_Ex/In_class_ex1/In_class_ex1.html#quarto",
+    "href": "In_Class_Ex/In_class_ex1/In_class_ex1.html#quarto",
+    "title": "IS415-GAA",
+    "section": "Quarto",
+    "text": "Quarto\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "In_Class_Ex/In_class_ex1/In_class_ex1.html#running-code",
+    "href": "In_Class_Ex/In_class_ex1/In_class_ex1.html#running-code",
+    "title": "IS415-GAA",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   }
 ]
