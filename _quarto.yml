@@ -5,7 +5,7 @@ website:
   title: "IS415-GAA"
   navbar:
     left:
-    - text: "Hands-on Exercise"
+    - text: "Hands-on Exercises"
       menu:
         - text: "Hands-on Exercise 1"
     right: 
