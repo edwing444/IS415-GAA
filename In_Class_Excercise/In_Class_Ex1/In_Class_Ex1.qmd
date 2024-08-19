@@ -3,6 +3,10 @@ title: "In_Class_Ex1: Geospatial Data Science"
 author: "Edwin"
 date: "August 19,2024"
 date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
 ---
 
 ## Quarto
