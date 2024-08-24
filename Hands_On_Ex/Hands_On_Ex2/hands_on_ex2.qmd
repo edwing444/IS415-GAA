@@ -209,6 +209,65 @@ tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
   tm_borders(alpha = 0.5)
 ```
 
+### **2.3.4 Data Preparation**
+
+Before a thematic map can be prepared, you are required to prepare a data table with year 2020 values. The data table should include the variables PA, SZ, YOUNG, ECONOMY ACTIVE, AGED, TOTAL, DEPENDENCY.
+
+-   YOUNG: age group 0 to 4 until age groyup 20 to 24,
+
+-   ECONOMY ACTIVE: age group 25-29 until age group 60-64,
+
+-   AGED: age group 65 and above,
+
+-   TOTAL: all age group, and
+
+-   DEPENDENCY: the ratio between young and aged against economy active group
+
+The original code is
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+
+popdata2020 <- popdata %>%
+  filter(Time == 2020) %>%
+  group_by(PA, SZ, AG) %>%
+  summarise(`POP` = sum(`Pop`)) %>%
+  ungroup()%>%
+  pivot_wider(names_from=AG, 
+              values_from=POP) %>%
+  mutate(YOUNG = rowSums(.[3:6])
+         +rowSums(.[12])) %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+
+rowSums(.[13:15]))%>%
+mutate(`AGED`=rowSums(.[16:21])) %>%
+mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+       `ECONOMY ACTIVE`, `AGED`, 
+       `TOTAL`, `DEPENDENCY`)
+
+```
+
+The following take in data for young FROM 0-24 and 50 to 54 which is wrong as rowSums(.\[12\]) is the age group 50 to 54.
+
+Therefore the amended code should be
+
+```{r}
+mutate(YOUNG = rowSums(.[3:6])) 
+```
+
+Furthermore, the orignial code takes in ECONOMY ACTIVE takes in 24-49 and skip 50-54 and takes in 5_to_9 instead which is wrong as ECONOMY ACTIVE 25 to 64
+
+Therefore the amended code is
+
+```{r}
+mutate(`ECONOMY ACTIVE` = rowSums(.[7:13])+
+           rowSums(.[15]))
+```
+
 Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?\
 \
 When preparing choropleth maps with different numbers of classes (e.g., 2, 6, 10, 20), you are essentially altering the granularity of the information presented.
