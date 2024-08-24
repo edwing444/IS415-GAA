@@ -171,7 +171,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation"><strong>2.3.4 Data Preparation</strong></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -276,9 +282,9 @@ dbl (2): Pop, Time
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>AG, </span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span>POP) <span class="sc">%&gt;%</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">YOUNG =</span> <span class="fu">rowSums</span>(.[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>])</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">+</span><span class="fu">rowSums</span>(.[<span class="dv">12</span>])) <span class="sc">%&gt;%</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">ECONOMY ACTIVE</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rowSums</span>(.[<span class="dv">7</span><span class="sc">:</span><span class="dv">11</span>])<span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rowSums</span>(.[<span class="dv">13</span><span class="sc">:</span><span class="dv">15</span>]))<span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">ECONOMY ACTIVE</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rowSums</span>(.[<span class="dv">7</span><span class="sc">:</span><span class="dv">13</span>])<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rowSums</span>(.[<span class="dv">15</span>]))<span class="sc">%&gt;%</span></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">AGED</span><span class="st">`</span><span class="ot">=</span><span class="fu">rowSums</span>(.[<span class="dv">16</span><span class="sc">:</span><span class="dv">21</span>])) <span class="sc">%&gt;%</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">TOTAL</span><span class="st">`</span><span class="ot">=</span><span class="fu">rowSums</span>(.[<span class="dv">3</span><span class="sc">:</span><span class="dv">21</span>])) <span class="sc">%&gt;%</span>  </span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">DEPENDENCY</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">YOUNG</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">AGED</span><span class="st">`</span>)</span>
@@ -403,7 +409,7 @@ dbl (2): Pop, Time
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mpsz_pop2020<span class="sc">$</span>DEPENDENCY)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
- 0.0000  0.7113  0.7926  0.8561  0.8786 19.0000      92 </code></pre>
+ 0.0000  0.5696  0.6154  0.6917  0.6950 19.0000      92 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(mpsz_pop2020)<span class="sc">+</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"DEPENDENCY"</span>,</span>
@@ -610,6 +616,43 @@ Please use legend.outside.size to control the width of the outside legend</code>
 </div>
 </div>
 </div>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation"><strong>2.3.4 Data Preparation</strong></h3>
+<p>Before a thematic map can be prepared, you are required to prepare a data table with year 2020 values. The data table should include the variables PA, SZ, YOUNG, ECONOMY ACTIVE, AGED, TOTAL, DEPENDENCY.</p>
+<ul>
+<li><p>YOUNG: age group 0 to 4 until age groyup 20 to 24,</p></li>
+<li><p>ECONOMY ACTIVE: age group 25-29 until age group 60-64,</p></li>
+<li><p>AGED: age group 65 and above,</p></li>
+<li><p>TOTAL: all age group, and</p></li>
+<li><p>DEPENDENCY: the ratio between young and aged against economy active group</p></li>
+</ul>
+<p>The original code is</p>
+<p><code>r``library(dplyr)</code></p>
+<p><code>library(tidyr)</code></p>
+<p><code>popdata2020 &lt;- popdata %&gt;%</code></p>
+<p><code>filter(Time == 2020) %&gt;%</code></p>
+<p><code>group_by(PA, SZ, AG) %&gt;%</code></p>
+<p><code>summarise(`POP` = sum(`Pop`)) %&gt;%</code></p>
+<p><code>ungroup()%&gt;%</code></p>
+<p><code>pivot_wider(names_from=AG,</code></p>
+<p><code>values_from=POP) %&gt;%</code></p>
+<p><code>mutate(YOUNG = rowSums(.[3:6])</code></p>
+<p><code>+rowSums(.[12])) %&gt;%</code></p>
+<p><code>mutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+</code></p>
+<p><code>rowSums(.[13:15]))%&gt;%</code></p>
+<p><code>mutate(`AGED`=rowSums(.[16:21])) %&gt;%</code></p>
+<p><code>mutate(`TOTAL`=rowSums(.[3:21])) %&gt;%</code></p>
+<p><code>mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)</code></p>
+<p><code>/`ECONOMY ACTIVE`) %&gt;%</code></p>
+<p><code>select(`PA`, `SZ`, `YOUNG`,</code></p>
+<p><code>`ECONOMY ACTIVE`, `AGED`,</code></p>
+<p><code>`TOTAL`, `DEPENDENCY`)</code></p>
+<p>The following take in data for young FROM 0-24 and 50 to 54 which is wrong as rowSums(.[12]) is the age group 50 to 54.</p>
+<p>Therefore the amended code should be</p>
+<p><strong>mutate(YOUNG = rowSums(.[3:6]))</strong></p>
+<p>Furthermore, the orignial code takes in ECONOMY ACTIVE takes in 24-49 and skip 50-54 and takes in 5_to_9 instead which is wrong as ECONOMY ACTIVE 25 to 64</p>
+<p>Therefore the amended code is</p>
+<p><strong>mutate(<code>ECONOMY ACTIVE</code> = rowSums(.[7:13])+ rowSums(.[15]))</strong></p>
 <p>Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e.&nbsp;2, 6, 10, 20). Compare the output maps, what observation can you draw?<br>
 <br>
 When preparing choropleth maps with different numbers of classes (e.g., 2, 6, 10, 20), you are essentially altering the granularity of the information presented.</p>
@@ -633,6 +676,7 @@ When preparing choropleth maps with different numbers of classes (e.g., 2, 6, 10
 </ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
