@@ -9,9 +9,13 @@ execute:
   freeze: true
 ---
 
+**Loading Libraries**
+
 ```{r}
 pacman::p_load(sf, tmap, tidyverse)
 ```
+
+**Reading data and presenting them as a dataframe**
 
 ```{r}
 mpsz_2014_shp <- st_read(dsn = "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data", 
@@ -27,12 +31,16 @@ class(mpsz_2014_shp)
 mpsz_kml <- st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2014SubzoneBoundaryWebKML.kml")
 ```
 
+**Writing a KML file using data from ESRI shapefile**
+
 ```{r}
 #| output: false
 st_write(mpsz_2014_shp,
          "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MP14_SUBZONE_WEB_PL.kml",
          delete_dsn = TRUE)
 ```
+
+**Reading KML files**
 
 ```{r}
 mpsz_2019_kml <- st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2019SubzoneBoundaryNoSeaKML.kml")
@@ -53,14 +61,20 @@ mpsz_2019_shp <- st_read(dsn = "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Cla
   st_transform(crs=3414)
 ```
 
+**Transforming data**
+
 ```{r}
 preschool<-st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/PreSchoolsLocation.kml") %>% 
   st_transform(crs=3414)
 ```
 
+**Reading Population data**
+
 ```{r}
 popdata <- read.csv("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/respopagesextod2023.csv")
 ```
+
+**Preparing the data**
 
 ```{r}
 popdata2023 <- popdata %>% 
@@ -79,11 +93,15 @@ popdata2023 <- popdata %>%
 colnames(popdata2023)
 ```
 
+**Changing the names to upper case**
+
 ```{r}
 popdata2023 <- popdata2023 %>% 
   mutate_at(.vars = vars(PA, SZ), 
             .funs = list(toupper))
 ```
+
+**Join the MPSZ table and Population table on the subzone_n**
 
 ```{r}
 mpsz_pop2023 <- left_join(mpsz_2014_shp, popdata2023,

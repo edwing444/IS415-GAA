@@ -179,7 +179,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation"><strong>2.3.4 Data Preparation</strong></a></li>
+  <li><a href="#thematic-mapping-and-geovisualisation-with-r" id="toc-thematic-mapping-and-geovisualisation-with-r" class="nav-link active" data-scroll-target="#thematic-mapping-and-geovisualisation-with-r"><strong>2&nbsp; Thematic Mapping and GeoVisualisation with R</strong></a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><strong>2.1 Overview</strong></a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><strong>2.3.4 Data Preparation</strong></a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -211,6 +217,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="thematic-mapping-and-geovisualisation-with-r" class="level1">
+<h1><strong>2&nbsp; Thematic Mapping and GeoVisualisation with R</strong></h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview"><strong>2.1 Overview</strong></h2>
+<p>In general, thematic mapping involves the use of map symbols to visualize selected properties of geographic features that are not naturally visible, such as population, temperature, crime rate, and property prices, just to mention a few of them.</p>
+<p>Geovisualisation, on the other hand, works by providing graphical ideation to render a place, a phenomenon or a process visible, enabling human’s most powerful information-processing abilities – those of spatial cognition associated with our eye–brain vision system – to be directly brought to bear.</p>
+<p>In this chapter, you will learn how to plot functional and truthful choropleth maps by using an R package called **tmap** package.</p>
+<p>The code chunk below will be used to install and load these packages in RStudio.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, tmap, tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mpsz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"C:/edwing444/IS415-GAA/Hands_On_Ex/Hands_On_Ex2/data/geospatial"</span>, </span>
@@ -681,6 +695,8 @@ When preparing choropleth maps with different numbers of classes (e.g., 2, 6, 10
 </ol>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

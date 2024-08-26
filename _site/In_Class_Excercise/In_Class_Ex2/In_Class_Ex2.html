@@ -218,9 +218,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p><strong>Loading Libraries</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, tmap, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Reading data and presenting them as a dataframe</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mpsz_2014_shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data"</span>, </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"MP14_SUBZONE_WEB_PL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -244,11 +246,13 @@ Projected CRS: SVY21</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mpsz_kml <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2014SubzoneBoundaryWebKML.kml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Writing a KML file using data from ESRI shapefile</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_write</span>(mpsz_2014_shp,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MP14_SUBZONE_WEB_PL.kml"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Reading KML files</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mpsz_2019_kml <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2019SubzoneBoundaryNoSeaKML.kml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -306,6 +310,7 @@ Bounding box:  xmin: 103.6057 ymin: 1.158699 xmax: 104.0885 ymax: 1.470775
 Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
+<p><strong>Transforming data</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>preschool<span class="ot">&lt;-</span><span class="fu">st_read</span>(<span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/PreSchoolsLocation.kml"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs=</span><span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -321,9 +326,11 @@ z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
+<p><strong>Reading Population data</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>popdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/respopagesextod2023.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Preparing the data</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>popdata2023 <span class="ot">&lt;-</span> popdata <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PA,SZ,AG) <span class="sc">%&gt;%</span> </span>
@@ -352,11 +359,13 @@ Geodetic CRS:  WGS 84</code></pre>
 [25] "TOTAL"          "DEPENDENCY"    </code></pre>
 </div>
 </div>
+<p><strong>Changing the names to upper case</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>popdata2023 <span class="ot">&lt;-</span> popdata2023 <span class="sc">%&gt;%</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="at">.vars =</span> <span class="fu">vars</span>(PA, SZ), </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.funs =</span> <span class="fu">list</span>(toupper))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Join the MPSZ table and Population table on the subzone_n</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mpsz_pop2023 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(mpsz_2014_shp, popdata2023,</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"SUBZONE_N"</span> <span class="ot">=</span> <span class="st">"SZ"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
