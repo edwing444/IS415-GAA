@@ -225,7 +225,7 @@ Before a thematic map can be prepared, you are required to prepare a data table 
 
 The original code is
 
-`r``library(dplyr)`
+``` r``library(dplyr) ```
 
 `library(tidyr)`
 

@@ -1,0 +1,91 @@
+---
+title: "In Class Exercise 2"
+author: "Edwin"
+date: "August 26,2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
+---
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse)
+```
+
+```{r}
+mpsz_2014_shp <- st_read(dsn = "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data", 
+                layer = "MP14_SUBZONE_WEB_PL")
+```
+
+```{r}
+class(mpsz_2014_shp)
+```
+
+```{r}
+#| eval: FALSE
+mpsz_kml <- st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2014SubzoneBoundaryWebKML.kml")
+```
+
+```{r}
+#| output: false
+st_write(mpsz_2014_shp,
+         "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MP14_SUBZONE_WEB_PL.kml",
+         delete_dsn = TRUE)
+```
+
+```{r}
+mpsz_2019_kml <- st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/MasterPlan2019SubzoneBoundaryNoSeaKML.kml")
+```
+
+```{r}
+mpsz_2019_shp <- st_read(dsn = "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data", 
+                layer = "MPSZ-2019")
+```
+
+```{r}
+preschool<-st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/PreSchoolsLocation.kml")
+```
+
+```{r}
+mpsz_2019_shp <- st_read(dsn = "C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data", 
+                layer = "MPSZ-2019") %>% 
+  st_transform(crs=3414)
+```
+
+```{r}
+preschool<-st_read("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/PreSchoolsLocation.kml") %>% 
+  st_transform(crs=3414)
+```
+
+```{r}
+popdata <- read.csv("C:/edwing444/IS415-GAA/In_Class_Excercise/In_Class_Ex2/data/respopagesextod2023.csv")
+```
+
+```{r}
+popdata2023 <- popdata %>% 
+  group_by(PA,SZ,AG) %>% 
+  summarise(`POP`=sum(`Pop`)) %>% 
+  ungroup %>% 
+  pivot_wider(names_from=AG, 
+              values_from=POP) %>% 
+  mutate(YOUNG = rowSums(.[3:6])) %>% 
+  mutate(`ECONOMY ACTIVE` = rowSums(.[16:21])) %>%
+  mutate(`AGED`=rowSums(.[16:21])) %>%
+  mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+  mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+         /`ECONOMY ACTIVE`)
+
+colnames(popdata2023)
+```
+
+```{r}
+popdata2023 <- popdata2023 %>% 
+  mutate_at(.vars = vars(PA, SZ), 
+            .funs = list(toupper))
+```
+
+```{r}
+mpsz_pop2023 <- left_join(mpsz_2014_shp, popdata2023,
+                          by = c("SUBZONE_N" = "SZ"))
+```
