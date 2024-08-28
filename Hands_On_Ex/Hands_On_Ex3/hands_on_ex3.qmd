@@ -174,7 +174,27 @@ childcare_sp
 sg_sp
 ```
 
-Challenge: Do you know what are the differences between Spatial\* classes and generic sp object?
+[Challenge: Do you know what are the differences between Spatial\* classes and generic sp object?]{.underline}
+
+A **generic 'sp' object** typically refers to spatial objects created and handled using the `sp` package.
+
+These objects can represent different types of spatial data, such as points, lines, or polygons. The specific class of an 'sp' object determines the structure of the data and the methods available for it.
+
+The '**spatial**' classes are specific classes provided by the sp package to represent different types of spatial data. These classes include:
+
+1.  '**SpatialPoints**': Represents spatial data as a set of points. Each point is defined by coordinates in a spatial reference
+
+2.  '**SpatialLines**': Represents spatial data as a set of lines, where each line is composed of a series of connected points.
+
+3.  '**SpatialPolygons**': Represents spatial data as a set of polygons, which are defined by a closed sequence of points. Polygons are used to represent areas.
+
+    ### Key Differences:
+
+    -   **Structure**: 'Spatial' classes have a specific structure and are designed to handle different types of spatial data like points, lines, polygons etc.
+
+        Generic sp objects refer to any object created using the `sp` package, which could be any of these specific 'Spatial' classes or others.
+
+    -   **Methods**: Different 'Spatial' classes have methods specifically designed for the type of data they represent. For example, methods for 'SpatialPolygons**'** would include operations relevant to polygons, such as checking if a point is inside a polygon.
 
 ### **4.5.3 Converting the generic sp format into spatstat’s ppp format**
 
