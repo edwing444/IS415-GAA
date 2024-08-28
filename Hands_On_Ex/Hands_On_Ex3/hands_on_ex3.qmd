@@ -1,6 +1,10 @@
 ---
 title: "Hands On Exercise 3"
 author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
 ---
 
 # **4  1st Order Spatial Point Patterns Analysis Methods**

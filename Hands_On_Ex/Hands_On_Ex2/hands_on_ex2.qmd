@@ -1,6 +1,10 @@
 ---
 title: "Hands On Excercise 2"
 author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
 ---
 
 # **2  Thematic Mapping and GeoVisualisation with R**

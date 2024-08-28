@@ -1,6 +1,10 @@
 ---
 title: "Hands_On_Ex1"
 author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
 ---
 
 ```{r}
