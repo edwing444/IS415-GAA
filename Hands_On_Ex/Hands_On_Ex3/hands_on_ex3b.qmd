@@ -1,6 +1,10 @@
 ---
 title: "Hands_On_Ex3b"
 author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
 ---
 
 # **5  2nd Order Spatial Point Patterns Analysis Methods**
