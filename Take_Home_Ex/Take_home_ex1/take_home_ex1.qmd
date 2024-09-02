@@ -1,6 +1,6 @@
 ---
 title: "Take Home Exercise 1"
-author: "edwin"
+author: "edwin tan"
 execute: 
   eval: true
   echo: true
