@@ -1,0 +1,15 @@
+{
+  "hash": "89c350fdf64cf8ee0213bba790d388f8",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Take Home Exercise 1\"\nauthor: \"edwin tan\"\nexecute: \n  eval: true\n  echo: true\n  freeze: true\n---\n\n::: {.cell}\n\n```{.r .cell-code}\npacman::p_load(sf, tmap, tidyverse)\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nacled_sf <- read.csv(\"data/ACLED_Myanmar.csv\") %>% \n  st_as_sf(coords = c(\n    \"longitude\",\"latitude\"),\n    crs=4326) %>% \n  st_transform(crs = 32647) %>% \n  mutate(event_date = dmy(event_date))\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

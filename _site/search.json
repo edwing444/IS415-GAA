@@ -201,5 +201,12 @@
     "title": "In_Class_Ex3",
     "section": "",
     "text": "install.packages(\"maptools\",\n                 repos = \"https://packagemanager.posit.co/cran/2023-10-13\")\n\n\npacman::p_load(sf, tmap, tidyverse)\n\n\nmpsz_sf &lt;- st_read(dsn = \"data\", \n                layer = \"MP14_SUBZONE_WEB_PL\")\n\nReading layer `MP14_SUBZONE_WEB_PL' from data source \n  `C:\\edwing444\\IS415-GAA\\In_Class_Excercise\\In_Class_Ex3\\data' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nWorking with st_union()\n\nsg_sf &lt;- mpsz_sf %&gt;% \n  st_union()\n\nplot(sg_sf)"
+  },
+  {
+    "objectID": "Take_Home_Ex/Take_home_ex1/take_home_ex1.html",
+    "href": "Take_Home_Ex/Take_home_ex1/take_home_ex1.html",
+    "title": "Take Home Exercise 1",
+    "section": "",
+    "text": "pacman::p_load(sf, tmap, tidyverse)\n\n\nacled_sf &lt;- read.csv(\"data/ACLED_Myanmar.csv\") %&gt;% \n  st_as_sf(coords = c(\n    \"longitude\",\"latitude\"),\n    crs=4326) %&gt;% \n  st_transform(crs = 32647) %&gt;% \n  mutate(event_date = dmy(event_date))"
   }
 ]
