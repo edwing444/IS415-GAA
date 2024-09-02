@@ -194,5 +194,12 @@
     "title": "IS415-GAA",
     "section": "",
     "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n        0 0     false"
+  },
+  {
+    "objectID": "In_Class_Excercise/In_Class_Ex3/In_Class_Ex3.html",
+    "href": "In_Class_Excercise/In_Class_Ex3/In_Class_Ex3.html",
+    "title": "In_Class_Ex3",
+    "section": "",
+    "text": "install.packages(\"maptools\",\n                 repos = \"https://packagemanager.posit.co/cran/2023-10-13\")\n\n\npacman::p_load(sf, tmap, tidyverse)\n\n\nmpsz_sf &lt;- st_read(dsn = \"data\", \n                layer = \"MP14_SUBZONE_WEB_PL\")\n\nReading layer `MP14_SUBZONE_WEB_PL' from data source \n  `C:\\edwing444\\IS415-GAA\\In_Class_Excercise\\In_Class_Ex3\\data' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nWorking with st_union()\n\nsg_sf &lt;- mpsz_sf %&gt;% \n  st_union()\n\nplot(sg_sf)"
   }
 ]

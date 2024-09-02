@@ -1,0 +1,17 @@
+{
+  "hash": "068d3c565ccdd25e9789d4e63dea5804",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"In_Class_Ex3\"\nauthor: \"edwin\"\ndate: \"September 2,2024\"\ndate-modified: \"last-modified\"\nexecute: \n  eval: true\n  echo: true\n  freeze: true\n---\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(\"maptools\",\n                 repos = \"https://packagemanager.posit.co/cran/2023-10-13\")\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\npacman::p_load(sf, tmap, tidyverse)\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nmpsz_sf <- st_read(dsn = \"data\", \n                layer = \"MP14_SUBZONE_WEB_PL\")\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nReading layer `MP14_SUBZONE_WEB_PL' from data source \n  `C:\\edwing444\\IS415-GAA\\In_Class_Excercise\\In_Class_Ex3\\data' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n```\n\n\n:::\n:::\n\n\nWorking with st_union()\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsg_sf <- mpsz_sf %>% \n  st_union()\n\nplot(sg_sf)\n```\n\n::: {.cell-output-display}\n![](In_Class_Ex3_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n",
+    "supporting": [
+      "In_Class_Ex3_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,21 @@
+---
+title: "Take Home Exercise 1"
+author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
+---
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse)
+```
+
+```{r}
+acled_sf <- read.csv("data/ACLED_Myanmar.csv") %>% 
+  st_as_sf(coords = c(
+    "longitude","latitude"),
+    crs=4326) %>% 
+  st_transform(crs = 32647) %>% 
+  mutate(event_date = dmy(event_date))
+```
