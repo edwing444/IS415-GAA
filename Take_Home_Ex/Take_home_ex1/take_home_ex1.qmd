@@ -8,14 +8,142 @@ execute:
 ---
 
 ```{r}
-pacman::p_load(sf, tmap, tidyverse)
+#| eval: false
+pacman::p_load(sf, tmap, tidyverse,spatstat,raster,terra,stpp)
 ```
 
 ```{r}
-acled_sf <- read.csv("data/ACLED_Myanmar.csv") %>% 
+acled_sf <- read.csv("data/acled_mm.csv") %>% 
   st_as_sf(coords = c(
     "longitude","latitude"),
     crs=4326) %>% 
   st_transform(crs = 32647) %>% 
   mutate(event_date = dmy(event_date))
+```
+
+```{r}
+# Import the armed conflict data (2021-2024)
+conflict_data <- read_csv("data/acled_mm.csv")
+
+# Import administrative boundary data for Myanmar
+boundary_data <- st_read(dsn="data",
+                         layer = "mmr_polbnda_adm1_250k_mimu_1")
+
+# Filter the dataset for the relevant event types
+conflict_filtered <- conflict_data %>%
+  filter(event_type %in% c("Battles", "Explosions/Remote violence", "Strategic developments", "Violence against civilians"))
+
+# Convert the date column to Date format
+conflict_filtered <- conflict_filtered %>%
+  mutate(event_date = dmy(event_date))
+
+# Create a column for quarterly intervals (e.g., Q1 2021, Q2 2021, etc.)
+conflict_filtered <- conflict_filtered %>%
+  mutate(quarter = paste0(year(event_date), "-Q", quarter(event_date)))
+
+# Convert conflict data into an `sf` object with geometry
+conflict_sf <- st_as_sf(conflict_filtered, coords = c("longitude", "latitude"), crs = 4326)
+
+# Ensure the boundary data and conflict data have the same CRS (coordinate reference system)
+conflict_sf <- st_transform(conflict_sf, st_crs(boundary_data))
+```
+
+```{r}
+boundary_data <- st_read(dsn="data",
+                         layer = "mmr_polbnda_self_administered_zones_1")
+```
+
+```{r}
+# Reproject the boundary data to UTM (use appropriate zone for Myanmar, e.g., UTM zone 47N)
+boundary_data_projected <- st_transform(boundary_data, crs = 32647)
+
+# Reproject the conflict data to match
+conflict_sf_projected <- st_transform(conflict_sf, crs = 32647)
+```
+
+```{r}
+# Ensure the boundary data and conflict data have the same CRS (projected to UTM zone 47N)
+boundary_data_projected <- st_transform(boundary_data, crs = 32647)
+conflict_sf_projected <- st_transform(conflict_sf, crs = 32647)
+
+# Convert the boundary data to an owin object (window) for spatstat
+boundary_win <- as.owin(st_geometry(boundary_data_projected))
+
+# Convert conflict_sf_projected to ppp object
+coords <- st_coordinates(conflict_sf_projected)
+conflict_ppp <- ppp(x = coords[,1], y = coords[,2], window = boundary_win)
+
+# Perform KDE for a specific quarter (e.g., Q1 2021)
+kde_q1_2021 <- density.ppp(conflict_ppp, sigma = bw.diggle)
+
+# Convert KDE result into a raster object
+kde_raster <- raster(kde_q1_2021)
+
+# Check the range of values
+summary(kde_q1_2021)
+
+# Assign projection to the raster
+crs(kde_raster) <- "+proj=utm +zone=47 +datum=WGS84 +units=m +no_defs"
+
+tm_shape(boundary_data_projected) + 
+  tm_borders() + 
+  tm_shape(kde_raster) +
+  tm_raster(palette = "-Blues",style = "cont", alpha = 0.6) +
+  tm_layout(title = "KDE of Armed Conflict Events (Q1 2021)")
+```
+
+```{r}
+#| eval: false
+# Take a random sample of 1000 events if the dataset is large
+set.seed(123)  # Ensure reproducibility
+sampled_conflict_ppp <- conflict_ppp[sample(1:npoints(conflict_ppp), 1000)]
+# Compute Ripley's K function to analyze clustering or dispersion
+K <- Kest(sampled_conflict_ppp, correction = "Ripley")
+
+# Plot Ripley's K function
+plot(K, main = "Ripley's K for Conflict Events (Q1 2021)")
+```
+
+```{r}
+# Unique quarters
+quarters <- unique(conflict_filtered$quarter)
+
+# Define and apply the projected CRS
+utm_crs <- st_crs(32648)  # UTM Zone 48N
+
+for (q in quarters) {
+   # Filter data for the current quarter
+  conflict_q <- conflict_filtered %>% 
+    filter(quarter == q)
+  # Add jitter to the longitude and latitude to avoid duplicated points
+conflict_q <- conflict_q %>% 
+  mutate(jittered_longitude = jitter(longitude, factor = 0.0001),
+         jittered_latitude = jitter(latitude, factor = 0.0001))
+
+# Convert to sf object using jittered coordinates
+conflict_sf_q <- st_as_sf(conflict_q, coords = c("jittered_longitude", "jittered_latitude"), crs = 4326)
+  
+  # Transform to projected CRS
+  conflict_sf_q_projected <- st_transform(conflict_sf_q, crs = utm_crs)
+  
+  # Convert boundary data to projected CRS and to owin object
+  boundary_data_projected <- st_transform(boundary_data, crs = utm_crs)
+  boundary_win <- as.owin(st_as_sf(boundary_data_projected))
+  
+  # Clip the jittered points to the boundary data
+conflict_sf_q_projected <- st_intersection(conflict_sf_q_projected, boundary_data_projected)
+  
+  # Extract coordinates and convert to ppp object
+  coords <- st_coordinates(conflict_sf_q_projected)
+  conflict_ppp_q <- ppp(x = coords[,1], y = coords[,2], window = boundary_win)
+  
+  # Compute KDE
+  kde <- density.ppp(conflict_ppp_q, sigma = bw.diggle)
+  
+  # Plot KDE with tmap
+ 
+    
+    plot(kde, main = paste("KDE for", q))
+  
+}
 ```
