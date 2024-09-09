@@ -8,7 +8,7 @@ execute:
 ---
 
 ```{r}
-pacman::p_load(sf, tmap, tidyverse,spatstat,raster,sparr)
+pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr)
 ```
 
 ```{r}
@@ -190,35 +190,35 @@ for (q in quarters) {
 ```
 
 ```{r}
-#conflict_sf_spatemp<-conflict_sf_projected %>% 
- # mutate(DayofYear = yday(event_date)) %>% 
-  #mutate(Month_num = month(event_date))
+conflict_sf_spatemp<-conflict_sf_projected %>% 
+  mutate(DayofYear = yday(event_date)) %>% 
+  mutate(Month_num = month(event_date))
 ```
 
 ```{r}
-#conflict_sf_spatemp_month<-conflict_sf_spatemp %>% 
-  #select(Month_num)
+conflict_sf_spatemp_month<-conflict_sf_spatemp %>% 
+  select(Month_num)
 ```
 
 ```{r}
-#conflict_sf_spatemp_ppp <- as.ppp(conflict_sf_spatemp_month)
+conflict_sf_spatemp_ppp <- as.ppp(conflict_sf_spatemp_month)
 ```
 
 ```{r}
-#conflict_sf_spatemp_owin <-conflict_sf_spatemp_ppp[boundary_win]
+conflict_sf_spatemp_owin <-conflict_sf_spatemp_ppp[boundary_win]
 ```
 
 ```{r}
-#st_kde <- spattemp.density(conflict_sf_spatemp_owin)
+st_kde <- spattemp.density(conflict_sf_spatemp_owin)
 ```
 
 ```{r}
-#tims <- c(1,2,3,4,5,6,7,8,9,10,11,12)
-#par(mfcol=c(2,3))#2rows,3 col
-#for (i in tims){
-# plot(st_kde,i,
- #      override.par=FALSE,
- #      fix.range=TRUE,
- #      main=paste("KDE at month",i))
-#} 
+tims <- c(1,2,3,4,5,6,7,8,9,10,11,12)
+par(mfcol=c(2,3))#2rows,3 col
+for (i in tims){
+ plot(st_kde,i,
+       override.par=FALSE,
+       fix.range=TRUE,
+       main=paste("KDE at month",i))
+} 
 ```
