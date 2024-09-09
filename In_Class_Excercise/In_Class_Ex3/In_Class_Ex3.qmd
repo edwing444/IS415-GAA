@@ -1,6 +1,6 @@
 ---
 title: "In_Class_Ex3"
-author: "edwin"
+author: "edwin tan"
 date: "September 2,2024"
 date-modified: "last-modified"
 execute: 
