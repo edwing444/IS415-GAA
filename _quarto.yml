@@ -22,6 +22,10 @@ website:
           href: In_Class_Excercise/In_Class_Ex1/In_Class_Ex1.html
         - text: In-Class Exercise 2
           href: In_Class_Excercise/In_Class_Ex2/In_Class_Ex2.html
+        - text: In-Class Exercise 3
+          href: In_Class_Excercise/In_Class_Ex3/In_Class_Ex3.html
+        - text: In-Class Exercise 4
+          href: In_Class_Excercise/In_Class_Ex4/In_Class_Ex4.html
     right: 
       - href: index.qmd
         text: Home
