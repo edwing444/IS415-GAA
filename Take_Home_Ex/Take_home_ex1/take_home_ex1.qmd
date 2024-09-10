@@ -12,15 +12,6 @@ pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr)
 ```
 
 ```{r}
-#acled_sf <- read.csv("data/acled_mm.csv") %>% 
-  #st_as_sf(coords = c(
-    #"longitude","latitude"),
-    #crs=4326) %>% 
- # st_transform(crs = 32647) %>% 
- # mutate(event_date = dmy(event_date))
-```
-
-```{r}
 # Import the armed conflict data (2021-2024)
 conflict_data <- read.csv("data/acled_mm.csv")
 
@@ -45,19 +36,6 @@ conflict_sf <- st_as_sf(conflict_filtered, coords = c("longitude", "latitude"), 
 
 # Ensure the boundary data and conflict data have the same CRS (coordinate reference system)
 conflict_sf <- st_transform(conflict_sf, st_crs(boundary_data))
-```
-
-```{r}
-#boundary_data <- st_read(dsn="data",
-                         #layer = "mmr_polbnda_adm1_250k_mimu_1")
-```
-
-```{r}
-# Reproject the boundary data to UTM (use appropriate zone for Myanmar, e.g., UTM zone 47N)
-#boundary_data_projected <- st_transform(boundary_data, crs = 32647)
-
-# Reproject the conflict data to match
-#conflict_sf_projected <- st_transform(conflict_sf, crs = 32647)
 ```
 
 ```{r}
@@ -140,9 +118,7 @@ conflict_sf_q_projected <- st_intersection(conflict_sf_q_projected, boundary_dat
   kde <- density.ppp(conflict_ppp_q, sigma = bw.diggle)
   
   # Plot KDE with tmap
- 
-    
-    plot(kde, main = paste("KDE for", q))
+ plot(kde, main = paste("KDE for", q))
   
   
   
@@ -197,7 +173,7 @@ conflict_sf_spatemp<-conflict_sf_projected %>%
 
 ```{r}
 conflict_sf_spatemp_month<-conflict_sf_spatemp %>% 
-  select(Month_num)
+  dplyr::select(Month_num)
 ```
 
 ```{r}
