@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cleaning-data" id="toc-cleaning-data" class="nav-link" data-scroll-target="#cleaning-data">Cleaning data</a></li>
   </ul></li>
   <li><a href="#visualizing-and-understanding-data" id="toc-visualizing-and-understanding-data" class="nav-link" data-scroll-target="#visualizing-and-understanding-data">Visualizing and understanding Data</a></li>
-  <li><a href="#plotting-kde-using-tmap" id="toc-plotting-kde-using-tmap" class="nav-link" data-scroll-target="#plotting-kde-using-tmap">Plotting KDE using tmap</a>
+  <li><a href="#plot-kde-of-open-street-of-myanmar" id="toc-plot-kde-of-open-street-of-myanmar" class="nav-link" data-scroll-target="#plot-kde-of-open-street-of-myanmar">Plot KDE of open street of Myanmar</a>
   <ul class="collapse">
   <li><a href="#understanding-kde" id="toc-understanding-kde" class="nav-link" data-scroll-target="#understanding-kde">Understanding KDE</a></li>
   </ul></li>
@@ -311,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>av:</strong> This package is for working with AV files (audio-video files). It can be used to export animations or visualizations as videos.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf,tmap,tidyverse,spatstat,raster,sparr,animation,av)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf,tmap,tidyverse,spatstat,raster,sparr,animation,av,magick,htmltools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="importing-data" class="level1">
@@ -655,8 +655,8 @@ Geodetic CRS:  WGS 84</code></pre>
 <li><p><strong>Policy Implications:</strong> The histogram can inform policy decisions by providing insights into the distribution of conflict intensity. This information can help prioritize areas for intervention, allocate resources effectively, and develop targeted strategies for conflict resolution</p></li>
 </ul>
 </section>
-<section id="plotting-kde-using-tmap" class="level1">
-<h1>Plotting KDE using tmap</h1>
+<section id="plot-kde-of-open-street-of-myanmar" class="level1">
+<h1>Plot KDE of open street of Myanmar</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the boundary data and conflict data have the same CRS (projected to UTM zone 47N)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>boundary_data_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(boundary_data, <span class="at">crs =</span> <span class="dv">32647</span>)</span>
@@ -741,6 +741,22 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 <section id="understanding-k-test" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-k-test">Understanding K-Test</h2>
+<p>Ripley’s K function is a powerful tool in spatial statistics used to analyze point patterns and detect clustering or dispersion at various scales. Let’s break down the key elements and implications of this graph</p>
+<ol type="1">
+<li><p><strong>Clustering Evidence</strong>: The K_iso(r) line consistently lies above the K_pois(r) line across all distances. This indicates significant clustering of conflict events at all spatial scales examined, suggesting that conflicts in Myanmar during this period were not randomly distributed but concentrated in specific areas.</p></li>
+<li><p><strong>Scale-Dependent Clustering</strong>: The divergence between K_iso(r) and K_pois(r) increases with distance, implying that the strength of clustering becomes more pronounced at larger scales. This suggests the presence of both localized hotspots and broader regional patterns of conflict.</p></li>
+<li><p><strong>Non-Stationarity</strong>: The continuous upward trend of both functions without leveling off indicates that the conflict process is not stationary. This implies that the intensity and distribution of conflicts vary across different regions of Myanmar.</p></li>
+<li><p><strong>Intensity of Clustering</strong>: The steep curve of K_iso(r) compared to K_pois(r) suggests a high degree of clustering, indicating that some areas experienced significantly more conflict events than others.</p></li>
+<li><p><strong>Large-Scale Patterns</strong>: The persistent clustering at large distances (up to 225,000 units) implies that the conflict has a broad spatial reach, potentially affecting large portions of the country or showing patterns of conflict that extend across significant geographic areas.</p></li>
+<li><p><strong>Implications for Conflict Dynamics</strong>:</p>
+<ul>
+<li><p>The clustering pattern suggests that conflicts may be concentrated around specific strategic locations, ethnic territories, or resource-rich areas.</p></li>
+<li><p>The increasing divergence at larger scales could indicate a diffusion effect, where conflicts in one area may influence or spread to neighboring regions.</p></li>
+<li><p>The non-random distribution implies that there are underlying factors (e.g., political, ethnic, economic) driving the spatial patterns of conflict.</p></li>
+</ul></li>
+<li><p><strong>Methodological Considerations</strong>: The use of K_iso(r) suggests that isotropy corrections have been applied, accounting for potential directional biases in the data and providing a more robust analysis of the spatial patterns.</p>
+<p>In conclusion, this Ripley’s K function analysis reveals a highly clustered pattern of conflict events in Myanmar during Q3 2021, with clustering intensifying at larger spatial scales. This information is crucial for understanding the spatial dynamics of the conflict, which can inform targeted intervention strategies, resource allocation for peacekeeping efforts, and policy decisions aimed at conflict resolution and prevention. Further analysis combining this spatial information with temporal trends, conflict types, and socio-political factors would provide a more comprehensive understanding of the conflict situation in Myanmar.</p></li>
+</ol>
 </section>
 </section>
 <section id="plotting-quarterly-kde-layers" class="level1">
@@ -883,9 +899,6 @@ all geometries</code></pre>
 <li><p>The <code>factor</code> parameter in the <code>jitter()</code> function controls the amount of random noise added to your data. A smaller factor (like <code>0.0001</code>) results in minimal jitter, while a larger factor increases the amount of noise.</p></li>
 <li><p>For geographic coordinates, which are often measured in degrees, a very small factor is used to avoid significantly altering the positions while still making slight adjustments to avoid overlapping points.</p></li>
 </ul></li>
-</ul>
-<!-- -->
-<ul>
 <li><p><strong>Scale of Data:</strong></p>
 <ul>
 <li><p>Geographic coordinates (latitude and longitude) are typically measured in decimal degrees. In this context, <code>0.0001</code> degrees is a small enough value to make minor adjustments without distorting the geographic locations significantly.</p></li>
@@ -1078,25 +1091,85 @@ all geometries</code></pre>
 <p><strong>K-Function Plots:</strong></p>
 <p>The K-function plots illustrate the average number of points within a distance r of a randomly chosen point in the study area. A K-function value greater than the expected value under complete spatial randomness (CSR) indicates clustering, while a value less than the expected value suggests dispersion.</p>
 <ul>
-<li><p><strong>2021-Q3:</strong> The K-function curve lies above the expected value (dashed line) at small distances, suggesting clustering. However, at larger distances, the curve approaches the expected value, indicating a more random pattern.</p></li>
-<li><p><strong>2021-Q4:</strong> Similar to 2021-Q3, the K-function curve initially shows clustering but then converges towards the expected value at larger distances.</p></li>
-<li><p><strong>2022-Q1:</strong> The K-function curve remains consistently above the expected value at all distances, indicating a strong clustering pattern.</p></li>
-<li><p><strong>2022-Q2:</strong> The K-function curve shows a similar pattern to 2022-Q1, with a strong clustering pattern observed at all distances.</p></li>
+<li><p><strong>Q1:</strong> The K-function curve remains consistently above the expected value at all distances, indicating a strong clustering pattern.</p></li>
+<li><p><strong>Q2:</strong> The K-function curve shows a similar pattern to Q1, with a strong clustering pattern observed at all distances.</p></li>
+<li><p><strong>Q3:</strong> The K-function curve lies above the expected value (dashed line) at small distances, suggesting clustering. However, at larger distances, the curve approaches the expected value, indicating a more random pattern.</p></li>
+<li><p><strong>Q4:</strong> Similar to Q3, the K-function curve initially shows clustering but then converges towards the expected value at larger distances.</p></li>
 </ul>
 <p><strong>K-Test Deviation Plots:</strong></p>
 <p>The K-test deviation plots provide a measure of the statistical significance of the observed clustering or dispersion. A deviation value significantly different from zero suggests a departure from CSR.</p>
 <ul>
-<li><p><strong>2021-Q3 and 2021-Q4:</strong> The K-test deviation curves show some significant deviations from zero at smaller distances, indicating a significant clustering pattern. However, at larger distances, the deviations become less significant.</p></li>
-<li><p><strong>2022-Q1 and 2022-Q2:</strong> The K-test deviation curves consistently show significant deviations from zero at all distances, confirming the strong clustering pattern observed in the K-function plots.</p></li>
+<li><p><strong>Q1 and Q2:</strong> The K-test deviation curves consistently show significant deviations from zero at all distances, confirming the strong clustering pattern observed in the K-function plots.</p></li>
+<li><p><strong>Q3 and Q4:</strong> The K-test deviation curves show some significant deviations from zero at smaller distances, indicating a significant clustering pattern. However, at larger distances, the deviations become less significant.</p></li>
 </ul>
 <p><strong>Overall Conclusions:</strong></p>
 <p>Based on the K-function and K-test deviation plots, the following conclusions can be drawn:</p>
 <ul>
-<li><p><strong>Clustering:</strong> The spatial point patterns for all four time periods exhibit a clustering pattern, with the strongest clustering observed in 2022-Q1 and 2022-Q2.</p></li>
+<li><p><strong>Clustering:</strong> The spatial point patterns for all four time periods exhibit a clustering pattern, with the strongest clustering observed in Q1 and Q2.</p></li>
 <li><p><strong>Temporal Variation:</strong> While clustering is evident in all periods, the intensity and extent of clustering may vary across time</p></li>
 <li><p><strong>Statistical Significance:</strong> The K-test deviation plots provide statistical evidence for the clustering patterns observed in the K-function plots.</p></li>
 </ul>
 <p>These findings suggest that the spatial distribution of the events being analyzed is not random but rather exhibits a clustered pattern, which could be attributed to factors such as shared characteristics, common drivers, or spatial dependencies.</p>
+<ul>
+<li><p>K-function Graphs:</p>
+<ul>
+<li><p>In all quarters, the observed K-function (solid black line) consistently lies above the theoretical K-function for complete spatial randomness (dashed red line).</p></li>
+<li><p>This indicates persistent clustering of conflict events across all time periods examined</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>K-test Deviation Graphs:</p>
+<ul>
+<li><p>These graphs show the difference between the observed and expected K-functions.</p></li>
+<li><p>The solid black line consistently lies above zero, further confirming significant clustering.</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Temporal Trends:</p>
+<ul>
+<li><p>The overall shape and magnitude of clustering appear relatively consistent across quarters, suggesting a persistent pattern of conflict concentration.</p></li>
+<li><p>However, subtle variations in the steepness and height of the curves may indicate some fluctuations in the intensity of clustering over time.</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Scale of Clustering:</p>
+<ul>
+<li><p>Clustering is evident at all scales examined (up to about 150,000 units, likely meters or kilometers).</p></li>
+<li><p>The increasing divergence between observed and expected K-functions at larger scales suggests that clustering becomes more pronounced over broader geographic areas.</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Intensity of Conflict:</p>
+<ul>
+<li>The steepness of the observed K-function curves indicates high intensity of clustering, implying that conflicts are heavily concentrated in certain areas.</li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Spatial Non-stationarity:</p>
+<ul>
+<li>The continuous upward trend of the K-functions without leveling off suggests that the conflict process is not spatially stationary, meaning the intensity and distribution of conflicts vary across different regions of Myanmar.</li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Consistency Over Time:</p>
+<ul>
+<li><p>The similarity in patterns across quarters indicates that the overall spatial structure of the conflict has remained relatively stable from 2021 to 2023</p></li>
+<li><p>This suggests that the underlying factors driving conflict distribution (e.g., ethnic divisions, resource locations, strategic areas) have not significantly changed.</p></li>
+</ul></li>
+<li><p>Implications for Conflict Analysis:</p>
+<ul>
+<li><p>The persistent clustering implies that conflict hotspots are relatively stable over time.</p></li>
+<li><p>This information could be crucial for targeting intervention efforts, allocating resources, and developing long-term conflict resolution strategies.</p></li>
+<li><p>The consistency of patterns might indicate entrenched conflict dynamics that require sustained, targeted approaches to address.</p></li>
+</ul></li>
+<li><p>In conclusion, this comprehensive K-function analysis reveals a consistent pattern of significant spatial clustering in Myanmar’s conflict events from 2021 to 2023. The persistence of these patterns over time suggests deeply rooted spatial dynamics in the conflict, likely tied to enduring geographic, political, or social factors. This information is invaluable for policymakers, humanitarian organizations, and peacekeeping efforts in developing strategies that address the specific spatial characteristics of the ongoing conflict in Myanmar.</p></li>
+</ul>
 </section>
 </section>
 <section id="preparing-data-for-spatial-temporal-kde" class="level1">
@@ -1106,16 +1179,32 @@ all geometries</code></pre>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DayofYear =</span> <span class="fu">yday</span>(event_date)) <span class="sc">%&gt;%</span> </span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month_num =</span> <span class="fu">month</span>(event_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li><p><strong><code>mutate(DayofYear = yday(event_date))</code></strong>:</p>
+<ul>
+<li><p>This creates a new column <code>DayofYear</code> that converts each event’s <code>event_date</code> into a numeric value representing the day of the year (from 1 to 365 or 366 in a leap year).</p></li>
+<li><p>In spatial-temporal KDE, time is treated as a continuous dimension. Converting the event dates into day-of-year values allows you to model temporal variation across the calendar year in a continuous format. It helps identify patterns tied to specific times of the year, such as seasonal effects or yearly trends in conflict events.</p></li>
+</ul></li>
+<li><p><strong><code>mutate(Month_num = month(event_date))</code></strong>:</p>
+<ul>
+<li><p>This adds another column <code>Month_num</code> that extracts the month number from each event’s <code>event_date</code> (values from 1 for January to 12 for December).</p></li>
+<li><p>Depending on the level of temporal granularity you wish to analyze, having the month number can be useful for grouping or summarizing events by months. While day-of-year is more granular, the month number allows for coarser temporal patterns, such as monthly trends or seasonal variations.</p></li>
+</ul></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_month<span class="ot">&lt;-</span>conflict_sf_spatemp <span class="sc">%&gt;%</span> </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Month_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong><code>dplyr::select(Month_num)</code></strong>: This function selects only the <code>Month_num</code> column from the <code>conflict_sf_spatemp</code> dataset. The <code>dplyr::select()</code> function is used to subset data based on specific columns, and here you are choosing to isolate the <code>Month_num</code> column.</p>
+<p>By selecting only <code>Month_num</code>, it can focus on analyzing temporal trends or summarizing events by month. This is useful when we want to focus on the temporal component without the spatial aspect.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(conflict_sf_spatemp_month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong><code>as.ppp()</code></strong>: This function is from the <strong>spatstat</strong> package, and it converts a dataset into a <strong>planar point pattern (ppp)</strong> object, which is a format used for spatial point pattern analysis. The <code>ppp</code> class contains spatial data (usually coordinates) and can be analyzed using methods for spatial point patterns (e.g., spatial density estimation, clustering).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_owin <span class="ot">&lt;-</span>conflict_sf_spatemp_ppp[boundary_win]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong><code>conflict_sf_spatemp_owin</code></strong>: This new object will contain only the points from <code>conflict_sf_spatemp_ppp</code> that fall within the region defined by <code>boundary_win</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>st_kde <span class="ot">&lt;-</span> <span class="fu">spattemp.density</span>(conflict_sf_spatemp_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1124,6 +1213,7 @@ Edge-correcting...Done.
 Conditioning on time...Done.</code></pre>
 </div>
 </div>
+<p>The <code>spattemp.density()</code> function provides insights into how the density of conflict events changes across both space and time, giving it a better understanding of hotspots of activity over time.</p>
 </section>
 <section id="plotting-quarterly-spatio-temporal-kde-layers" class="level1">
 <h1>Plotting quarterly spatio-temporal KDE layers</h1>
@@ -1156,13 +1246,13 @@ Conditioning on time...Done.</code></pre>
 <p>The provided maps represent Kernel Density Estimation (KDE) plots over a 12-month period. KDE is a statistical technique used to estimate the probability density function of a continuous random variable. In this context, it is likely being used to visualize the density or concentration of a particular phenomenon (e.g., population, events, or resources) across a geographic area over time.</p>
 <p><strong>Key Observations</strong></p>
 <ul>
-<li><strong>Spatial Patterns:</strong></li>
+<li><strong>Spatial Patterns:</strong>
+<ul>
+<li><p><strong>Concentration:</strong> The color scale indicates the density, with darker colors representing higher concentrations.</p></li>
+<li><p><strong>Clustering:</strong> The maps show varying levels of clustering or dispersion of the phenomenon. Some areas exhibit more concentrated patterns, while others appear more scattered.</p></li>
+<li><p><strong>Hotspots:</strong> Certain regions consistently appear as hotspots (areas of high concentration) throughout the year.</p></li>
+</ul></li>
 </ul>
-<pre><code>-   **Concentration:** The color scale indicates the density, with darker colors representing higher concentrations.
-
--   **Clustering:** The maps show varying levels of clustering or dispersion of the phenomenon. Some areas exhibit more concentrated patterns, while others appear more scattered.
-
--   **Hotspots:** Certain regions consistently appear as hotspots (areas of high concentration) throughout the year.</code></pre>
 <p><strong>Temporal Dynamics:</strong></p>
 <ul>
 <li><p><strong>Changes:</strong> The maps illustrate how the density and distribution of the phenomenon evolve over time.</p></li>
@@ -1181,11 +1271,11 @@ Conditioning on time...Done.</code></pre>
 <section id="perform-2nd-order-spatio-temporal-point-patterns-analysis" class="level1">
 <h1>Perform 2nd-Order Spatio-temporal Point Patterns Analysis</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate spatio-temporal K-function</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>K_st <span class="ot">&lt;-</span> <span class="fu">Kest</span>(conflict_sf_spatemp_ppp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the spatio-temporal K-function</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_st, <span class="at">main =</span> <span class="st">"Spatio-temporal K-function"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate spatio-temporal K-function</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>K_st <span class="ot">&lt;-</span> <span class="fu">Kest</span>(conflict_sf_spatemp_ppp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the spatio-temporal K-function</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_st, <span class="at">main =</span> <span class="st">"Spatio-temporal K-function"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1194,21 +1284,39 @@ Conditioning on time...Done.</code></pre>
 </div>
 </div>
 </div>
+<p><strong>Key observations and interpretations</strong>:</p>
+<ol type="1">
+<li><p><strong>Conflict clustering</strong>: The K_bord(r) function (solid black line) being consistently above the K_pois(r) function (dashed red line) indicates that conflict events in Myanmar are significantly clustered rather than randomly distributed. This suggests that violence is concentrated in certain areas rather than spread evenly across the country.</p></li>
+<li><p><strong>Scale of clustering</strong>: The increasing divergence between K_bord(r) and K_pois(r) as distance increases implies that the clustering of conflict events becomes more pronounced at larger scales. This could indicate the presence of large regional conflict zones or that the conflict has a tendency to spread over time.</p></li>
+<li><p><strong>Persistent clustering</strong>: The continuous upward trend of K_bord(r) without leveling off suggests that the clustering of conflict events persists even at large distances (up to 120,000 units, likely kilometers). This implies that the conflict in Myanmar has a broad spatial reach and may affect large portions of the country.</p></li>
+<li><p><strong>Intensity variation</strong>: The steeper curve of K_bord(r) compared to K_pois(r) indicates that the intensity of conflict events varies significantly across different regions. Some areas likely experience much higher concentrations of conflict than others.</p></li>
+<li><p><strong>Conflict diffusion</strong>: The increasing gap between K_bord(r) and K_pois(r) at larger distances might suggest a diffusion effect, where conflict in one area may influence or spread to neighboring regions over time.</p></li>
+<li><p><strong>Non-stationarity</strong>: The lack of stabilization in the K-functions at larger distances indicates that the conflict process in Myanmar is not stationary. This suggests that the spatial patterns of conflict are dynamic and may be changing over time or varying across different regions of the country.</p></li>
+<li><p><strong>Complex spatial dynamics</strong>: The shape of the K_bord(r) function, with its increasing slope, points to complex spatial dynamics in the conflict. This could reflect factors such as geography, ethnic distributions, resource locations, or strategic military considerations influencing where conflicts occur.</p></li>
+</ol>
+<p>Implications for conflict analysis in Myanmar:</p>
+<ol type="1">
+<li><p><strong>Hotspot identification</strong>: The analysis clearly shows that conflict events are not random, allowing analysts to focus on identifying and studying specific conflict hotspots.</p></li>
+<li><p><strong>Conflict prediction</strong>: The persistent clustering at various scales might be used to develop predictive models for potential conflict spread or escalation.</p></li>
+</ol>
+<p>This spatio-temporal analysis provides a crucial quantitative foundation for understanding the complex dynamics of conflict in Myanmar, offering valuable insights for policymakers, humanitarian organizations, and peace negotiators working in the region.</p>
 </section>
 <section id="preparing-data-for-daily-spatial-temporal-kde" class="level1">
 <h1>Preparing Data for Daily Spatial Temporal KDE</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day<span class="ot">&lt;-</span>conflict_sf_spatemp <span class="sc">%&gt;%</span> </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(DayofYear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day<span class="ot">&lt;-</span>conflict_sf_spatemp <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(DayofYear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong><code>dplyr::select(DayofYear)</code></strong>: This function selects only the DayofYearcolumn from the <code>conflict_sf_spatemp</code> dataset. The <code>dplyr::select()</code> function is used to subset data based on specific columns, and here you are choosing to isolate the DayofYearcolumn.</p>
+<p>By selecting only DayofYear, it can focus on analyzing temporal trends or summarizing events by day of year. This is useful when we want to focus on the temporal component without the spatial aspect.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(conflict_sf_spatemp_day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(conflict_sf_spatemp_day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day_owin <span class="ot">&lt;-</span>conflict_sf_spatemp_day_ppp[boundary_win]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>conflict_sf_spatemp_day_owin <span class="ot">&lt;-</span>conflict_sf_spatemp_day_ppp[boundary_win]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>day_kde <span class="ot">&lt;-</span> <span class="fu">spattemp.density</span>(conflict_sf_spatemp_day_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>day_kde <span class="ot">&lt;-</span> <span class="fu">spattemp.density</span>(conflict_sf_spatemp_day_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Calculating trivariate smooth...Done.
 Edge-correcting...Done.
@@ -1219,32 +1327,32 @@ Conditioning on time...Done.</code></pre>
 <section id="plotting-daily-spatio-temporal-kde-layers" class="level1">
 <h1>Plotting daily spatio-temporal KDE layers</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>temp_dir <span class="ot">&lt;-</span> <span class="st">"data/framesDay"</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the directory exists and create it if not</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(temp_dir)) {</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(temp_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">365</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate frames and save them as PNG images</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> days) {</span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  png_filename <span class="ot">&lt;-</span> <span class="fu">file.path</span>(temp_dir, <span class="fu">sprintf</span>(<span class="st">"frame_%03d.png"</span>, i))</span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Saving frame:"</span>, png_filename))  <span class="co"># Print filename for debugging</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>({</span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">png</span>(<span class="at">filename =</span> png_filename)</span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate the plot for day i</span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(day_kde, <span class="at">tselect =</span> i, </span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">override.par =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">fix.range =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"KDE at day"</span>, i))</span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">title</span>(<span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Y"</span>)</span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Error generating frame "</span>, i, <span class="st">": "</span>, e<span class="sc">$</span>message)</span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">finally =</span> {</span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dev.off</span>()  <span class="co"># Ensure the device is closed regardless of success or failure</span></span>
-<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>temp_dir <span class="ot">&lt;-</span> <span class="st">"data/framesDay"</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the directory exists and create it if not</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(temp_dir)) {</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(temp_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">365</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate frames and save them as PNG images</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> days) {</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  png_filename <span class="ot">&lt;-</span> <span class="fu">file.path</span>(temp_dir, <span class="fu">sprintf</span>(<span class="st">"frame_%03d.png"</span>, i))</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Saving frame:"</span>, png_filename))  <span class="co"># Print filename for debugging</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>({</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">png</span>(<span class="at">filename =</span> png_filename)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate the plot for day i</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(day_kde, <span class="at">tselect =</span> i, </span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">override.par =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">fix.range =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"KDE at day"</span>, i))</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">title</span>(<span class="at">xlab =</span> <span class="st">"X"</span>, <span class="at">ylab =</span> <span class="st">"Y"</span>)</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Error generating frame "</span>, i, <span class="st">": "</span>, e<span class="sc">$</span>message)</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">finally =</span> {</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dev.off</span>()  <span class="co"># Ensure the device is closed regardless of success or failure</span></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Saving frame: data/framesDay/frame_001.png"</code></pre>
 </div>
@@ -2340,14 +2448,14 @@ Conditioning on time...Done.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Saving frame: data/framesDay/frame_365.png"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb412"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb412-1"><a href="#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if frames were created right after the loop</span></span>
-<span id="cb412-2"><a href="#cb412-2" aria-hidden="true" tabindex="-1"></a>frame_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(temp_dir, <span class="at">pattern =</span> <span class="st">"*.png"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb412-3"><a href="#cb412-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(frame_files) <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb412-4"><a href="#cb412-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No frames were created. Please check the frame generation process."</span>)</span>
-<span id="cb412-5"><a href="#cb412-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb412-6"><a href="#cb412-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"Generated frames:"</span>)</span>
-<span id="cb412-7"><a href="#cb412-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(frame_files)  <span class="co"># Verify the frames exist</span></span>
-<span id="cb412-8"><a href="#cb412-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb411"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb411-1"><a href="#cb411-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if frames were created right after the loop</span></span>
+<span id="cb411-2"><a href="#cb411-2" aria-hidden="true" tabindex="-1"></a>frame_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(temp_dir, <span class="at">pattern =</span> <span class="st">"*.png"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb411-3"><a href="#cb411-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(frame_files) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb411-4"><a href="#cb411-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No frames were created. Please check the frame generation process."</span>)</span>
+<span id="cb411-5"><a href="#cb411-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb411-6"><a href="#cb411-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"Generated frames:"</span>)</span>
+<span id="cb411-7"><a href="#cb411-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(frame_files)  <span class="co"># Verify the frames exist</span></span>
+<span id="cb411-8"><a href="#cb411-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Generated frames:"
   [1] "data/framesDay/frame_001.png" "data/framesDay/frame_002.png"
@@ -2534,16 +2642,29 @@ Conditioning on time...Done.</code></pre>
 [363] "data/framesDay/frame_363.png" "data/framesDay/frame_364.png"
 [365] "data/framesDay/frame_365.png"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb414"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb414-1"><a href="#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the video from the list of saved frames</span></span>
-<span id="cb414-2"><a href="#cb414-2" aria-hidden="true" tabindex="-1"></a>av<span class="sc">::</span><span class="fu">av_encode_video</span>(</span>
-<span id="cb414-3"><a href="#cb414-3" aria-hidden="true" tabindex="-1"></a>  frame_files,  <span class="co"># Pass the exact list of frames</span></span>
-<span id="cb414-4"><a href="#cb414-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spattemp_kde_day.mp4"</span>,  <span class="co"># Output video file</span></span>
-<span id="cb414-5"><a href="#cb414-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">framerate =</span> <span class="dv">12</span>  <span class="co"># Frames per second</span></span>
-<span id="cb414-6"><a href="#cb414-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "C:\\edwing444\\IS415-GAA\\Take_Home_Ex\\Take_home_ex1\\spattemp_kde_day.mp4"</code></pre>
+<div class="sourceCode cell-code" id="cb413"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb413-1"><a href="#cb413-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the video from the list of saved frames</span></span>
+<span id="cb413-2"><a href="#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="co">#av::av_encode_video(</span></span>
+<span id="cb413-3"><a href="#cb413-3" aria-hidden="true" tabindex="-1"></a> <span class="co"># frame_files,  # Pass the exact list of frames</span></span>
+<span id="cb413-4"><a href="#cb413-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#"spattemp_kde_day.mp4",  # Output video file</span></span>
+<span id="cb413-5"><a href="#cb413-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#framerate = 12  # Frames per second</span></span>
+<span id="cb413-6"><a href="#cb413-6" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span>
+<span id="cb413-7"><a href="#cb413-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb413-8"><a href="#cb413-8" aria-hidden="true" tabindex="-1"></a><span class="co">#utils::browseURL('spattemp_kde_day.mp4')</span></span>
+<span id="cb413-9"><a href="#cb413-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb413-10"><a href="#cb413-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the animation from the frames using magick</span></span>
+<span id="cb413-11"><a href="#cb413-11" aria-hidden="true" tabindex="-1"></a>frame_images <span class="ot">&lt;-</span> <span class="fu">image_read</span>(frame_files)</span>
+<span id="cb413-12"><a href="#cb413-12" aria-hidden="true" tabindex="-1"></a>animation <span class="ot">&lt;-</span> <span class="fu">image_animate</span>(frame_images, <span class="at">fps =</span> <span class="dv">100</span>)</span>
+<span id="cb413-13"><a href="#cb413-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb413-14"><a href="#cb413-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the animation as a GIF</span></span>
+<span id="cb413-15"><a href="#cb413-15" aria-hidden="true" tabindex="-1"></a>gif_filename <span class="ot">&lt;-</span> <span class="st">"spattemp_kde_day.gif"</span></span>
+<span id="cb413-16"><a href="#cb413-16" aria-hidden="true" tabindex="-1"></a><span class="fu">image_write</span>(animation, gif_filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb416"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb416-1"><a href="#cb416-1" aria-hidden="true" tabindex="-1"></a>utils<span class="sc">::</span><span class="fu">browseURL</span>(<span class="st">'spattemp_kde_day.mp4'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb414"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb414-1"><a href="#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the GIF in R's Viewer tab</span></span>
+<span id="cb414-2"><a href="#cb414-2" aria-hidden="true" tabindex="-1"></a><span class="fu">browsable</span>(tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> gif_filename))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<img src="spattemp_kde_day.gif">
+</div>
 </div>
 <section id="understanding-quarterly-spatio-temporal-kde-layers-1" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-quarterly-spatio-temporal-kde-layers-1">Understanding quarterly spatio-temporal KDE layers</h2>
