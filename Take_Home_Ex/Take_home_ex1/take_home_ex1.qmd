@@ -7,9 +7,54 @@ execute:
   freeze: true
 ---
 
+# The Armed Conflict in Myanmar: A Complex and Ongoing Crisis
+
+**Background**
+
+The armed conflict in Myanmar, also known as the Burmese Civil War, is a decades-long struggle that has been exacerbated by recent political developments. The conflict primarily involves the Myanmar military (Tatmadaw) and various ethnic armed organizations (EAOs) representing different ethnic minorities
+
+**Key Factors Contributing to the Conflict**
+
+-   **Ethnic Tensions:** Deep-rooted ethnic tensions and historical grievances have been a major driving force behind the conflict. Many ethnic minorities, such as the Rohingya, Karen, and Shan, have long sought greater autonomy or independence from the central government.  
+
+-   **Military Dominance:** The Tatmadaw has exercised significant control over Myanmar's political and military affairs for decades. Its authoritarian rule and suppression of dissent have fueled resentment among many ethnic groups.  
+
+-   **Resource Competition:** Disputes over natural resources, such as timber, jade, and gas, have also contributed to the conflict. Control of these resources can provide significant economic and political advantages.
+
+-   **External Influences:** Neighboring countries, such as China and Thailand, have sometimes been involved in the conflict, either directly or indirectly, through their support for different factions.
+
+**Recent Developments**
+
+The conflict escalated significantly following the 2021 military coup, which ousted the democratically elected government led by Aung San Suu Kyi.
+
+The coup sparked widespread protests and civil disobedience, leading to a crackdown by the military. This crackdown has resulted in numerous casualties and human rights abuses.  
+
+In response to the coup, a number of armed resistance groups have emerged, including the People's Defense Forces (PDFs), which are civilian-led militias fighting against the military. These groups have engaged in clashes with the Tatmadaw across the country.
+
+# Loading Library
+
+-   **sf:** This package provides simple features for representing spatial data in R. It allows you to work with various spatial data formats, such as shapefiles, GeoJSON, and WKT.
+-   **tmap:** This package is designed for creating thematic maps in R. It offers a high-level interface for customizing maps with different styles, colors, and labels.
+-   **tidyverse:** This is a collection of R packages that work together to provide a consistent and efficient data analysis workflow. It includes packages like dplyr for data manipulation, ggplot2 for data visualization, and readr for reading data files.  
+-   **spatstat:** This package is specifically for spatial point pattern analysis. It provides tools for analyzing the distribution and patterns of points in a spatial region.
+-   **raster:** This package is used for working with raster data, such as images and digital elevation models. It allows you to read, write, manipulate, and analyze raster data.
+-   **sparr:** This package is for spatial point pattern analysis with regularly spaced data. It provides functions for estimating intensity functions, clustering, and other spatial point pattern analysis tasks.
+-   **animation:** This package provides tools for creating animations in R. It can be used to visualize changes in spatial data over time or to create interactive visualizations.
+-   **av:** This package is for working with AV files (audio-video files). It can be used to export animations or visualizations as videos.
+
 ```{r}
-pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr)
+pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,animation,av)
 ```
+
+# Importing data
+
+-   **Conflict data:**
+
+    -   `read.csv("data/acled_mm.csv")` reads a CSV file named "acled_mm.csv" and stores the data in a data frame named `conflict_data`. This file likely contains data on armed conflicts in Myanmar, such as the location, date, type, and actors involved in each conflict.
+
+-   **Administrative boundary data:**
+
+    -   `st_read(dsn="data", layer = "mmr_polbnda_adm1_250k_mimu_1")` reads a shapefile named "mmr_polbnda_adm1_250k_mimu_1" from the "data" directory and stores the data in a simple feature object named `boundary_data`. This shapefile likely contains the administrative boundaries of different regions or states in Myanmar, such as the borders of each state or province
 
 ```{r}
 # Import the armed conflict data (2021-2024)
@@ -19,6 +64,67 @@ conflict_data <- read.csv("data/acled_mm.csv")
 boundary_data <- st_read(dsn="data",
                          layer = "mmr_polbnda_adm1_250k_mimu_1")
 
+```
+
+```{r}
+summary(conflict_data)
+```
+
+The dataset appears to contain information on armed conflicts in Myanmar from 2021 to 2024. It includes various attributes that can be used for geospatial analysis:
+
+**Location Data:**
+
+-   **latitude and longitude:** These coordinates can be used to plot the locations of conflict events on a map.
+
+-   **geo_precision:** This indicates the accuracy of the location data.
+
+-   **admin1, admin2, admin3:** These likely represent administrative divisions such as states, districts, and townships, which can be used for spatial analysis at different scales.
+
+**Event Data:**
+
+-   **event_date, year, time_precision:** These attributes provide information about the date and time of the event.
+
+-   **disorder_type, event_type, sub_event_type:** These categories describe the nature of the conflict event.
+
+-   **actor1, actor2:** These likely refer to the actors involved in the conflict.
+
+-   **interaction:** This might indicate the type of interaction between the actors (e.g., clashes, attacks).
+
+-   **fatalities:** This provides information about the number of casualties.
+
+```{r}
+summary(boundary_data)
+```
+
+The output from `summary(boundary_data)` provides information about the structure and content of the administrative boundary data:
+
+**Column Names:**
+
+-   **OBJECTID:** This column likely represents a unique identifier for each administrative unit.
+
+-   **ST:** This column might contain the name or abbreviation of the state or region.
+
+-   **ST_PCODE:** This could be a numerical or alphanumeric code associated with the state.
+
+-   **ST_RG:** This might refer to a specific region or district within the state.
+
+-   **ST_MMR:** This could be another identifier or code related to the state.
+
+-   **PCode_V:** This column might contain a postal code or other location identifier.
+
+**Data Types:**
+
+-   **OBJECTID:** Numeric
+
+-   **ST, ST_PCODE, ST_RG, ST_MMR, PCode_V:** Character
+
+**Summary Statistics:**
+
+-   **Min., 1st Qu., Median, Mean, 3rd Qu., Max.:** These statistics provide information about the distribution of values in the `OBJECTID` and `PCode_V` columns.
+
+## Cleaning data
+
+```{r}
 # Filter the dataset for the relevant event types
 conflict_filtered <- conflict_data %>%
   filter(event_type %in% c("Battles", "Explosions/Remote violence", "Strategic developments", "Violence against civilians"))
@@ -26,17 +132,196 @@ conflict_filtered <- conflict_data %>%
 # Convert the date column to Date format
 conflict_filtered <- conflict_filtered %>%
   mutate(event_date = dmy(event_date))
+```
 
+Firstly we filter the `conflict_data` dataset to only include rows where the `event_type` is one of the specified types: "Battles", "Explosions/Remote violence", "Strategic developments", or "Violence against civilians". This is done to focus on the most relevant types of conflict events for the analysis.
+
+Secondly, we convert the `event_date` column from its current format (presumably a character format) to a Date format using the `dmy()` function from the `lubridate` package. This is necessary for performing date-based calculations and visualizations.
+
+```{r}
 # Create a column for quarterly intervals (e.g., Q1 2021, Q2 2021, etc.)
 conflict_filtered <- conflict_filtered %>%
   mutate(quarter = paste0(year(event_date), "-Q", quarter(event_date)))
+```
 
+Firstly,
+
+-   `year(event_date)` extracts the year from the `event_date` column.
+
+<!-- -->
+
+-   `quarter(event_date)` extracts the quarter (1, 2, 3, or 4) from the `event_date` column
+
+Next
+
+`paste0(year(event_date), "-Q", quarter(event_date))` concatenates the year and quarter values with a hyphen and the letter "Q" in between. This creates a string representing the quarterly interval, such as "2021-Q1" or "2022-Q3".
+
+Finally,we add the newly created `quarter` column to the `conflict_filtered` dataset.
+
+```{r}
 # Convert conflict data into an `sf` object with geometry
 conflict_sf <- st_as_sf(conflict_filtered, coords = c("longitude", "latitude"), crs = 4326)
 
 # Ensure the boundary data and conflict data have the same CRS (coordinate reference system)
 conflict_sf <- st_transform(conflict_sf, st_crs(boundary_data))
 ```
+
+We convert the `conflict_filtered` data frame into a simple feature object (`sf` object) using the `st_as_sf()` function from the `sf` package.
+
+-   The `coords` argument specifies the columns containing the longitude and latitude coordinates (in this case, "longitude" and "latitude").
+
+-   The `crs` argument sets the coordinate reference system (CRS) of the resulting `sf` object to 4326, which is the World Geodetic System 1984 (WGS84) coordinate system.
+
+To ensure the matching CRS, we line transform the CRS of the `conflict_sf` object to match the CRS of the `boundary_data` object. This is important for spatial analysis and visualization, as the two datasets must have the same CRS to be combined or compared.
+
+The `st_transform()` function is used to perform the CRS transformation. The `st_crs(boundary_data)` argument extracts the CRS of the `boundary_data` object.
+
+# Visualizing and understanding Data
+
+```{r}
+# Plot spatial distribution of conflict events with boundary
+ggplot() +
+  geom_sf(data = boundary_data, fill = "white", color = "gray") +
+  geom_sf(data = conflict_sf, aes(color = event_type), alpha = 0.6) +
+  scale_color_manual(values = c("Battles" = "red", 
+                                "Explosions/Remote violence" = "orange", 
+                                "Strategic developments" = "blue", 
+                                "Violence against civilians" = "purple")) +
+  theme_minimal() +
+  labs(title = "Spatial Distribution of Conflict Events (2021-2024)",
+       color = "Event Type")
+```
+
+**Key Observations:**
+
+1.  **Uneven Distribution:** The conflict events are not evenly distributed across Myanmar. There are regions with a higher concentration of events, particularly in the northern and eastern parts of the country.
+
+2.  **Cluster Formation:** The map reveals clusters of conflict events, suggesting that certain areas have experienced more intense conflict activity.
+
+3.  **Spatial Patterns:** The distribution of events appears to follow certain patterns, potentially influenced by geographical factors, historical grievances, or resource competition.
+
+4.  **Event Type Variation:** The use of different colors to represent different event types allows for a visual comparison of their spatial distributions. This reveals that certain types of events may be more prevalent in specific regions.
+
+**Analysis and Explanation:**
+
+-   **Regional Hotspots:** The concentration of conflict events in the northern and eastern regions of Myanmar indicates that these areas have been particularly affected by the ongoing conflict. This could be due to a variety of factors, such as the presence of ethnic minorities seeking greater autonomy, competition for resources, or historical grievances.
+
+-   **Spatial Patterns:** The clustering of events suggests that conflict activity may be concentrated in areas with specific characteristics, such as border regions, resource-rich areas, or areas with strategic importance.
+
+-   **Event Type Distribution:** The visual representation of different event types provides insights into the nature of the conflict in different regions. For example, if battles are more prevalent in certain areas, it may suggest a more intense military confrontation.
+
+-   **Potential Causal Factors:** The spatial distribution of conflict events can be analyzed in conjunction with other geospatial data, such as population density, land use, or proximity to natural resources, to identify potential causal factors.
+
+**Overall, the map provides a valuable visual representation of the spatial dynamics of the conflict in Myanmar.** It highlights areas of intense conflict activity, reveals potential patterns in the distribution of events, and allows for a comparison of different event types. By analyzing these spatial patterns, researchers and policymakers can gain a better understanding of the underlying causes and consequences of the conflict, and develop more effective strategies for addressing it.
+
+```{r}
+# Temporal distribution of conflict events by quarter
+ggplot(conflict_filtered, aes(x = quarter, fill = event_type)) +
+  geom_bar(position = "stack") +
+  scale_fill_manual(values = c("Battles" = "red", 
+                               "Explosions/Remote violence" = "orange", 
+                               "Strategic developments" = "blue", 
+                               "Violence against civilians" = "purple")) +
+  theme_minimal() +
+  labs(title = "Temporal Distribution of Conflict Events by Quarter (2021-2024)",
+       x = "Quarter", y = "Number of Events",
+       fill = "Event Type") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Key Observations:**
+
+1.  **Fluctuations:** The number of conflict events fluctuates over time, with periods of increased and decreased activity.
+
+2.  **Seasonal Patterns:** Some event types may exhibit seasonal patterns, with higher or lower occurrences during specific quarters of the year.
+
+3.  **Event Type Dominance:** Certain event types may be more prevalent than others during specific time periods.
+
+**Analysis and Explanation:**
+
+-   **Temporal Trends:** The chart reveals the overall trend of conflict activity over the four-year period. For example, there may be a general increase or decrease in the overall number of events.
+
+-   **Seasonal Patterns:** Analyzing the fluctuations within each year can help identify any seasonal patterns. For instance, certain types of events may be more common during specific seasons due to factors such as weather conditions, agricultural activities, or religious holidays.
+
+-   **Event Type Dynamics:** The chart allows for a comparison of the temporal trends of different event types. This can provide insights into the evolving nature of the conflict and the changing tactics of the involved parties.
+
+-   **Potential Causal Factors:** The temporal trends can be analyzed in conjunction with other factors, such as political developments, economic conditions, or external influences, to identify potential causal factors.
+
+**Overall, the chart provides a valuable visual representation of the temporal dynamics of the conflict in Myanmar.** It highlights periods of increased or decreased activity, reveals potential seasonal patterns, and allows for a comparison of different event types. By analyzing these temporal trends, researchers and policymakers can gain a better understanding of the factors driving the conflict and develop more effective strategies for addressing it.
+
+```{r}
+# Line plot for number of events over time
+conflict_summary <- conflict_filtered %>%
+  group_by(quarter, event_type) %>%
+  summarize(n = n())
+
+ggplot(conflict_summary, aes(x = quarter, y = n, color = event_type, group = event_type)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = c("Battles" = "red", 
+                                "Explosions/Remote violence" = "orange", 
+                                "Strategic developments" = "blue", 
+                                "Violence against civilians" = "purple")) +
+  theme_minimal() +
+  labs(title = "Trends in Conflict Events by Event Type (2021-2024)",
+       x = "Quarter", y = "Number of Events",
+       color = "Event Type") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Key Observations:**
+
+1.  **Varied Trends:** Different event types exhibit distinct temporal patterns. Some show a steady increase, while others fluctuate or decline.
+
+2.  **Peak Periods:** Certain quarters or years experienced peaks in specific event types, indicating periods of heightened conflict activity.
+
+3.  **Interrelations:** The trends of different event types may be interrelated, suggesting that changes in one type of event may influence others.
+
+**Analysis and Explanation:**
+
+-   **Event Type Dynamics:** The chart reveals the unique temporal evolution of each event type. For example, "Battles" might have shown a significant increase in early 2022, followed by a decline, while "Violence against civilians" might have remained relatively consistent throughout the period.
+
+-   **Peak Periods:** Identifying peak periods can help pinpoint critical junctures in the conflict. These periods might be associated with specific political events, military campaigns, or changes in the strategic landscape.
+
+-   **Interrelations:** Analyzing the relationships between different event types can provide insights into the evolving nature of the conflict. For instance, an increase in "Strategic developments" might be followed by a subsequent rise in "Battles" as opposing forces adjust their strategies.
+
+-   **Potential Causal Factors:** The temporal trends can be analyzed in conjunction with other factors, such as political developments, economic conditions, or external influences, to identify potential causal factors.
+
+**Overall, the chart provides a valuable visual representation of the temporal dynamics of the conflict in Myanmar.** It highlights the unique trends of different event types, identifies peak periods, and suggests potential interrelations between events.
+
+```{r}
+conflict_by_region <- st_join(conflict_sf, boundary_data) %>%
+  group_by(region = admin1) %>%  # Replace admin1Name with the correct region column
+  summarize(n_conflicts = n())
+# Histogram of conflict events by region
+ggplot(conflict_by_region, aes(x = n_conflicts)) +
+  geom_histogram(binwidth = 800, fill = "steelblue", color = "black", alpha = 0.7) +
+  theme_minimal() +
+  labs(title = "Distribution of Conflict Events by Administrative Region",
+       x = "Number of Conflict Events",
+       y = "Frequency (Number of Regions)",
+       caption = "Each bin represents the number of conflict events in a region") +
+  theme(plot.title = element_text(size = 16, face = "bold"))
+```
+
+**Key Observations:**
+
+1.  **Skewed Distribution:** The distribution is skewed to the right, indicating that most regions have a relatively low number of conflict events. However, there are a few regions with significantly higher levels of conflict.
+
+2.  **Mode:** The mode of the distribution appears to be between 3000 and 4000 conflict events, suggesting that this range is the most common among the regions.
+
+3.  **Outliers:** There are a few outliers with a very high number of conflict events, indicating that these regions have experienced significantly more intense conflict than the majority.
+
+**Analysis and Explanation:**
+
+-   **Regional Disparities:** The skewed distribution highlights the uneven impact of the conflict across different regions. While most regions have experienced relatively low levels of conflict, a few have been disproportionately affected.
+
+-   **Mode:** The mode indicates the most common level of conflict intensity. This information can be used to characterize the typical level of conflict in the regions.
+
+-   **Outliers:** The outliers represent regions with exceptional levels of conflict. These areas may require special attention in terms of conflict resolution, humanitarian assistance, and development initiatives.
+
+-   **Policy Implications:** The histogram can inform policy decisions by providing insights into the distribution of conflict intensity. This information can help prioritize areas for intervention, allocate resources effectively, and develop targeted strategies for conflict resolution
+
+# Plotting KDE using tmap
 
 ```{r}
 # Ensure the boundary data and conflict data have the same CRS (projected to UTM zone 47N)
@@ -45,20 +330,35 @@ conflict_sf_projected <- st_transform(conflict_sf, crs = 32647)
 
 # Convert the boundary data to an owin object (window) for spatstat
 boundary_win <- as.owin(st_geometry(boundary_data_projected))
+```
 
+`st_geometry(boundary_data_projected)` extracts the geometry column from the `boundary_data_projected` object. This geometry column contains the spatial representation of the administrative boundaries.
+
+`as.owin(st_geometry(boundary_data_projected))` converts the extracted geometry into an `owin` object using the `as.owin()` function from the `spatstat` package.
+
+An `owin` object is a special data structure used by the `spatstat` package to represent the observation window or region within which point patterns are analyzed.
+
+```{r}
 # Convert conflict_sf_projected to ppp object
 coords <- st_coordinates(conflict_sf_projected)
 conflict_ppp <- ppp(x = coords[,1], y = coords[,2], window = boundary_win)
 
 # Perform KDE for a specific quarter (e.g., Q1 2021)
-kde_q1_2021 <- density.ppp(conflict_ppp, sigma = bw.diggle)
+kde_q3_2021 <- density.ppp(conflict_ppp, sigma = bw.diggle)
 
 # Convert KDE result into a raster object
-kde_raster <- raster(kde_q1_2021)
+kde_raster <- raster(kde_q3_2021)
+```
 
-# Check the range of values
-summary(kde_q1_2021)
+`coords <- st_coordinates(conflict_sf_projected)` extracts the coordinates of the conflict events from the `conflict_sf_projected` object. The resulting coordinates are stored in a matrix with two columns: one for longitude and one for latitude.
 
+`conflict_ppp <- ppp(x = coords[,1], y = coords[,2], window = boundary_win)` creates a `ppp` object (point pattern) using the extracted coordinates and the `boundary_win` object as the observation window. A `ppp` object is a data structure used by the `spatstat` package to represent point patterns.
+
+`kde_q3_2021 <- density.ppp(conflict_ppp, sigma = bw.diggle)` performs KDE on the `conflict_ppp` object using the `density.ppp()` function from the `spatstat` package. KDE estimates the intensity function of the point pattern, which represents the probability of finding a point at a given location. The `sigma` argument specifies the bandwidth of the kernel used for estimation.
+
+`kde_raster <- raster(kde_q3_2021)` converts the KDE result (which is a `im` object) into a raster object using the `raster()` function from the `raster` package. This allows for easier visualization and integration with other raster data.
+
+```{r}
 # Assign projection to the raster
 crs(kde_raster) <- "+proj=utm +zone=47 +datum=WGS84 +units=m +no_defs"
 
@@ -66,8 +366,32 @@ tm_shape(boundary_data_projected) +
   tm_borders() + 
   tm_shape(kde_raster) +
   tm_raster(palette = "-Blues",style = "cont", alpha = 0.6) +
-  tm_layout(title = "KDE of Armed Conflict Events (Q1 2021)")
+  tm_layout(title = "KDE of Armed Conflict Events (Q3 2021)")
 ```
+
+## Understanding KDE
+
+**1. Clustering:**
+
+-   **Northern Myanmar:** The map shows a significant cluster of armed conflict events in the northern part of the country, particularly in Kachin and Shan states. This region has been a hotspot for conflict for many years due to the presence of various ethnic armed organizations.
+
+-   **Western Myanmar:** Another cluster of events is observed in the western part of the country, along the border with Bangladesh. This area has been affected by conflict between the Myanmar government and the Rohingya Muslim minority.
+
+**2. Dispersal:**
+
+-   **Central Myanmar:** While there are fewer armed conflict events in central Myanmar compared to the north and west, there is still a noticeable dispersal of incidents throughout the region. This suggests that conflict is not confined to specific areas but can occur in various parts of the country.
+
+**3. Proximity to Borders:**
+
+-   **China and India:** The map highlights the potential influence of neighboring countries, particularly China and India, on the distribution of armed conflict events. The clusters in the north and west of Myanmar coincide with areas near the borders with these countries, suggesting that cross-border activities or support may be contributing to the conflict.
+
+**4. Geographic Features:**
+
+-   **Mountains and Rivers:** The spatial patterns may also be influenced by geographic features such as mountains and rivers. These can serve as natural barriers or routes for movement, affecting the accessibility of certain areas and the dynamics of conflict.
+
+Overall, the KDE map provides valuable insights into the spatial distribution of armed conflict events in Myanmar during Q3 2021. It highlights areas of high intensity conflict, areas with a more dispersed occurrence of incidents, and the potential influence of geographic factors and neighboring countries.
+
+# Plotting 2nd Order Spatial Point Pattern
 
 ```{r}
 #| eval: false
@@ -78,8 +402,12 @@ sampled_conflict_ppp <- conflict_ppp[sample(1:npoints(conflict_ppp), 1000)]
 K <- Kest(sampled_conflict_ppp, correction = "Ripley")
 
 # Plot Ripley's K function
-plot(K, main = "Ripley's K for Conflict Events (Q1 2021)")
+plot(K, main = "Ripley's K for Conflict Events (Q3 2021)")
 ```
+
+## Understanding K-Test
+
+# Plotting quarterly KDE layers 
 
 ```{r}
 # Unique quarters
@@ -125,8 +453,192 @@ conflict_sf_q_projected <- st_intersection(conflict_sf_q_projected, boundary_dat
 }
 ```
 
-```{r}
+## Preparing data for quarterly KDE
 
+-   **`quarters <- unique(conflict_filtered$quarter)`**
+
+    -   This line extracts the unique values from the `quarter` column in the `conflict_filtered` dataset and stores them in the variable `quarters`.
+
+    -   `unique()` is a function that returns only the distinct values from a given vector or column, so this line is essentially finding all the unique quarters present in your data.
+
+-   **`utm_crs <- st_crs(32647)`**
+
+    -   This line defines a coordinate reference system (CRS) using the `st_crs()` function from the `sf` package in R.
+
+    -   `32647` refers to UTM Zone 48N, which is a specific coordinate system used for mapping and spatial analysis. The `st_crs()` function is used to assign this CRS to spatial objects in your analysis.
+
+    -   `utm_crs` is being assigned this CRS so it can be applied to spatial data to ensure proper alignment and analysis.
+
+-   **`par(mfcol=c(2,3))`**
+
+    -   This line is setting up the plotting area for your graphics.
+
+    -   `par(mfcol=c(2,3))` specifies that the plotting area should be divided into a 2x3 grid (2 rows and 3 columns) of panels for displaying multiple plots.
+
+    -   This allows you to create multiple plots in one view, making it easier to compare different visualizations side-by-side.
+
+```{=html}
+<!-- -->
+```
+-   **`for (q in quarters)`**
+
+    -   This line initiates a `for` loop that iterates over each unique value in the `quarters` vector.
+
+    -   `q` is a loop variable that takes on the value of each unique quarter in turn.
+
+-   **`conflict_q <- conflict_filtered %>% filter(quarter == q)`**
+
+    -   Inside the loop, this line filters the `conflict_filtered` dataset to include only the rows where the `quarter` column matches the current value of `q`.
+
+    -   `%>%` is the pipe operator from the `dplyr` package, which allows for chaining operations. In this case, it is used to pass the `conflict_filtered` dataset to the `filter()` function.
+
+    -   `filter(quarter == q)` is a `dplyr` function that selects rows from `conflict_filtered` where the `quarter` column equals the current quarter value (`q`).
+
+    -   `conflict_q` is a new variable that contains this filtered subset of the data for the current quarter.
+
+**`mutate()` Function:**
+
+-   **`jittered_longitude = jitter(longitude, factor = 0.0001)`**
+
+    -   **`jitter(longitude, factor = 0.0001)`**: Applies the `jitter` function to the `longitude` column. The `factor = 0.0001` specifies a very small amount of noise to add, which spreads out points slightly.
+
+    -   **`jittered_longitude`**: The new column name where the jittered values will be stored.
+
+-   **`jittered_latitude = jitter(latitude, factor = 0.0001)`**
+
+    -   **`jitter(latitude, factor = 0.0001)`**: Similar to the longitude, this adds jitter to the `latitude` column.
+
+    -   **`jittered_latitude`**: The new column name where the jittered latitude values will be stored.
+
+-   **Magnitude of Jitter:**
+
+    -   The `factor` parameter in the `jitter()` function controls the amount of random noise added to your data. A smaller factor (like `0.0001`) results in minimal jitter, while a larger factor increases the amount of noise.
+
+    -   For geographic coordinates, which are often measured in degrees, a very small factor is used to avoid significantly altering the positions while still making slight adjustments to avoid overlapping points.
+
+```{=html}
+<!-- -->
+```
+-   **Scale of Data:**
+
+    -   Geographic coordinates (latitude and longitude) are typically measured in decimal degrees. In this context, `0.0001` degrees is a small enough value to make minor adjustments without distorting the geographic locations significantly.
+
+    -   For example, `0.0001` degrees of latitude or longitude is approximately equal to about 10 meters at the equator. This level of jitter is generally sufficient to visually separate closely spaced points without having a noticeable impact on their relative positions.
+
+-   **Precision and Clarity:**
+
+    -   When dealing with precise spatial data, such as GPS coordinates, it’s important to apply just enough jitter to improve visualization or analysis without introducing misleading inaccuracies.
+
+    -   A factor of `0.0001` provides a balance between enough jitter to differentiate points and maintaining the precision of the original data
+
+**`st_intersection()` Function:**
+
+-   **Inputs:**
+
+    -   `conflict_sf_q_projected`: The spatial points with jitter applied.
+
+    -   `boundary_data_projected`: The spatial boundary or polygon that defines the area of interest.
+
+-   **Operation:** `st_intersection()` calculates the geometric intersection between the points and the boundary. Points outside the boundary are discarded, and only those within the boundary are kept.
+
+-   **Result:** `conflict_sf_q_projected` is updated to include only those points that lie within the boundary.
+
+**Extracting Coordinates:**
+
+-   **`st_coordinates()` Function:** This function extracts the coordinates from the `sf` object. It returns a matrix with columns for the x (longitude) and y (latitude) coordinates.
+
+-   **Result:** `coords` is a matrix where `coords[,1]` contains the x-coordinates and `coords[,2]` contains the y-coordinates of the points within the boundary.
+
+**Converting to `ppp` Object:**
+
+-   **Arguments:**
+
+    -   `x = coords[,1]`: The x-coordinates (longitudes) of the points.
+
+    -   `y = coords[,2]`: The y-coordinates (latitudes) of the points.
+
+    -   `window = boundary_win`: Defines the spatial window or boundary within which the points are analyzed. This should be a `psp` or `owin` object representing the area of interest.
+
+-   **Result:** `conflict_ppp_q` is a `ppp` object that represents the spatial pattern of points within the defined boundary. This object is used for further spatial analysis and modeling.
+
+## **Compute KDE**
+
+**`density.ppp()` Function:**
+
+-   **Purpose:** Computes the Kernel Density Estimate of point patterns. KDE is used to estimate the intensity (or density) of points in a spatial domain.
+
+-   **Arguments:**
+
+    -   `conflict_ppp_q`: The `ppp` object containing your spatial point data within the boundary.
+
+    -   `sigma = bw.diggle`: Specifies the bandwidth for the KDE. `bw.diggle` is often a bandwidth parameter computed using methods such as Diggle’s method for optimal bandwidth selection. It controls the smoothness of the density estimate. A smaller bandwidth results in a more detailed but noisier density estimate, while a larger bandwidth provides a smoother, more generalized estimate.
+
+-   **Result:** `kde` is an object representing the KDE of your point pattern, which can be visualized as a spatial density map.
+
+## Understanding Quarterly KDE layers
+
+The KDE maps provide insights into the spatial distribution of armed conflict events in Myanmar over different time periods:
+
+**Overall Observations for 2021 Q3 - 2022 Q4:**
+
+-   **Persistent Hotspots:** Certain regions in Myanmar consistently appear to have higher densities of armed conflict events throughout the time periods represented in the maps. These include the northern regions, particularly Kachin and Shan states, as well as areas near the western border with Bangladesh.
+
+-   **Fluctuations:** While there are persistent hotspots, the intensity of conflict within these regions can fluctuate over time. Some maps show more concentrated clusters of events, while others indicate a more dispersed distribution.
+
+**Specific Time Periods:**
+
+-   **2021-Q3 and 2021-Q4:** These maps show a relatively high concentration of events in the northern part of Myanmar, particularly in Kachin and Shan states. There is also a noticeable cluster of events in the western region near the Bangladesh border.
+
+-   **2022-Q1 and 2022-Q2:** The intensity of conflict seems to have decreased slightly in these quarters compared to the previous year. However, the northern and western regions remain hotspots, with a more dispersed distribution of events observed in some areas.
+
+-   **2022-Q3 and 2022-Q4:** The maps for these quarters indicate a resurgence of conflict in the northern regions, with particularly high densities of events observed in Kachin state. The western region also continues to experience armed conflict, although the intensity may have fluctuated.
+
+**Additional Observations:**
+
+-   **Geographic Features:** The spatial patterns may be influenced by geographic features such as mountains and rivers, which can serve as natural barriers or routes for movement.
+
+-   **Neighboring Countries:** The proximity of Myanmar to China and India may also play a role in the distribution of conflict, as cross-border activities or support could influence the dynamics in border regions.
+
+**Key Observations:**
+
+-   **Overall Density:** The overall density of the data points appears to be relatively low across all time periods, suggesting a sparse distribution.
+
+-   **Clustering:** There are some indications of clustering in certain areas, particularly in the central and southern regions of the map. This suggests that data points are more concentrated in these areas compared to others.
+
+-   **Temporal Changes:** Comparing the maps across different time periods, we can observe some changes in the spatial distribution. For example, the density in the central region seems to have increased slightly from 2023-Q1 to 2023-Q2, then decreased again in subsequent quarters.
+
+-   **Regional Variations:** There are also regional variations in the density. The northern and eastern regions tend to have lower densities compared to the central and southern areas.
+
+**Overall Observations for 2023 Q1-2024 Q2:**
+
+**Overall Density:**
+
+-   **KDE for 2024-Q2:** The highest density appears to be concentrated in the central and southern regions of the map, with a decreasing density towards the northern and eastern borders
+
+-   **KDE for 2023-Q4:** Similar to the previous map, the highest density is observed in the central and southern areas, with a gradual decrease towards the northern and eastern regions.
+
+-   **KDE for 2023-Q2:** The density is relatively high in the central region, with a more dispersed distribution compared to the previous two maps.
+
+-   **KDE for 2024-Q1:** The highest density is concentrated in the central region, with a gradual decrease towards the northern and eastern borders.
+
+-   **KDE for 2023-Q3:** The density is relatively high in the central region, with a more dispersed distribution compared to the previous two maps.
+
+-   **KDE for 2023-Q1:** The highest density is observed in the central region, with a gradual decrease towards the northern and eastern borders.
+
+**Temporal Changes:**
+
+-   **Comparison of 2023-Q1 to 2023-Q4:** The overall density appears to have increased in the central region between these two quarters.
+
+-   **Comparison of 2023-Q2 to 2023-Q3:** The distribution of density seems to have shifted slightly, with a potential increase in the southern region and a decrease in the central region.
+
+-   **Comparison of 2024-Q1 to 2024-Q2:** The density appears to have increased in the central region between these two quarters.
+
+*Overall, the KDE maps reveal a complex and evolving spatial pattern of armed conflict in Myanmar. While certain regions remain persistent hotspots, the intensity and distribution of conflict can fluctuate over time, reflecting the dynamic nature of the conflict landscape.*
+
+# Plotting quarterly 2nd order Spatial Point Pattern
+
+```{r}
+par(mfcol=c(2,4))
 for (q in quarters) {
   # Filter data for the current quarter
   conflict_q <- conflict_filtered %>% 
@@ -165,6 +677,42 @@ for (q in quarters) {
 }
 ```
 
+## Understanding quarterly 2nd order Spatial Point Pattern
+
+**K-Function Plots:**
+
+The K-function plots illustrate the average number of points within a distance r of a randomly chosen point in the study area. A K-function value greater than the expected value under complete spatial randomness (CSR) indicates clustering, while a value less than the expected value suggests dispersion.
+
+-   **2021-Q3:** The K-function curve lies above the expected value (dashed line) at small distances, suggesting clustering. However, at larger distances, the curve approaches the expected value, indicating a more random pattern.
+
+-   **2021-Q4:** Similar to 2021-Q3, the K-function curve initially shows clustering but then converges towards the expected value at larger distances.
+
+-   **2022-Q1:** The K-function curve remains consistently above the expected value at all distances, indicating a strong clustering pattern.
+
+-   **2022-Q2:** The K-function curve shows a similar pattern to 2022-Q1, with a strong clustering pattern observed at all distances.
+
+**K-Test Deviation Plots:**
+
+The K-test deviation plots provide a measure of the statistical significance of the observed clustering or dispersion. A deviation value significantly different from zero suggests a departure from CSR.
+
+-   **2021-Q3 and 2021-Q4:** The K-test deviation curves show some significant deviations from zero at smaller distances, indicating a significant clustering pattern. However, at larger distances, the deviations become less significant.
+
+-   **2022-Q1 and 2022-Q2:** The K-test deviation curves consistently show significant deviations from zero at all distances, confirming the strong clustering pattern observed in the K-function plots.
+
+**Overall Conclusions:**
+
+Based on the K-function and K-test deviation plots, the following conclusions can be drawn:
+
+-   **Clustering:** The spatial point patterns for all four time periods exhibit a clustering pattern, with the strongest clustering observed in 2022-Q1 and 2022-Q2.
+
+-   **Temporal Variation:** While clustering is evident in all periods, the intensity and extent of clustering may vary across time
+
+-   **Statistical Significance:** The K-test deviation plots provide statistical evidence for the clustering patterns observed in the K-function plots.
+
+These findings suggest that the spatial distribution of the events being analyzed is not random but rather exhibits a clustered pattern, which could be attributed to factors such as shared characteristics, common drivers, or spatial dependencies.
+
+# Preparing Data for Spatial Temporal KDE
+
 ```{r}
 conflict_sf_spatemp<-conflict_sf_projected %>% 
   mutate(DayofYear = yday(event_date)) %>% 
@@ -188,6 +736,8 @@ conflict_sf_spatemp_owin <-conflict_sf_spatemp_ppp[boundary_win]
 st_kde <- spattemp.density(conflict_sf_spatemp_owin)
 ```
 
+# Plotting quarterly spatio-temporal KDE layers
+
 ```{r}
 tims <- c(1,2,3,4,5,6,7,8,9,10,11,12)
 par(mfcol=c(2,3))#2rows,3 col
@@ -198,3 +748,117 @@ for (i in tims){
        main=paste("KDE at month",i))
 } 
 ```
+
+## Understanding quarterly spatio-temporal KDE layers
+
+The provided maps represent Kernel Density Estimation (KDE) plots over a 12-month period. KDE is a statistical technique used to estimate the probability density function of a continuous random variable. In this context, it is likely being used to visualize the density or concentration of a particular phenomenon (e.g., population, events, or resources) across a geographic area over time.
+
+**Key Observations**
+
+-    **Spatial Patterns:**
+
+    -   **Concentration:** The color scale indicates the density, with darker colors representing higher concentrations.
+
+    -   **Clustering:** The maps show varying levels of clustering or dispersion of the phenomenon. Some areas exhibit more concentrated patterns, while others appear more scattered.
+
+    -   **Hotspots:** Certain regions consistently appear as hotspots (areas of high concentration) throughout the year.
+
+**Temporal Dynamics:**
+
+-   **Changes:** The maps illustrate how the density and distribution of the phenomenon evolve over time.
+
+-   **Trends:** Some areas may show increasing or decreasing concentrations over certain periods, indicating trends or patterns in the data.
+
+-   **Seasonality:** If applicable, the maps might reveal seasonal variations in the phenomenon's distribution.
+
+**Interpretations and Potential Implications**
+
+-   **Underlying Factors:** The observed patterns and changes could be attributed to various factors, such as economic conditions, social dynamics, environmental influences, or policy interventions.
+
+-   **Spatial Dependencies:** The KDE maps can help identify spatial dependencies or correlations within the data.
+
+-   **Predictive Modeling:** These visualizations can be used to inform predictive models or risk assessments.
+
+-   **Policy Planning:** The maps may assist in planning and decision-making by highlighting areas of need or potential impact.
+
+# Perform 2nd-Order Spatio-temporal Point Patterns Analysis
+
+```{r}
+# Calculate spatio-temporal K-function
+K_st <- Kest(conflict_sf_spatemp_ppp, correction = "border")
+
+# Plot the spatio-temporal K-function
+plot(K_st, main = "Spatio-temporal K-function")
+```
+
+# Preparing Data for Daily Spatial Temporal KDE
+
+```{r}
+conflict_sf_spatemp_day<-conflict_sf_spatemp %>% 
+  dplyr::select(DayofYear)
+```
+
+```{r}
+conflict_sf_spatemp_day_ppp <- as.ppp(conflict_sf_spatemp_day)
+```
+
+```{r}
+conflict_sf_spatemp_day_owin <-conflict_sf_spatemp_day_ppp[boundary_win]
+```
+
+```{r}
+day_kde <- spattemp.density(conflict_sf_spatemp_day_owin)
+```
+
+# Plotting daily spatio-temporal KDE layers
+
+```{r}
+temp_dir <- "data/framesDay"
+
+# Ensure the directory exists and create it if not
+if (!dir.exists(temp_dir)) {
+  dir.create(temp_dir, recursive = TRUE)
+}
+
+days <- 1:365
+# Generate frames and save them as PNG images
+for (i in days) {
+  png_filename <- file.path(temp_dir, sprintf("frame_%03d.png", i))
+  print(paste("Saving frame:", png_filename))  # Print filename for debugging
+  tryCatch({
+    png(filename = png_filename)
+    # Generate the plot for day i
+    plot(day_kde, tselect = i, 
+         override.par = FALSE,
+         fix.range = TRUE,
+         main = paste("KDE at day", i))
+    title(xlab = "X", ylab = "Y")
+  }, error = function(e) {
+    message("Error generating frame ", i, ": ", e$message)
+  }, finally = {
+    dev.off()  # Ensure the device is closed regardless of success or failure
+  })
+}
+
+# Check if frames were created right after the loop
+frame_files <- list.files(temp_dir, pattern = "*.png", full.names = TRUE)
+if (length(frame_files) == 0) {
+  stop("No frames were created. Please check the frame generation process.")
+} else {
+  print("Generated frames:")
+  print(frame_files)  # Verify the frames exist
+}
+
+# Create the video from the list of saved frames
+av::av_encode_video(
+  frame_files,  # Pass the exact list of frames
+  "spattemp_kde_day.mp4",  # Output video file
+  framerate = 12  # Frames per second
+)
+
+utils::browseURL('spattemp_kde_day.mp4')
+```
+
+## Understanding quarterly spatio-temporal KDE layers
+
+# Conclusion
