@@ -735,9 +735,7 @@ These findings suggest that the spatial distribution of the events being analyze
 
     -   In all quarters, the observed K-function (solid black line) consistently lies above the theoretical K-function for complete spatial randomness (dashed red line).
 
-    -   This indicates persistent clustering of conflict events across all time periods examined
-
-<!-- -->
+    -   This indicates persistent clustering of conflict events across all time periods examine
 
 -   K-test Deviation Graphs:
 
@@ -745,15 +743,11 @@ These findings suggest that the spatial distribution of the events being analyze
 
     -   The solid black line consistently lies above zero, further confirming significant clustering.
 
-<!-- -->
-
 -   Temporal Trends:
 
     -   The overall shape and magnitude of clustering appear relatively consistent across quarters, suggesting a persistent pattern of conflict concentration.
 
     -   However, subtle variations in the steepness and height of the curves may indicate some fluctuations in the intensity of clustering over time.
-
-<!-- -->
 
 -   Scale of Clustering:
 
@@ -761,19 +755,13 @@ These findings suggest that the spatial distribution of the events being analyze
 
     -   The increasing divergence between observed and expected K-functions at larger scales suggests that clustering becomes more pronounced over broader geographic areas.
 
-<!-- -->
-
 -   Intensity of Conflict:
 
     -   The steepness of the observed K-function curves indicates high intensity of clustering, implying that conflicts are heavily concentrated in certain areas.
 
-<!-- -->
-
 -   Spatial Non-stationarity:
 
     -   The continuous upward trend of the K-functions without leveling off suggests that the conflict process is not spatially stationary, meaning the intensity and distribution of conflicts vary across different regions of Myanmar.
-
-<!-- -->
 
 -   Consistency Over Time:
 
@@ -855,32 +843,39 @@ for (i in tims){
 
 The provided maps represent Kernel Density Estimation (KDE) plots over a 12-month period. KDE is a statistical technique used to estimate the probability density function of a continuous random variable. In this context, it is likely being used to visualize the density or concentration of a particular phenomenon (e.g., population, events, or resources) across a geographic area over time.
 
-**Key Observations**
+-   Spatial pattern:
 
--   **Spatial Patterns:**
-    -   **Concentration:** The color scale indicates the density, with darker colors representing higher concentrations.
+    -   The conflict appears to be primarily concentrated in the peripheral regions of Myanmar, particularly along the borders.
 
-    -   **Clustering:** The maps show varying levels of clustering or dispersion of the phenomenon. Some areas exhibit more concentrated patterns, while others appear more scattered.
+    -   The central plains area, which likely includes the capital region, shows consistently low conflict intensity throughout the period
 
-    -   **Hotspots:** Certain regions consistently appear as hotspots (areas of high concentration) throughout the year.
+-   Temporal evolution:
 
-**Temporal Dynamics:**
+    -   Months 1-11 show relatively stable patterns of conflict distribution, with minor fluctuations in intensity.
 
--   **Changes:** The maps illustrate how the density and distribution of the phenomenon evolve over time.
+    -   A noticeable change occurs in month 12, where there's a significant increase in conflict intensity, particularly in the northern and eastern border regions.
 
--   **Trends:** Some areas may show increasing or decreasing concentrations over certain periods, indicating trends or patterns in the data.
+-   Hotspots:
 
--   **Seasonality:** If applicable, the maps might reveal seasonal variations in the phenomenon's distribution.
+    -   The northern region (likely Kachin State) consistently shows high conflict intensity throughout the period.
 
-**Interpretations and Potential Implications**
+    -   The eastern border area (possibly Shan State) also maintains a persistent conflict presence.
 
--   **Underlying Factors:** The observed patterns and changes could be attributed to various factors, such as economic conditions, social dynamics, environmental influences, or policy interventions.
+    -   The western region (potentially Rakhine State) shows moderate conflict intensity that fluctuates over time.
 
--   **Spatial Dependencies:** The KDE maps can help identify spatial dependencies or correlations within the data.
+-   Intensity changes:
 
--   **Predictive Modeling:** These visualizations can be used to inform predictive models or risk assessments.
+    -   The color scale indicates that conflict intensity ranges from dark blue (low) to pink/red (high).
 
--   **Policy Planning:** The maps may assist in planning and decision-making by highlighting areas of need or potential impact.
+    -   Most months show localized areas of pink/red, indicating concentrated conflict zones.
+
+    -   Month 12 exhibits a marked expansion of high-intensity areas, suggesting an escalation or spread of conflict.
+
+-   Geographical factors:
+
+    -   The conflict pattern aligns with Myanmar's ethnically diverse border regions, which have historically been prone to insurgencies and separatist movements.
+
+    -   The relative peace in the central region may correspond to areas of stronger government control
 
 # Perform 2nd-Order Spatio-temporal Point Patterns Analysis
 
@@ -953,7 +948,6 @@ days <- 1:365
 # Generate frames and save them as PNG images
 for (i in days) {
   png_filename <- file.path(temp_dir, sprintf("frame_%03d.png", i))
-  print(paste("Saving frame:", png_filename))  # Print filename for debugging
   tryCatch({
     png(filename = png_filename)
     # Generate the plot for day i
@@ -969,23 +963,7 @@ for (i in days) {
   })
 }
 
-# Check if frames were created right after the loop
 frame_files <- list.files(temp_dir, pattern = "*.png", full.names = TRUE)
-if (length(frame_files) == 0) {
-  stop("No frames were created. Please check the frame generation process.")
-} else {
-  print("Generated frames:")
-  print(frame_files)  # Verify the frames exist
-}
-
-# Create the video from the list of saved frames
-#av::av_encode_video(
- # frame_files,  # Pass the exact list of frames
-  #"spattemp_kde_day.mp4",  # Output video file
-  #framerate = 12  # Frames per second
-#)
-
-#utils::browseURL('spattemp_kde_day.mp4')
 
 # Create the animation from the frames using magick
 frame_images <- image_read(frame_files)
@@ -995,7 +973,6 @@ animation <- image_animate(frame_images, fps = 100)
 gif_filename <- "spattemp_kde_day.gif"
 image_write(animation, gif_filename)
 
-
 ```
 
 ```{r}
@@ -1003,6 +980,39 @@ image_write(animation, gif_filename)
 browsable(tags$img(src = gif_filename))
 ```
 
-## Understanding quarterly spatio-temporal KDE layers
+## Understanding daily spatio-temporal KDE layers
 
-# Conclusion
+-   Spatial **Distribution**: The image shows a KDE heat map overlaid on what appears to be the geographical outline of Myanmar. The intensity of the conflict or related events is represented by a color gradient, with yellows and reds indicating higher density/intensity, and blues showing lower density/intensity.
+
+```{=html}
+<!-- -->
+```
+-   **Focal** Point: There's a clear hotspot in the central region of the country, likely corresponding to a major city or strategic area. This suggests a concentration of conflict-related events or intensity in this specific location.
+
+-   **Gradients**: The intensity radiates outward from the central hotspot, gradually diminishing towards the periphery. This pattern suggests a conflict with a clear epicenter but with ripple effects or related events spreading to surrounding areas.
+
+```{=html}
+<!-- -->
+```
+-   **Regional Variation**s: While the central area shows the highest intensity, there are smaller pockets of increased activity visible in other parts of the country, particularly in the north and southeast regions.
+
+```{=html}
+<!-- -->
+```
+-   **Scale and Interpretation**: The legend indicates values ranging from approximately 5e-15 to 3.5e-14. These small values likely represent probability densities, typical in KDE analysis, rather than absolute event counts.
+
+# Conclusion & Reflection
+
+### **1. Importance of Geospatial Analysis in Conflict Studies**
+
+This exercise underscored how geospatial methods can reveal patterns that are often invisible in tabular data. The ability to visualize and analyze armed conflict events spatially and temporally offered a much clearer understanding of the scope and distribution of violence. From detecting the clustering of violence in key regions to observing temporal shifts in conflict zones, the KDE maps provided compelling evidence that allowed for deeper exploration of where and when conflict is concentrated. This kind of analysis can be instrumental in formulating responses, both in terms of immediate humanitarian aid and long-term peacebuilding.
+
+### **2. The Challenges of Working with Conflict Data**
+
+One of the reflections that emerged was the difficulty of working with conflict data, which often contains missing, duplicate, or imprecise points. In some cases, data points were rejected as they fell outside of defined boundaries, which reminded me of the importance of carefully pre-processing and cleaning the data before running the analysis. Additionally, geospatial data inherently comes with projection challenges, as the transition from geographic to projected coordinate systems is necessary for certain spatial analyses.
+
+The warnings about duplicated points also illustrated the limitations of relying solely on point data to represent conflict events. Some areas are so saturated with violence that distinct events overlap, making it challenging to separate individual incidents without introducing statistical artifacts. This was a valuable reminder of the need for rigorous data wrangling and methodological precision when working with sensitive and complex datasets.
+
+### **3. The Potential of Geospatial Tools in Policy and Humanitarian Efforts**
+
+This assignment also highlighted the immense potential of geospatial tools in shaping policy and guiding humanitarian interventions. By identifying hotspots and shifts in conflict intensity over time, this type of analysis can help direct aid to the regions most affected by violence, and in real time, assist governments and international organizations in conflict mitigation efforts. For instance, timely monitoring of violence against civilians could allow for rapid responses to prevent further harm in emerging conflict zones. Moreover, identifying persistent hotspots provides crucial information for peace negotiations or ceasefire agreements that are geographically focused on the most affected areas.

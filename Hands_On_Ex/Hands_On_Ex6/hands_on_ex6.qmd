@@ -240,7 +240,18 @@ abline(v=0,
 
 > **Challenge**: Instead of using Base Graph to plot the values, plot the values by using ggplot2 package.
 
-## **9.6 Global Measures of Spatial Autocorrelation: Geary’s C**
+```{r}
+# Convert the bperm$res to a data frame for ggplot2
+bperm_res_df <- data.frame(simulated_morans_I = bperm$res)
+# Create the histogram using ggplot2
+ggplot(bperm_res_df, aes(x = simulated_morans_I)) +
+  geom_histogram(bins = 20, color = "black", fill = "skyblue", alpha = 0.7) +
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed", size = 1) +
+  labs(x = "Simulated Moran's I", y = "Frequency") +
+  theme_minimal()
+```
+
+##   theme_minimal()**9.6 Global Measures of Spatial Autocorrelation: Geary’s C**
 
 In this section, you will learn how to perform Geary’s C statistics testing by using appropriate functions of **spdep** package.
 
