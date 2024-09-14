@@ -321,7 +321,7 @@ ggplot(conflict_by_region, aes(x = n_conflicts)) +
 
 -   **Policy Implications:** The histogram can inform policy decisions by providing insights into the distribution of conflict intensity. This information can help prioritize areas for intervention, allocate resources effectively, and develop targeted strategies for conflict resolution
 
-# Plot KDE of open street of Myanmar 
+# Plot KDE of open street of Myanmar
 
 ```{r}
 # Ensure the boundary data and conflict data have the same CRS (projected to UTM zone 47N)
@@ -737,50 +737,44 @@ These findings suggest that the spatial distribution of the events being analyze
 
     -   This indicates persistent clustering of conflict events across all time periods examined
 
-```{=html}
 <!-- -->
-```
+
 -   K-test Deviation Graphs:
 
     -   These graphs show the difference between the observed and expected K-functions.
 
     -   The solid black line consistently lies above zero, further confirming significant clustering.
 
-```{=html}
 <!-- -->
-```
+
 -   Temporal Trends:
 
     -   The overall shape and magnitude of clustering appear relatively consistent across quarters, suggesting a persistent pattern of conflict concentration.
 
     -   However, subtle variations in the steepness and height of the curves may indicate some fluctuations in the intensity of clustering over time.
 
-```{=html}
 <!-- -->
-```
+
 -   Scale of Clustering:
 
     -   Clustering is evident at all scales examined (up to about 150,000 units, likely meters or kilometers).
 
     -   The increasing divergence between observed and expected K-functions at larger scales suggests that clustering becomes more pronounced over broader geographic areas.
 
-```{=html}
 <!-- -->
-```
+
 -   Intensity of Conflict:
 
     -   The steepness of the observed K-function curves indicates high intensity of clustering, implying that conflicts are heavily concentrated in certain areas.
 
-```{=html}
 <!-- -->
-```
+
 -   Spatial Non-stationarity:
 
     -   The continuous upward trend of the K-functions without leveling off suggests that the conflict process is not spatially stationary, meaning the intensity and distribution of conflicts vary across different regions of Myanmar.
 
-```{=html}
 <!-- -->
-```
+
 -   Consistency Over Time:
 
     -   The similarity in patterns across quarters indicates that the overall spatial structure of the conflict has remained relatively stable from 2021 to 2023
@@ -807,7 +801,7 @@ conflict_sf_spatemp<-conflict_sf_projected %>%
 
 -   **`mutate(DayofYear = yday(event_date))`**:
 
-    -    This creates a new column `DayofYear` that converts each event's `event_date` into a numeric value representing the day of the year (from 1 to 365 or 366 in a leap year).
+    -   This creates a new column `DayofYear` that converts each event's `event_date` into a numeric value representing the day of the year (from 1 to 365 or 366 in a leap year).
 
     -   In spatial-temporal KDE, time is treated as a continuous dimension. Converting the event dates into day-of-year values allows you to model temporal variation across the calendar year in a continuous format. It helps identify patterns tied to specific times of the year, such as seasonal effects or yearly trends in conflict events.
 
@@ -815,7 +809,7 @@ conflict_sf_spatemp<-conflict_sf_projected %>%
 
     -   This adds another column `Month_num` that extracts the month number from each event's `event_date` (values from 1 for January to 12 for December).
 
-    -    Depending on the level of temporal granularity you wish to analyze, having the month number can be useful for grouping or summarizing events by months. While day-of-year is more granular, the month number allows for coarser temporal patterns, such as monthly trends or seasonal variations.
+    -   Depending on the level of temporal granularity you wish to analyze, having the month number can be useful for grouping or summarizing events by months. While day-of-year is more granular, the month number allows for coarser temporal patterns, such as monthly trends or seasonal variations.
 
 ```{r}
 conflict_sf_spatemp_month<-conflict_sf_spatemp %>% 

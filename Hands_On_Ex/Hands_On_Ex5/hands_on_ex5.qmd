@@ -244,7 +244,9 @@ wm_d62
 
 **Quiz:** What is the meaning of “Average number of links: 3.681818” shown above?
 
-**Ans:**
+**Ans:** It refers to the average number of neighbors each region in the spatial dataset has within the specified distance threshold.
+
+Thus, on average, each of the 88 regions in your dataset has about 3.68 other regions that fall within this 0–62 unit distance range. This provides an indication of how connected each region is to its neighbors based on the chosen proximity.
 
 Next, we will use *str()* to display the content of wm_d62 weight matrix.
 
@@ -394,7 +396,7 @@ nb1
 
 **Question**: Can you see the meaning of Spatial lag with row-standardized weights now?
 
-**Ans:**
+**Ans:** The **spatial lag** of a variable (like GDP per capita in this case) refers to the weighted average of that variable for a given region's neighbors. In other words, it's a way to represent the influence that neighboring regions have on a specific region.
 
 We can append the spatially lag GDPPC values onto hunan sf data frame by using the code chunk below.
 
@@ -449,7 +451,9 @@ lag_sum
 
 **Question**: Can you understand the meaning of Spatial lag as a sum of neighboring values now?
 
-**Ans:**
+**Ans:** the **spatial lag** for a region is simply the **sum of the values** of its neighboring regions. This helps quantify how much the neighbors "contribute" to the overall environment around a region.
+
+The larger the spatial lag, the more "influential" the neighboring regions are in relation to the region being studied.
 
 Next, we will append the *lag_sum GDPPC* field into `hunan` sf data frame by using the code chunk below.
 
