@@ -984,21 +984,18 @@ browsable(tags$img(src = gif_filename))
 
 -   Spatial **Distribution**: The image shows a KDE heat map overlaid on what appears to be the geographical outline of Myanmar. The intensity of the conflict or related events is represented by a color gradient, with yellows and reds indicating higher density/intensity, and blues showing lower density/intensity.
 
-```{=html}
 <!-- -->
-```
+
 -   **Focal** Point: There's a clear hotspot in the central region of the country, likely corresponding to a major city or strategic area. This suggests a concentration of conflict-related events or intensity in this specific location.
 
 -   **Gradients**: The intensity radiates outward from the central hotspot, gradually diminishing towards the periphery. This pattern suggests a conflict with a clear epicenter but with ripple effects or related events spreading to surrounding areas.
 
-```{=html}
 <!-- -->
-```
+
 -   **Regional Variation**s: While the central area shows the highest intensity, there are smaller pockets of increased activity visible in other parts of the country, particularly in the north and southeast regions.
 
-```{=html}
 <!-- -->
-```
+
 -   **Scale and Interpretation**: The legend indicates values ranging from approximately 5e-15 to 3.5e-14. These small values likely represent probability densities, typical in KDE analysis, rather than absolute event counts.
 
 # Conclusion & Reflection

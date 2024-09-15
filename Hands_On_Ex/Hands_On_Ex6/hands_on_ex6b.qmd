@@ -437,9 +437,8 @@ tmap_arrange(localMI.map, pvalue.map, asp=1, ncol=2)
 >
 > -   **High-high clusters:** There are several high-high clusters, indicating areas where the GDPPC is high and surrounded by other areas with high GDPPC. These clusters may suggest that certain factors, such as economic policies, infrastructure, or natural resources, are conducive to high economic growth in these regions.
 >
-> ```{=html}
 > <!-- -->
-> ```
+>
 > -   **Low-low clusters:** There are also some low-low clusters, indicating areas with low GDPPC that are surrounded by other areas with low GDPPC. These clusters may suggest that these regions face challenges such as lack of economic opportunities, infrastructure, or natural resources that hinder their economic development.
 
 ## **10.6 Hot Spot and Cold Spot Area Analysis**
