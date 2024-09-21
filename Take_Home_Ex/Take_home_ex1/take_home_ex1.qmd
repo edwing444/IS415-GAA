@@ -42,9 +42,8 @@ In response to the coup, a number of armed resistance groups have emerged, inclu
 -   **animation:** This package provides tools for creating animations in R. It can be used to visualize changes in spatial data over time or to create interactive visualizations.
 -   **av**: Provides tools for handling audio and video files, including creating and manipulating video files
 
-```{=html}
 <!-- -->
-```
+
 -   **magick**: A powerful package for image processing, including reading, manipulating, and writing images.
 
 -   **htmltools**: Provides functions for working with HTML and creating HTML-based user interfaces.
@@ -350,11 +349,11 @@ An `owin` object is a special data structure used by the `spatstat` package to r
 coords <- st_coordinates(conflict_sf_projected)
 conflict_ppp <- ppp(x = coords[,1], y = coords[,2], window = boundary_win)
 
-# Perform KDE for a specific quarter (e.g., Q1 2021)
-kde_q3_2021 <- density.ppp(conflict_ppp, sigma = bw.diggle)
+
+kde_open <- density.ppp(conflict_ppp, sigma = bw.diggle)
 
 # Convert KDE result into a raster object
-kde_raster <- raster(kde_q3_2021)
+kde_raster <- raster(kde_open)
 ```
 
 `coords <- st_coordinates(conflict_sf_projected)` extracts the coordinates of the conflict events from the `conflict_sf_projected` object. The resulting coordinates are stored in a matrix with two columns: one for longitude and one for latitude.
@@ -373,7 +372,7 @@ tm_shape(boundary_data_projected) +
   tm_borders() + 
   tm_shape(kde_raster) +
   tm_raster(palette = "-Blues",style = "cont", alpha = 0.6) +
-  tm_layout(title = "KDE of Armed Conflict Events (Q3 2021)")
+  tm_layout(title = "KDE of Armed Conflict Events")
 ```
 
 ## Understanding KDE
@@ -398,7 +397,7 @@ tm_shape(boundary_data_projected) +
 
 ### Overall Insights:
 
-The KDE map provides critical insights into the spatial distribution of armed conflict events in Myanmar during Q3 2021. It illustrates:
+The KDE map provides critical insights into the spatial distribution of armed conflict events in Myanmar . It illustrates:
 
 -   **Concentrated hotspots** in the north and west, reflecting deeply entrenched conflicts driven by ethnic, political, and territorial factors.
 
@@ -410,10 +409,9 @@ The KDE map provides critical insights into the spatial distribution of armed co
 
 These findings can inform **conflict analysis, humanitarian interventions, and policy planning** by identifying both high-intensity conflict zones and areas vulnerable to future escalations. Additionally, understanding the role of geography and international borders in shaping conflict may guide cross-border cooperation and peacebuilding efforts.
 
-# Plotting 2nd Order Spatial Point Pattern
+# Plotting 2nd Order Spatial Point Pattern of open street of Myanmar
 
 ```{r}
-#| eval: false
 # Take a random sample of 1000 events if the dataset is large
 set.seed(123)  # Ensure reproducibility
 sampled_conflict_ppp <- conflict_ppp[sample(1:npoints(conflict_ppp), 1000)]
@@ -421,7 +419,7 @@ sampled_conflict_ppp <- conflict_ppp[sample(1:npoints(conflict_ppp), 1000)]
 K <- Kest(sampled_conflict_ppp, correction = "Ripley")
 
 # Plot Ripley's K function
-plot(K, main = "Ripley's K for Conflict Events (Q3 2021)")
+plot(K, main = "Ripley's K for Conflict Events")
 ```
 
 ## Understanding K-Test
@@ -462,7 +460,7 @@ The use of K_iso(r) in this analysis suggests that isotropy corrections were app
 
 ### Conclusion:
 
-The Ripley’s K function analysis reveals that conflict events in Myanmar during Q3 2021 exhibit significant spatial clustering, with clustering becoming more intense at larger spatial scales. The non-stationarity of the process and the persistence of clustering over large areas suggest that conflict is highly concentrated around key locations and may spread regionally. These findings underscore the importance of geographically targeted strategies for conflict resolution, peacekeeping efforts, and policy interventions. By identifying conflict hotspots and understanding the scale-dependent nature of clustering, decision-makers can develop more effective approaches to conflict management and resource allocation in Myanmar.
+The Ripley’s K function analysis reveals that conflict events in Myanmar exhibit significant spatial clustering, with clustering becoming more intense at larger spatial scales. The non-stationarity of the process and the persistence of clustering over large areas suggest that conflict is highly concentrated around key locations and may spread regionally. These findings underscore the importance of geographically targeted strategies for conflict resolution, peacekeeping efforts, and policy interventions. By identifying conflict hotspots and understanding the scale-dependent nature of clustering, decision-makers can develop more effective approaches to conflict management and resource allocation in Myanmar.
 
 Further integration of spatial analysis with temporal trends, conflict typologies, and socio-political variables will provide a more comprehensive understanding of Myanmar’s conflict dynamics, facilitating more informed and strategic decision-making in this complex environment.
 
