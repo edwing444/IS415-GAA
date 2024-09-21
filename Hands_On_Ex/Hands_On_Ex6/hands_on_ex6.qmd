@@ -251,7 +251,7 @@ ggplot(bperm_res_df, aes(x = simulated_morans_I)) +
   theme_minimal()
 ```
 
-##   theme_minimal()**9.6 Global Measures of Spatial Autocorrelation: Geary’s C**
+## **9.6 Global Measures of Spatial Autocorrelation: Geary’s C**
 
 In this section, you will learn how to perform Geary’s C statistics testing by using appropriate functions of **spdep** package.
 
