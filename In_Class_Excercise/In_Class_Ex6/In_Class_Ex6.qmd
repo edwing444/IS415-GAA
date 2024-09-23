@@ -1,0 +1,167 @@
+---
+title: "In Class Exercise 6"
+author: "edwin"
+---
+
+# Installing and loading R packages
+
+```{r}
+pacman::p_load(sf, spdep, tmap, tidyverse,sfdep)
+```
+
+# The data
+
+Hunan data sets will be used
+
+```{r}
+hunan <- st_read(dsn = "data/geospatial", 
+                 layer = "Hunan")
+```
+
+```{r}
+hunan2012 <- read_csv("data/aspatial/Hunan_2012.csv")
+```
+
+# Combining both data frame by using left join
+
+```{r}
+hunan_GDPPC <- left_join(hunan,hunan2012) %>%
+  select(1:4, 7, 15)
+```
+
+# Global measures of Spatial Association
+
+## Step 1: Deriving Queen's contiguity weights: sfdep methods
+
+```{r}
+wm_q <- hunan_GDPPC %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+# Computing Global Moran'I
+
+global_moran() function is used to compute Moran's I value. Different from sdep package, the output is a tibble data.frame
+
+```{r}
+moranI <- global_moran(wm_q$GDPPC,
+                       wm_q$nb,
+                       wm_q$wt)
+glimpse(moranI)
+```
+
+# Performing Global Moran's I test
+
+::: panel-tabset
+## Step 1
+
+```{r}
+global_moran_test(wm_q$GDPPC,
+                       wm_q$nb,
+                       wm_q$wt)
+```
+
+## Step 2
+
+Next, global_moran_perm() is used to perform Monte Carlo Simulation
+
+```{r}
+global_moran_perm(wm_q$GDPPC,
+                       wm_q$nb,
+                       wm_q$wt,
+                  nsim = 99)
+```
+:::
+
+# Computing Local Moran's I
+
+learn how to compute Local Moran's I of GDPPC at county level by using local_moran() of sfdep package
+
+```{r}
+lisa <- wm_q %>% 
+  mutate(local_moran = local_moran(
+    GDPPC,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+# Visualising local Moran's I
+
+tmap functions are used to prepare choropleth map by using value in the i field
+
+```{r}
+tmap_mode('plot')
+map1 <- tm_shape(lisa)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+
+map2 <- tm_shape(lisa)+
+  tm_fill('p_ii',
+          breaks = c(0,0.001,0.01,0.05,1),
+          labels = c("0.001","0.01","0.05","Not Sig"))+
+  tm_borders(alpha=0.5)+
+  tm_layout(
+    main.title = "p=value of local Moran's I ",
+    main.title.size = 0.8
+  )
+tmap_arrange(map1,map2,ncol=2)
+```
+
+# Visualisng LISA map
+
+```{r}
+lisa_sig <- lisa %>% 
+  filter(p_ii < 0.05)
+
+tmap_mode("plot")
+tm_shape(lisa)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+# Computing local Gi\* statistics
+
+need to derive a spatial weight matrix before we can compute local Gi\* statistics. Code chunk below will be used to derive a spatial weight matrix by using sfdep functions and tidyverse approach
+
+```{r}
+wm_idw <- hunan_GDPPC %>% 
+  mutate(nb=st_contiguity(geometry),
+         wts = st_inverse_distance(nb,geometry,
+                                   scale=1,
+                                   alpha=1),
+         .before = 1)
+```
+
+Now we will compute local Gi\* b
+
+```{r}
+HCSA <- wm_idw %>% 
+  mutate(local_Gi = local_gstar_perm(
+    GDPPC,nb,wt,nsim=99),
+    .before=1) %>% 
+      unnest(local_Gi)
+```
+
+## Visualinsing hot spot and cold spot areas
+
+```{r}
+HCSA_sig <- HCSA %>% 
+  filter(p_sim<0.05)
+tmap_mode("plot")
+tm_shape(HCSA)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+tm_shape(HCSA_sig)+
+  tm_fill("gi_star")+
+  tm_borders(alpha=0.4)
+```
