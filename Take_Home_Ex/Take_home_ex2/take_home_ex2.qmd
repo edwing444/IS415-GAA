@@ -27,7 +27,7 @@ thailand_provinces<- st_read(dsn="data/geospatial",
 ```{r}
 # Drop the ADM1_TH column
 thailand_provinces <- thailand_provinces %>%
-  select(-ADM1_TH) %>% 
+  select(-ADM1_TH,ADM1_REF,ADM1ALT1EN,ADM1ALT2EN,ADM1ALT1TH,ADM1ALT2EN) %>% 
   rename(province_en = ADM1_EN)
 
 # Drop the province_th column
@@ -36,9 +36,18 @@ drug_data <- drug_data %>%
 ```
 
 ```{r}
+drug_data_grouped <- drug_data %>%
+  group_by(fiscal_year, province_en)
+
+# Example: Summarize the total drug offenses for each group
+drug_data_summary <- drug_data_grouped %>%
+  summarise(total_offenses = sum(no_cases, na.rm = TRUE), .groups = "keep")
+```
+
+```{r}
 # Join the drug abuse data with province polygons
 combined_data <- thailand_provinces %>%
-  left_join(drug_data, by = "province_en")
+  left_join(drug_data_summary, by = "province_en")
 
 ```
 
@@ -47,15 +56,36 @@ print(st_geometry_type(combined_data))
 ```
 
 ```{r}
-# Set tmap to interactive mode (optional)
-#tmap_mode("view")  # For interactive maps
- tmap_mode("plot")  # For static maps
+ggplot(combined_data) +
+  geom_sf(aes(fill = total_offenses), color = "black") +
+  scale_fill_viridis_c(option = "plasma") +
+  labs(title = "Drug Offense Cases in Thailand by Province",
+       fill = "Number of Cases") +
+  facet_wrap(~ fiscal_year) +  # Create separate maps for each fiscal year
+  theme_minimal()
+```
 
-# Plot the drug abuse indicators
+```{r}
+# Create a choropleth map using tmap
 tm_shape(combined_data) +
-  tm_polygons("drug_data",  # Replace with your actual variable name
-              style = "quantile",     # Choose a style (e.g., "quantile", "pretty")
-              palette = "Blues",      # Choose a color palette
-              title = "Drug Abuse Indicators") +
-  tm_layout(title = "Drug Abuse Indicators by Province in Thailand")
+  tm_polygons("total_offenses", 
+              title = "Number of Cases",
+              palette = "Blues", 
+              style = "quantile", 
+              n = 5) +
+  tm_facets(by = "fiscal_year", nrow = 2, free.coords = FALSE) +
+  tm_layout(main.title = "Drug Offense Cases in Thailand by Province and Fiscal Year",
+            main.title.size = 1.5,
+            legend.outside = TRUE)
+```
+
+```{r}
+# Example: KDE (if you have point data)
+tm_shape(combined_data) +
+  tm_polygons("total_offenses", 
+              title = "Number of Drug Cases", 
+              palette = "Oranges", 
+              style = "cont") +  # Continuous color scale
+  tm_layout(main.title = "KDE Map of Drug Offense Density", 
+            legend.outside = TRUE)
 ```
