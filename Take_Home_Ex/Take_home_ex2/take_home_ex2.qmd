@@ -1,0 +1,61 @@
+---
+title: "Take Home Exercise 2"
+author: "edwin"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
+---
+
+# Installing and loading R packages
+
+```{r}
+pacman::p_load(sf, spdep, tmap, tidyverse,sfdep)
+```
+
+# The data
+
+```{r}
+drug_data <- read.csv("data/thai_drug_offenses_2017_2022.csv")
+```
+
+```{r}
+thailand_provinces<- st_read(dsn="data/geospatial",
+                         layer = "tha_admbnda_adm1_rtsd_20220121")
+```
+
+```{r}
+# Drop the ADM1_TH column
+thailand_provinces <- thailand_provinces %>%
+  select(-ADM1_TH) %>% 
+  rename(province_en = ADM1_EN)
+
+# Drop the province_th column
+drug_data <- drug_data %>%
+  select(-province_th)
+```
+
+```{r}
+# Join the drug abuse data with province polygons
+combined_data <- thailand_provinces %>%
+  left_join(drug_data, by = "province_en")
+
+```
+
+```{r}
+print(st_geometry_type(combined_data))
+```
+
+```{r}
+# Set tmap to interactive mode (optional)
+#tmap_mode("view")  # For interactive maps
+ tmap_mode("plot")  # For static maps
+
+# Plot the drug abuse indicators
+tm_shape(combined_data) +
+  tm_polygons("drug_data",  # Replace with your actual variable name
+              style = "quantile",     # Choose a style (e.g., "quantile", "pretty")
+              palette = "Blues",      # Choose a color palette
+              title = "Drug Abuse Indicators") +
+  tm_layout(title = "Drug Abuse Indicators by Province in Thailand")
+```
