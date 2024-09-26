@@ -27,7 +27,7 @@ thailand_provinces<- st_read(dsn="data/geospatial",
 ```{r}
 # Drop the ADM1_TH column
 thailand_provinces <- thailand_provinces %>%
-  select(-ADM1_TH,ADM1_REF,ADM1ALT1EN,ADM1ALT2EN,ADM1ALT1TH,ADM1ALT2EN) %>% 
+  select(-ADM1_TH,-ADM1_REF,-ADM1ALT1EN,-ADM1ALT2EN,-ADM1ALT1TH,-ADM1ALT2EN, -ADM1ALT2TH, -ADM0_TH) %>% 
   rename(province_en = ADM1_EN)
 
 # Drop the province_th column
@@ -36,33 +36,37 @@ drug_data <- drug_data %>%
 ```
 
 ```{r}
-drug_data_grouped <- drug_data %>%
+province_grouped <- drug_data %>%
   group_by(fiscal_year, province_en)
 
 # Example: Summarize the total drug offenses for each group
-drug_data_summary <- drug_data_grouped %>%
+province_summary <- province_grouped %>%
+  summarise(total_offenses = sum(no_cases, na.rm = TRUE), .groups = "keep")
+```
+
+```{r}
+typeOffenses_grouped <- drug_data %>%
+  group_by(fiscal_year, types_of_drug_offenses)
+
+typeOffenses_summary <- typeOffenses_grouped %>% 
   summarise(total_offenses = sum(no_cases, na.rm = TRUE), .groups = "keep")
 ```
 
 ```{r}
 # Join the drug abuse data with province polygons
 combined_data <- thailand_provinces %>%
-  left_join(drug_data_summary, by = "province_en")
+  left_join(drug_data, by = "province_en")
 
+```
+
+```{r}
+# Join the drug abuse province data with province polygons
+combined_province_data <- thailand_provinces %>%
+  left_join(province_summary, by = "province_en")
 ```
 
 ```{r}
 print(st_geometry_type(combined_data))
-```
-
-```{r}
-ggplot(combined_data) +
-  geom_sf(aes(fill = total_offenses), color = "black") +
-  scale_fill_viridis_c(option = "plasma") +
-  labs(title = "Drug Offense Cases in Thailand by Province",
-       fill = "Number of Cases") +
-  facet_wrap(~ fiscal_year) +  # Create separate maps for each fiscal year
-  theme_minimal()
 ```
 
 ```{r}
@@ -88,4 +92,9 @@ tm_shape(combined_data) +
               style = "cont") +  # Continuous color scale
   tm_layout(main.title = "KDE Map of Drug Offense Density", 
             legend.outside = TRUE)
+```
+
+```{r}
+# Create neighbors list
+neighbors <- st_contiguity(combined_province_data)
 ```
