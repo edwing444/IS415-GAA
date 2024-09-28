@@ -7,6 +7,7 @@ execute:
   freeze: true
 ---
 
+
 # Background
 
 ### 1. **Geopolitical Context**
@@ -49,10 +50,12 @@ In analyzing this data, it is crucial to contextualize it within **regional geop
 
 # Installing and loading R packages
 
+
 ```{r}
 
 pacman::p_load(sf, spdep, tmap, tidyverse,sfdep)
 ```
+
 
 -   **sf**: This package is used for handling spatial data in R, allowing for operations on simple features (geometric objects).
 
@@ -66,15 +69,19 @@ pacman::p_load(sf, spdep, tmap, tidyverse,sfdep)
 
 # The data
 
+
 ```{r}
 drug_data <- read.csv("data/thai_drug_offenses_2017_2022.csv")
 ```
 
+
 read a CSV (Comma-Separated Values) file containing data on drug offenses in Thailand from the years 2017 to 2022. Here’s a breakdown of its components and purpose:
+
 
 ```{r}
 summary(drug_data)
 ```
+
 
 -   **Fiscal Year**:
 
@@ -112,6 +119,7 @@ summary(drug_data)
 
 Once the provincial boundaries are loaded into the `thailand_provinces` variable as a Simple Features (sf) object, it can be used for various analyse
 
+
 ```{r}
 thailand_provinces<- st_read(dsn="data/geospatial",
                          layer = "tha_admbnda_adm1_rtsd_20220121")
@@ -128,9 +136,11 @@ drug_data <- drug_data %>%
   select(-province_th)
 ```
 
+
 I simplify the `thailand_provinces` dataset by removing columns that are not needed for further analysis, thus making the dataset cleaner and more manageable. Also, i rename the `ADM1_EN` column to `province_en`, which contains the province names in English. This provides a clearer and more intuitive column name for future analysis.\
 \
 Next, I remove the `province_th` column from the `drug_data` dataset, likely because it contains redundant or unnecessary information, especially if the `thailand_provinces` dataset now includes the relevant province information in English. Dropping this column helps streamline the `drug_data` dataset, focusing on the necessary columns that are crucial for the analysis of drug offenses.
+
 
 ```{r}
 province_grouped <- drug_data %>%
@@ -141,11 +151,13 @@ province_summary <- province_grouped %>%
   summarise(total_offenses = sum(no_cases, na.rm = TRUE), .groups = "keep")
 ```
 
+
 This grouping allows for subsequent calculations to be performed within these groups, making it easier to analyze trends and patterns of drug offenses over time and across different provinces.
 
 The result after summarising is a new data frame `province_summary` that contains three columns: `fiscal_year`, `province_en`, and `total_offenses`, which reflects the total number of offenses recorded for each province in each fiscal year.
 
 The argument `.groups = "keep"` retains the grouping structure of the original data frame in the summarized output, which may be useful for further analysis or visualizations.
+
 
 ```{r}
 # Join the drug abuse data with province polygons
@@ -154,17 +166,20 @@ combined_data <- thailand_provinces %>%
 
 ```
 
+
 Now I will merge the two datasets in a way that retains all the rows from the `thailand_provinces` dataset and includes matching rows from the `drug_data` dataset based on the `province_en` column.
 
 -   If a province in `thailand_provinces` does not have corresponding data in `drug_data`, the resulting `combined_data` will still include that province, but the columns from `drug_data` will contain `NA` (missing values).
 
 The purpose of this operation is to create a combined dataset that integrates geographic information about the provinces with the corresponding drug offense data. This integration is used for mapping the data to **understand how the data looks like**
 
+
 ```{r}
 # Join the drug abuse province data with province polygons
 combined_province_data <- thailand_provinces %>%
   left_join(province_summary)
 ```
+
 
 The above merges the geographic data of provinces with the summarized drug offense data to create a comprehensive dataset that includes both spatial and analytical information.
 
@@ -174,22 +189,27 @@ The above merges the geographic data of provinces with the summarized drug offen
 
 This integration is essential for **spatial analysis and for visualizing the data on maps**.
 
+
 ```{r}
 combined_province_data <- combined_province_data %>%
   filter(!is.na(total_offenses))
 ```
 
+
 Now I clean the dataset by excluding any entries that do not have a valid total number of drug offenses.
 
 Removing rows with `NA` values in the `total_offenses` column ensures that subsequent analyses or visualizations are based on complete data, leading to more accurate and reliable results.
+
 
 ```{r}
 print(st_geometry_type(combined_province_data))
 ```
 
+
 It is "MULTIPOLYGON", it signifies that some provinces may consist of multiple, non-contiguous areas.
 
 # Understanding the data
+
 
 ```{r}
 # Create a choropleth map using tmap
@@ -204,6 +224,7 @@ tm_shape(combined_province_data) +
             main.title.size = 1.5,
             legend.outside = TRUE)
 ```
+
 
 **Key Observations:**
 
@@ -239,6 +260,7 @@ tm_shape(combined_province_data) +
 
 -   **Drug Production and Trafficking:** Understanding the specific types of drugs involved and their production/trafficking routes could provide valuable insights.
 
+
 ```{r}
 # Example: KDE (if you have point data)
 tm_shape(combined_province_data) +
@@ -249,6 +271,7 @@ tm_shape(combined_province_data) +
   tm_layout(main.title = "KDE Map of Drug Offense Density", 
             legend.outside = TRUE)
 ```
+
 
 **Key Observations:**
 
@@ -278,10 +301,12 @@ tm_shape(combined_province_data) +
 
 # Preparing data for **Global Measures of Spatial Autocorrelation**
 
+
 ```{r}
 # Create neighbors list
 neighbors <- st_contiguity(combined_province_data)
 ```
+
 
 I create a **contiguity-based neighbors list** for spatial analysis
 
@@ -293,6 +318,7 @@ I create a **contiguity-based neighbors list** for spatial analysis
 
 The result is a list where each province has an associated set of neighboring provinces.\
 
+
 ```{r}
 length(combined_province_data$total_offenses)  # Check the length of your data
 length(neighbors)  # Check the number of units in the spatial weights matrix
@@ -302,22 +328,27 @@ length(neighbors)  # Check the number of units in the spatial weights matrix
 listw <- nb2listw(neighbors)
 ```
 
+
 Now we convert a **neighbors list** (such as the one I created earlier with `st_contiguity()`) into a **spatial weights matrix** (stored as `listw`). This is an important step in spatial analysis because it allows me to quantify the relationships between geographic units (in this case, provinces) in terms of spatial dependence.
+
 
 ```{r}
 # Convert neighbors list to weights list
 weights_list <- nb2listw(neighbors, style = "W")
 ```
 
+
 This command converts the **neighbors list** into a **spatial weights matrix** (stored as `weights_list`), where the weights are row-standardized. The weights matrix is used for spatial analysis tasks like calculating spatial autocorrelation or running spatial regression models.
 
 # Calculating Moran's I
+
 
 ```{r}
 # Calculate Moran's I
 moran_result <- moran.test(combined_province_data$total_offenses, listw)
 print(moran_result)
 ```
+
 
 **Moran's I** is a measure of spatial autocorrelation, which indicates whether values of a variable at nearby locations are more similar or more different than expected by chance. It ranges from -1 to 1
 
@@ -337,6 +368,7 @@ The analysis suggests that there is a weak positive spatial autocorrelation in t
 
 # Global measures of Spatial Association
 
+
 ```{r}
 wm_thai_g <- combined_province_data %>% 
   mutate(nb=st_contiguity(geometry),
@@ -345,9 +377,11 @@ wm_thai_g <- combined_province_data %>%
          .before = 1)
 ```
 
+
 ## Computing Global Moran'I
 
 global_moran() function is used to compute Moran's I value. Different from sdep package, the output is a tibble data.frame
+
 
 ```{r}
 moranI <- global_moran(wm_thai_g$total_offenses,
@@ -355,6 +389,7 @@ moranI <- global_moran(wm_thai_g$total_offenses,
                        wm_thai_g$wt)
 glimpse(moranI)
 ```
+
 
 **Output Interpretation:**
 
@@ -368,6 +403,7 @@ The analysis suggests that there is a weak positive spatial autocorrelation in t
 
 ## Performing Global Moran's I test
 
+
 ```{r}
 global_moran_test(wm_thai_g$total_offenses,
                        wm_thai_g$nb,
@@ -380,6 +416,7 @@ global_moran_perm(wm_thai_g$total_offenses,
                        wm_thai_g$wt,
                   nsim = 99)
 ```
+
 
 **Output Interpretation:**
 
@@ -409,11 +446,13 @@ global_moran_perm(wm_thai_g$total_offenses,
 
 The test results suggest that drug offenses in Thailand are **spatially clustered** rather than randomly dispersed. There is a moderate level of clustering of similar values (provinces with similar levels of offenses are located near each other), and this result is statistically significant.
 
+
 ```{r}
 # Local Moran's I (LISA) calculation
 local_moran <- localmoran(combined_province_data$total_offenses, listw)
 head(local_moran)
 ```
+
 
 **Interpretation of Results:**
 
@@ -423,13 +462,16 @@ head(local_moran)
 
 # Local Moran's I (LISA) calculation
 
+
 ```{r}
 # Local Moran's I (LISA) calculation
 lisa <- localmoran(combined_province_data$total_offenses, listw = weights_list)
 combined_province_data$lisa <- lisa[, "Ii"] 
 ```
 
+
 ## Visualisng Local Moran's I (LISA) 
+
 
 ```{r}
 # Set tmap mode to interactive or static
@@ -440,6 +482,7 @@ tm_shape(combined_province_data) +
   tm_polygons("lisa", palette = "viridis", title = "Local Moran's I (LISA)") +
   tm_layout(title = "Local Moran's I (LISA) for Drug Abuse in Thailand Provinces")
 ```
+
 
 **Key Observations:**
 
@@ -471,6 +514,7 @@ tm_shape(combined_province_data) +
 
 Learn how to compute Local Moran's I of GDPPC at county level by using local_moran() of sfdep package
 
+
 ```{r}
 lisa <- wm_thai_g %>% 
   mutate(local_moran = local_moran(
@@ -479,7 +523,9 @@ lisa <- wm_thai_g %>%
   unnest(local_moran)
 ```
 
+
 ## Visualising local Moran's I
+
 
 ```{r}
 tmap_mode('plot')
@@ -503,6 +549,7 @@ map2 <- tm_shape(lisa)+
   )
 tmap_arrange(map1,map2,ncol=2)
 ```
+
 
 **Key Observations:**
 
@@ -528,6 +575,7 @@ tmap_arrange(map1,map2,ncol=2)
 
 # Visualisng LISA map
 
+
 ```{r}
 lisa_sig <- lisa %>% 
   filter(p_ii < 0.05)
@@ -541,6 +589,7 @@ tm_shape(lisa)+
   tm_borders(alpha=0.4)
 ```
 
+
 **Key Observations:**
 
 1.  **Spatial Clustering:** The map clearly illustrates distinct clusters of provinces based on the Local Moran's I statistic, suggesting significant spatial autocorrelation in the distribution of drug abuse.
@@ -553,9 +602,11 @@ tm_shape(lisa)+
 
 ## **Global Measures of Spatial Autocorrelation: Geary’s C**
 
+
 ```{r}
 geary.test(combined_province_data$total_offenses, listw=weights_list)
 ```
+
 
 **Output Interpretation:**
 
@@ -577,6 +628,7 @@ geary.test(combined_province_data$total_offenses, listw=weights_list)
 
 The analysis suggests that there is a moderate positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding may be indicative of underlying spatial processes or factors that influence the distribution of total offenses.
 
+
 ```{r}
 set.seed(1234)
 bperm_GC=geary.mc(combined_province_data$total_offenses, 
@@ -584,6 +636,7 @@ bperm_GC=geary.mc(combined_province_data$total_offenses,
                nsim=999)
 bperm_GC
 ```
+
 
 `set.seed(1234)`: This sets the random seed to ensure reproducibility of the results.
 
@@ -609,10 +662,12 @@ bperm_GC
 
 The analysis suggests that there is a strong positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding is statistically significant, as evidenced by the small p-value from the Monte Carlo permutation test.
 
+
 ```{r}
 hist(bperm_GC$res, freq=TRUE, breaks=20, xlab="Simulated Geary c")
 abline(v=1, col="red") 
 ```
+
 
 **Key Observations:**
 
@@ -638,6 +693,7 @@ abline(v=1, col="red")
 
 The histogram provides visual evidence for the statistical significance of the observed Geary's C statistic. The distribution of simulated values is approximately normal, centered around 1.0, and relatively narrow. The observed Geary's C statistic is located in the right tail of the distribution, indicating that it is significantly different from the simulated values, supporting the conclusion of positive spatial autocorrelation.
 
+
 ```{r}
 set.seed(1234)
 bperm= moran.mc(combined_province_data$total_offenses, 
@@ -647,6 +703,7 @@ bperm= moran.mc(combined_province_data$total_offenses,
                 na.action=na.omit)
 bperm
 ```
+
 
 Similiarly, function `moran.mc` performs a Monte Carlo permutation test to assess the statistical significance of the observed Moran's I statistic.
 
@@ -668,6 +725,7 @@ Similiarly, function `moran.mc` performs a Monte Carlo permutation test to asses
 
 -   **alternative hypothesis: greater**: This specifies that the alternative hypothesis is that the expected value of Moran's I is greater than the observed statistic, suggesting positive spatial autocorrelation.
 
+
 ```{r}
 mean(bperm$res[1:999])
 ```
@@ -680,6 +738,7 @@ hist(bperm$res,
 abline(v=0, 
        col="red") 
 ```
+
 
 **Key Observations:**
 
@@ -709,12 +768,15 @@ The histogram provides visual evidence for the statistical significance of the o
 
 Before mapping the local Moran’s I map, it is wise to append the local Moran’s I dataframe (i.e. localMI) onto hunan SpatialPolygonDataFrame. The code chunks below can be used to perform the task. The out SpatialPolygonDataFrame is called *hunan.localMI*.
 
+
 ```{r}
 province.localMI <- cbind(combined_province_data,local_moran) %>%
   rename(Pr.Ii = Pr.z....E.Ii..)
 ```
 
+
 Using choropleth mapping functions of **tmap** package, we can plot the local Moran’s I values by using the code chunks below.
+
 
 ```{r}
 tm_shape(province.localMI) +
@@ -724,6 +786,7 @@ tm_shape(province.localMI) +
           title = "local moran statistics") +
   tm_borders(alpha = 0.5)
 ```
+
 
 **Key Observations:**
 
@@ -755,6 +818,7 @@ Overall, the map provides a valuable visual representation of the spatial distri
 
 need to derive a spatial weight matrix before we can compute local Gi\* statistics. Code chunk below will be used to derive a spatial weight matrix by using sfdep functions and tidyverse approach
 
+
 ```{r}
 wm_thai <- combined_province_data %>% 
   mutate(nb=st_contiguity(geometry),
@@ -783,6 +847,7 @@ tm_shape(HCSA_sig)+
   tm_fill("gi_star")+
   tm_borders(alpha=0.4)
 ```
+
 
 **Key Observations:**
 
@@ -815,3 +880,4 @@ The findings further emphasize the vulnerability of certain provinces, particula
 This assignment underscored the importance of using spatial analysis tools to understand the geographic distribution of social issues like drug abuse. By applying techniques such as spatial autocorrelation, we gained insights into the areas most affected by drug trafficking and consumption in Thailand. The data-driven approach helps inform policy decisions and resource allocation, allowing authorities to focus on high-risk regions and populations.
 
 The exercise also illustrated the complexity of addressing drug abuse in Thailand, as it is influenced by a combination of geopolitical factors, infrastructural developments, and socio-economic conditions. Future studies could explore the relationship between drug offenses and other socio-economic variables, such as income levels, education, and employment, to further refine prevention strategies. Overall, spatial analysis provided a valuable lens through which to examine drug-related issues and supports the development of more effective, geographically targeted interventionss
+

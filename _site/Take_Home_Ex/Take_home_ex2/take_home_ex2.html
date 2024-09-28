@@ -241,6 +241,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#installing-and-loading-r-packages" id="toc-installing-and-loading-r-packages" class="nav-link" data-scroll-target="#installing-and-loading-r-packages">Installing and loading R packages</a></li>
   <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
+  <li><a href="#understanding-the-data" id="toc-understanding-the-data" class="nav-link" data-scroll-target="#understanding-the-data">Understanding the data</a></li>
+  <li><a href="#preparing-data-for-global-measures-of-spatial-autocorrelation" id="toc-preparing-data-for-global-measures-of-spatial-autocorrelation" class="nav-link" data-scroll-target="#preparing-data-for-global-measures-of-spatial-autocorrelation">Preparing data for <strong>Global Measures of Spatial Autocorrelation</strong></a></li>
+  <li><a href="#calculating-morans-i" id="toc-calculating-morans-i" class="nav-link" data-scroll-target="#calculating-morans-i">Calculating Moran’s I</a></li>
+  <li><a href="#global-measures-of-spatial-association" id="toc-global-measures-of-spatial-association" class="nav-link" data-scroll-target="#global-measures-of-spatial-association">Global measures of Spatial Association</a>
+  <ul class="collapse">
+  <li><a href="#computing-global-morani" id="toc-computing-global-morani" class="nav-link" data-scroll-target="#computing-global-morani">Computing Global Moran’I</a></li>
+  <li><a href="#performing-global-morans-i-test" id="toc-performing-global-morans-i-test" class="nav-link" data-scroll-target="#performing-global-morans-i-test">Performing Global Moran’s I test</a>
+  <ul class="collapse">
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#local-morans-i-lisa-calculation" id="toc-local-morans-i-lisa-calculation" class="nav-link" data-scroll-target="#local-morans-i-lisa-calculation">Local Moran’s I (LISA) calculation</a>
+  <ul class="collapse">
+  <li><a href="#visualisng-local-morans-i-lisa" id="toc-visualisng-local-morans-i-lisa" class="nav-link" data-scroll-target="#visualisng-local-morans-i-lisa">Visualisng Local Moran’s I (LISA)</a></li>
+  </ul></li>
+  <li><a href="#computing-local-morans-i" id="toc-computing-local-morans-i" class="nav-link" data-scroll-target="#computing-local-morans-i">Computing Local Moran’s I</a>
+  <ul class="collapse">
+  <li><a href="#visualising-local-morans-i" id="toc-visualising-local-morans-i" class="nav-link" data-scroll-target="#visualising-local-morans-i">Visualising local Moran’s I</a></li>
+  </ul></li>
+  <li><a href="#visualisng-lisa-map" id="toc-visualisng-lisa-map" class="nav-link" data-scroll-target="#visualisng-lisa-map">Visualisng LISA map</a>
+  <ul class="collapse">
+  <li><a href="#global-measures-of-spatial-autocorrelation-gearys-c" id="toc-global-measures-of-spatial-autocorrelation-gearys-c" class="nav-link" data-scroll-target="#global-measures-of-spatial-autocorrelation-gearys-c"><strong>Global Measures of Spatial Autocorrelation: Geary’s C</strong></a></li>
+  </ul></li>
+  <li><a href="#computing-local-gi-statistics" id="toc-computing-local-gi-statistics" class="nav-link" data-scroll-target="#computing-local-gi-statistics">Computing local Gi* statistics</a></li>
+  <li><a href="#conclusion-and-reflection" id="toc-conclusion-and-reflection" class="nav-link" data-scroll-target="#conclusion-and-reflection">Conclusion and Reflection</a>
+  <ul class="collapse">
+  <li><a href="#reflection" id="toc-reflection" class="nav-link" data-scroll-target="#reflection">Reflection</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -549,6 +577,9 @@ Next, I remove the <code>province_th</code> column from the <code>drug_data</cod
 </div>
 </div>
 <p>It is “MULTIPOLYGON”, it signifies that some provinces may consist of multiple, non-contiguous areas.</p>
+</section>
+<section id="understanding-the-data" class="level1">
+<h1>Understanding the data</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a choropleth map using tmap</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(combined_province_data) <span class="sc">+</span></span>
@@ -634,108 +665,47 @@ Next, I remove the <code>province_th</code> column from the <code>drug_data</cod
 <li><p><strong>Governance and Law Enforcement:</strong> The effectiveness of law enforcement agencies and anti-drug initiatives could vary across different regions, impacting the density of drug offenses.</p></li>
 <li><p><strong>Drug Production and Trafficking:</strong> Understanding the specific types of drugs involved and their production/trafficking routes could provide valuable insights into the spatial patterns.</p></li>
 </ul>
+</section>
+<section id="preparing-data-for-global-measures-of-spatial-autocorrelation" class="level1">
+<h1>Preparing data for <strong>Global Measures of Spatial Autocorrelation</strong></h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create neighbors list</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>neighbors <span class="ot">&lt;-</span> <span class="fu">st_contiguity</span>(combined_province_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>I create a <strong>contiguity-based neighbors list</strong> for spatial analysis</p>
+<p><code>st_contiguity()</code> is part of the <strong>sfdep</strong> package, which is designed for working with spatial dependencies.</p>
+<ul>
+<li><p><strong>Contiguity</strong> refers to spatial units (in this case, provinces) that share common boundaries. When two provinces share a border, they are considered “neighbors.”</p></li>
+<li><p>The function creates a list of neighboring provinces based on their shared borders.</p></li>
+</ul>
+<p>The result is a list where each province has an associated set of neighboring provinces.<br>
+</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wm_t <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(thailand_provinces, </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">queen=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wm_t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Neighbour list object:
-Number of regions: 77 
-Number of nonzero links: 352 
-Percentage nonzero weights: 5.93692 
-Average number of links: 4.571429 
-1 region with no links:
-67
-2 disjoint connected subgraphs
-Link number distribution:
-
- 0  1  2  3  4  5  6  7  8  9 
- 1  1  5 17 15 17 10  5  4  2 
-1 least connected region:
-14 with 1 link
-2 most connected regions:
-29 51 with 9 links</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rswm_t <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(wm_t, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">style=</span><span class="st">"W"</span>, </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">zero.policy =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>rswm_t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Characteristics of weights list object:
-Neighbour list object:
-Number of regions: 77 
-Number of nonzero links: 352 
-Percentage nonzero weights: 5.93692 
-Average number of links: 4.571429 
-1 region with no links:
-67
-2 disjoint connected subgraphs
-
-Weights style: W 
-Weights constants summary:
-   n   nn S0       S1      S2
-W 76 5776 76 36.26113 315.652</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(combined_province_data<span class="sc">$</span>total_offenses)  <span class="co"># Check the length of your data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(combined_province_data<span class="sc">$</span>total_offenses)  <span class="co"># Check the length of your data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 450</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(neighbors)  <span class="co"># Check the number of units in the spatial weights matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(neighbors)  <span class="co"># Check the number of units in the spatial weights matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 450</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#moran.test(combined_province_data$total_offenses,listw=neighbors, </span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>           <span class="co">#zero.policy = TRUE, </span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>           <span class="co">#na.action=na.omit)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>listw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(neighbors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Now we convert a <strong>neighbors list</strong> (such as the one I created earlier with <code>st_contiguity()</code>) into a <strong>spatial weights matrix</strong> (stored as <code>listw</code>). This is an important step in spatial analysis because it allows me to quantify the relationships between geographic units (in this case, provinces) in terms of spatial dependence.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>listw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(neighbors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert neighbors list to weights list</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>weights_list <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(neighbors, <span class="at">style =</span> <span class="st">"W"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This command converts the <strong>neighbors list</strong> into a <strong>spatial weights matrix</strong> (stored as <code>weights_list</code>), where the weights are row-standardized. The weights matrix is used for spatial analysis tasks like calculating spatial autocorrelation or running spatial regression models.</p>
+</section>
+<section id="calculating-morans-i" class="level1">
+<h1>Calculating Moran’s I</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(listw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Characteristics of weights list object:
-Neighbour list object:
-Number of regions: 450 
-Number of nonzero links: 14130 
-Percentage nonzero weights: 6.977778 
-Average number of links: 31.4 
-2 disjoint connected subgraphs
-Link number distribution:
-
-  5  11  17  23  29  35  41  47  53  59 
-  6   6  36 108  84  96  66  30   6  12 
-6 least connected regions:
-385 386 387 388 389 390 with 5 links
-12 most connected regions:
-157 158 159 160 161 162 289 290 291 292 293 294 with 59 links
-
-Weights style: W 
-Weights constants summary:
-    n     nn  S0       S1       S2
-W 450 202500 450 32.41275 1833.241</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert neighbors list to weights list</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>weights_list <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(neighbors, <span class="at">style =</span> <span class="st">"W"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Moran's I</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>moran_result <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(combined_province_data<span class="sc">$</span>total_offenses, listw)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(moran_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Moran's I</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>moran_result <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(combined_province_data<span class="sc">$</span>total_offenses, listw)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(moran_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Moran I test under randomisation
@@ -750,28 +720,54 @@ Moran I statistic       Expectation          Variance
      0.1903562142     -0.0022271715      0.0001434901 </code></pre>
 </div>
 </div>
+<p><strong>Moran’s I</strong> is a measure of spatial autocorrelation, which indicates whether values of a variable at nearby locations are more similar or more different than expected by chance. It ranges from -1 to 1</p>
+<p><strong>Output Interpretation:</strong></p>
+<ul>
+<li><p><strong>Moran I statistic:</strong> 0.1903562142 - This value suggests a weak positive spatial autocorrelation. It means that provinces with higher rates of total offenses tend to be located near other provinces with higher rates.</p></li>
+<li><p><strong>Standard deviate:</strong> 16.077 - This is the standard deviation of the Moran’s I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.</p></li>
+<li><p><strong>p-value:</strong> &lt; 2.2e-16 - This extremely small p-value indicates that the observed Moran’s I statistic is highly unlikely to occur by chance if there were no spatial autocorrelation. It provides strong evidence for the existence of spatial clustering in the data.</p></li>
+<li><p><strong>Expectation and Variance:</strong> These values represent the expected value and variance of the Moran’s I statistic under random permutations. They are used to assess the significance of the observed statistic.</p></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The analysis suggests that there is a weak positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding may be indicative of underlying spatial processes or factors that influence the distribution of total offenses</p>
+</section>
+<section id="global-measures-of-spatial-association" class="level1">
+<h1>Global measures of Spatial Association</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>wm_thai_g <span class="ot">&lt;-</span> combined_province_data <span class="sc">%&gt;%</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt=</span><span class="fu">st_weights</span>(nb,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">style=</span><span class="st">"W"</span>),</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>wm_thai_g <span class="ot">&lt;-</span> combined_province_data <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt=</span><span class="fu">st_weights</span>(nb,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">style=</span><span class="st">"W"</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="computing-global-morani" class="level2">
+<h2 class="anchored" data-anchor-id="computing-global-morani">Computing Global Moran’I</h2>
+<p>global_moran() function is used to compute Moran’s I value. Different from sdep package, the output is a tibble data.frame</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(moranI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(moranI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 2
  $ I: num 0.19
  $ K: num 21.8</code></pre>
 </div>
 </div>
+<p><strong>Output Interpretation:</strong></p>
+<ul>
+<li><p><strong>$ I: num 0.19</strong>: This indicates that the calculated Global Moran’s I statistic is 0.19. This suggests a weak positive spatial autocorrelation, meaning that provinces with higher rates of total offenses tend to be clustered together geographically.</p></li>
+<li><p><strong>$ K: num 21.8</strong>: This is the Z-score associated with the Moran’s I statistic. It provides a standardized measure of the significance of the observed spatial autocorrelation. A Z-score of 21.8 is generally considered to be statistically significant, suggesting that the observed spatial clustering is unlikely to occur by chance.</p></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The analysis suggests that there is a weak positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding may be indicative of underlying spatial processes or factors that influence the distribution of total offenses.</p>
+</section>
+<section id="performing-global-morans-i-test" class="level2">
+<h2 class="anchored" data-anchor-id="performing-global-morans-i-test">Performing Global Moran’s I test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Moran I test under randomisation
@@ -787,10 +783,10 @@ Moran I statistic       Expectation          Variance
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_perm</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nsim =</span> <span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_perm</span>(wm_thai_g<span class="sc">$</span>total_offenses,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>nb,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                       wm_thai_g<span class="sc">$</span>wt,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nsim =</span> <span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Monte-Carlo simulation of Moran I
@@ -803,10 +799,34 @@ statistic = 0.19036, observed rank = 100, p-value &lt; 2.2e-16
 alternative hypothesis: two.sided</code></pre>
 </div>
 </div>
+<p><strong>Output Interpretation:</strong></p>
+<ol type="1">
+<li><p><strong>p-value</strong>:</p>
+<ul>
+<li><p>The p-value is <strong>&lt; 2.2e-16</strong>, which is extremely small.</p></li>
+<li><p>This very low p-value suggests that the observed spatial autocorrelation is statistically significant. We can <strong>reject the null hypothesis</strong> that there is no spatial autocorrelation.</p></li>
+</ul></li>
+<li><p><strong>Interpretation of the Hypothesis Test</strong>:</p>
+<ul>
+<li><p>The alternative hypothesis is <strong>greater</strong>, meaning the test is checking whether there is significant positive spatial autocorrelation.</p></li>
+<li><p>Since the Moran’s I value is positive and the p-value is extremely low, there is significant evidence to conclude that <strong>positive spatial autocorrelation exists</strong> in the drug offense data.</p></li>
+</ul></li>
+<li><p><strong>Moran I statistic:</strong> 0.1903562142 - This indicates that the calculated Global Moran’s I statistic is 0.19. This suggests a weak positive spatial autocorrelation, meaning that provinces with higher rates of total offenses tend to be clustered together geographically.</p></li>
+</ol>
+<pre><code>-   **Standard deviate:** 16.077 - This is the standard deviation of the Moran's I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.
+
+-   **Sample estimates:**
+
+    -   **Expectation:** -0.0022271715 - This is the expected value of the Moran's I statistic under random permutations.
+
+    -   **Variance:** 0.0001434901 - This is the variance of the Moran's I statistic under random permutations.</code></pre>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>The test results suggest that drug offenses in Thailand are <strong>spatially clustered</strong> rather than randomly dispersed. There is a moderate level of clustering of similar values (provinces with similar levels of offenses are located near each other), and this result is statistically significant.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Moran's I (LISA) calculation</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>local_moran <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(combined_province_data<span class="sc">$</span>total_offenses, listw)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Moran's I (LISA) calculation</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>local_moran <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(combined_province_data<span class="sc">$</span>total_offenses, listw)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Ii          E.Ii      Var.Ii     Z.Ii Pr(z != E(Ii))
 1 3.915244 -0.0980888574 0.884289023 4.267839   1.973754e-05
@@ -817,85 +837,146 @@ alternative hypothesis: two.sided</code></pre>
 6 0.363538 -0.0005377416 0.005372184 4.967253   6.790805e-07</code></pre>
 </div>
 </div>
+<p><strong>Interpretation of Results:</strong></p>
+<ul>
+<li><p><strong>Ii values:</strong> Positive values indicate clustering of similar values (hotspots or coldspots), while negative values indicate dispersion of dissimilar values.</p></li>
+<li><p><strong>Z.Ii and Pr(z != E(Ii))</strong>: High Z-scores and low p-values suggest statistically significant clustering or dispersion.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="local-morans-i-lisa-calculation" class="level1">
+<h1>Local Moran’s I (LISA) calculation</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Moran's I (LISA) calculation</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(combined_province_data<span class="sc">$</span>total_offenses, <span class="at">listw =</span> weights_list)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>combined_province_data<span class="sc">$</span>lisa <span class="ot">&lt;-</span> lisa[, <span class="st">"Ii"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Moran's I (LISA) calculation</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(combined_province_data<span class="sc">$</span>total_offenses, <span class="at">listw =</span> weights_list)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>combined_province_data<span class="sc">$</span>lisa <span class="ot">&lt;-</span> lisa[, <span class="st">"Ii"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="visualisng-local-morans-i-lisa" class="level2">
+<h2 class="anchored" data-anchor-id="visualisng-local-morans-i-lisa">Visualisng Local Moran’s I (LISA)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set tmap mode to interactive or static</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)  <span class="co"># Use "view" for interactive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set tmap mode to interactive or static</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)  <span class="co"># Use "view" for interactive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>tmap mode set to plotting</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a thematic map to visualize Local Moran's I</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(combined_province_data) <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"lisa"</span>, <span class="at">palette =</span> <span class="st">"viridis"</span>, <span class="at">title =</span> <span class="st">"Local Moran's I (LISA)"</span>) <span class="sc">+</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">title =</span> <span class="st">"Local Moran's I (LISA) for Drug Abuse in Thailand Provinces"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a thematic map to visualize Local Moran's I</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(combined_province_data) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"lisa"</span>, <span class="at">palette =</span> <span class="st">"viridis"</span>, <span class="at">title =</span> <span class="st">"Local Moran's I (LISA)"</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">title =</span> <span class="st">"Local Moran's I (LISA) for Drug Abuse in Thailand Provinces"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Spatial Clustering:</strong></p>
+<ul>
+<li><p><strong>Northern Thailand:</strong> Exhibits several hotspots (darker shades) and coldspots (lighter shades) indicating significant clustering or dispersion of drug abuse cases.</p></li>
+<li><p><strong>Southern Thailand:</strong> Shows similar patterns, with both hotspots and coldspots present.</p></li>
+<li><p><strong>Central Thailand:</strong> Appears to have a more scattered distribution, with fewer pronounced clusters.</p></li>
+</ul></li>
+<li><p><strong>Hotspots and Coldspots:</strong></p>
+<ul>
+<li><p><strong>Hotspots:</strong> Provinces with darker shades likely represent regions with higher drug abuse rates and a tendency to cluster with other regions of high drug abuse.</p></li>
+<li><p><strong>Coldspots:</strong> Provinces with lighter shades likely represent regions with lower drug abuse rates and a tendency to cluster with other regions of low drug abuse.</p></li>
+</ul></li>
+</ol>
+<p><strong>Potential Explanations and Further Analysis:</strong></p>
+<ul>
+<li><p><strong>Geographical Factors:</strong> Proximity to borders with neighboring countries, such as Myanmar and Laos, could influence drug trafficking routes and contribute to clustering in those regions.</p></li>
+<li><p><strong>Socioeconomic Conditions:</strong> Poverty, unemployment, and lack of educational opportunities might be correlated with higher drug abuse rates and clustering.</p></li>
+<li><p><strong>Governance and Law Enforcement:</strong> The effectiveness of law enforcement agencies and anti-drug initiatives could vary across different regions, impacting the spatial distribution of drug abuse.</p></li>
+<li><p><strong>Drug Production and Trafficking:</strong> Understanding the specific types of drugs involved and their production/trafficking routes could provide valuable insights into the spatial patterns.</p></li>
+</ul>
+</section>
+</section>
+<section id="computing-local-morans-i" class="level1">
+<h1>Computing Local Moran’s I</h1>
+<p>Learn how to compute Local Moran’s I of GDPPC at county level by using local_moran() of sfdep package</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_thai_g <span class="sc">%&gt;%</span> </span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    total_offenses,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_thai_g <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    total_offenses,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="visualising-local-morans-i" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-local-morans-i">Visualising local Moran’s I</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'plot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'plot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>tmap mode set to plotting</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">8</span>))<span class="sc">+</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">2</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'p_ii'</span>,</span>
-<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.001</span>,<span class="fl">0.01</span>,<span class="fl">0.05</span>,<span class="dv">1</span>),</span>
-<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0.001"</span>,<span class="st">"0.01"</span>,<span class="st">"0.05"</span>,<span class="st">"Not Sig"</span>))<span class="sc">+</span></span>
-<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"p=value of local Moran's I "</span>,</span>
-<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="fl">0.8</span></span>
-<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map1,map2,<span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">8</span>))<span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">2</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'p_ii'</span>,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.001</span>,<span class="fl">0.01</span>,<span class="fl">0.05</span>,<span class="dv">1</span>),</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0.001"</span>,<span class="st">"0.01"</span>,<span class="st">"0.05"</span>,<span class="st">"Not Sig"</span>))<span class="sc">+</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"p=value of local Moran's I "</span>,</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="fl">0.8</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map1,map2,<span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<p><strong>Map 1: Local Moran’s I (Ii)</strong></p>
+<ul>
+<li><p><strong>Spatial Clustering:</strong> The map shows clear spatial clusters of high and low values of Local Moran’s I, indicating significant clustering or dispersion of drug abuse cases.</p></li>
+<li><p><strong>Hotspots:</strong> Provinces with darker shades (4 to 5) likely represent regions with high drug abuse rates and a tendency to cluster with other regions of high drug abuse.</p></li>
+<li><p><strong>Coldspots:</strong> Provinces with lighter shades (1 to 0) likely represent regions with lower drug abuse rates and a tendency to cluster with other regions of low drug abuse.</p></li>
+</ul>
+<p><strong>Map 2: p-value of Local Moran’s I (p_ii)</strong></p>
+<ul>
+<li><p><strong>Statistical Significance:</strong> The map highlights provinces where the Local Moran’s I statistic is statistically significant at different levels (0.001, 0.01, 0.05).</p></li>
+<li><p><strong>Significant Clusters:</strong> Provinces with p-values less than 0.05 indicate significant clustering or dispersion, suggesting that the observed patterns are unlikely to occur by chance.</p></li>
+</ul>
+<p><strong>Combined Analysis:</strong></p>
+<ul>
+<li><p>By comparing the two maps, we can identify provinces that are not only clustered but also have statistically significant clustering.</p></li>
+<li><p>These provinces may be considered strong hotspots or coldspots for drug abuse.</p></li>
+</ul>
+</section>
+</section>
+<section id="visualisng-lisa-map" class="level1">
+<h1>Visualisng LISA map</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa <span class="sc">%&gt;%</span> </span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_ii <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_ii <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>tmap mode set to plotting</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()<span class="sc">+</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(lisa_sig)<span class="sc">+</span></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"mean"</span>)<span class="sc">+</span></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa)<span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()<span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(lisa_sig)<span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"mean"</span>)<span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: One tm layer group has duplicated layer types, which are omitted. To
 draw multiple layers of the same type, use multiple layer groups (i.e. specify
@@ -904,13 +985,22 @@ tm_shape prior to each of them).</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Spatial Clustering:</strong> The map clearly illustrates distinct clusters of provinces based on the Local Moran’s I statistic, suggesting significant spatial autocorrelation in the distribution of drug abuse.</p></li>
+<li><p><strong>High-High Clusters:</strong> Provinces in the northern and southern regions appear to form high-high clusters, indicating that these areas have high drug abuse rates and are surrounded by other regions with high drug abuse.</p></li>
+<li><p><strong>Low-Low Clusters:</strong> Some provinces in the central and southern regions seem to form low-low clusters, suggesting that these areas have low drug abuse rates and are surrounded by other regions with low drug abuse.</p></li>
+<li><p><strong>Mixed Clusters:</strong> There are also provinces that exhibit mixed patterns, such as low-high or high-low clusters, indicating more complex spatial relationships.</p></li>
+</ol>
+<section id="global-measures-of-spatial-autocorrelation-gearys-c" class="level2">
+<h2 class="anchored" data-anchor-id="global-measures-of-spatial-autocorrelation-gearys-c"><strong>Global Measures of Spatial Autocorrelation: Geary’s C</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geary.test</span>(combined_province_data<span class="sc">$</span>total_offenses, <span class="at">listw=</span>weights_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geary.test</span>(combined_province_data<span class="sc">$</span>total_offenses, <span class="at">listw=</span>weights_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Geary C test under randomisation
@@ -925,12 +1015,26 @@ Geary C statistic       Expectation          Variance
        0.87943531        1.00000000        0.00100129 </code></pre>
 </div>
 </div>
+<p><strong>Output Interpretation:</strong></p>
+<ul>
+<li><p><strong>Geary C statistic:</strong> 0.87943531 - This value suggests a moderate positive spatial autocorrelation. It means that provinces with higher rates of total offenses tend to be located near other provinces with higher rates.</p></li>
+<li><p><strong>Standard deviate:</strong> 3.8101 - This is the standard deviation of the Geary’s C statistic under random permutations. It provides a measure of variability around the expected value of 1 under no autocorrelation.</p></li>
+<li><p><strong>p-value:</strong> 6.945e-05 - This small p-value indicates that the observed Geary’s C statistic is unlikely to occur by chance if there were no spatial autocorrelation. It provides evidence for the existence of spatial clustering in the data.</p></li>
+<li><p><strong>Alternative hypothesis:</strong> Expectation greater than statistic - This indicates that the alternative hypothesis is that the expected value of Geary’s C is greater than the observed statistic, suggesting positive spatial autocorrelation.</p></li>
+<li><p><strong>Sample estimates:</strong></p>
+<ul>
+<li><p><strong>Expectation:</strong> 1.00000000 - This is the expected value of Geary’s C under random permutations.</p></li>
+<li><p><strong>Variance:</strong> 0.00100129 - This is the variance of Geary’s C under random permutations.</p></li>
+</ul></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The analysis suggests that there is a moderate positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding may be indicative of underlying spatial processes or factors that influence the distribution of total offenses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>bperm_GC<span class="ot">=</span><span class="fu">geary.mc</span>(combined_province_data<span class="sc">$</span>total_offenses, </span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">listw=</span>weights_list, </span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">nsim=</span><span class="dv">999</span>)</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>bperm_GC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>bperm_GC<span class="ot">=</span><span class="fu">geary.mc</span>(combined_province_data<span class="sc">$</span>total_offenses, </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">listw=</span>weights_list, </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">nsim=</span><span class="dv">999</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>bperm_GC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Monte-Carlo simulation of Geary C
@@ -943,25 +1047,55 @@ statistic = 0.87944, observed rank = 1, p-value = 0.001
 alternative hypothesis: greater</code></pre>
 </div>
 </div>
+<p><code>set.seed(1234)</code>: This sets the random seed to ensure reproducibility of the results.</p>
+<p><strong>Output Interpretation:</strong></p>
+<ul>
+<li><p><strong>Monte-Carlo simulation of Geary C:</strong> This indicates that a Monte Carlo permutation test was conducted to assess the statistical significance of the Geary’s C statistic.</p></li>
+<li><p><strong>data: combined_province_data$total_offenses</strong>: This indicates that the variable of interest is <code>total_offenses</code>.</p></li>
+<li><p><strong>weights: weights_list</strong>: This indicates that the spatial weights matrix used is <code>weights_list</code>.</p></li>
+<li><p><strong>number of simulations + 1: 1000</strong>: This indicates that the total number of simulations performed was 1000 (including the observed data).</p></li>
+<li><p><strong>statistic = 0.87944</strong>: This is the observed Geary’s C statistic.</p></li>
+<li><p><strong>observed rank = 1</strong>: This indicates that the observed Geary’s C statistic is the largest (or smallest, depending on the alternative hypothesis) out of all 1000 simulated values.</p></li>
+<li><p><strong>p-value = 0.001</strong>: This small p-value indicates that the observed Geary’s C statistic is highly unlikely to occur by chance if there were no spatial autocorrelation. It provides strong evidence for the existence of spatial clustering in the data.</p></li>
+<li><p><strong>alternative hypothesis: greater</strong>: This specifies that the alternative hypothesis is that the expected value of Geary’s C is greater than the observed statistic, suggesting positive spatial autocorrelation.</p></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The analysis suggests that there is a strong positive spatial autocorrelation in the distribution of total offenses across the provinces in the dataset. This means that provinces with higher rates of total offenses tend to be clustered together geographically. This finding is statistically significant, as evidenced by the small p-value from the Monte Carlo permutation test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bperm_GC<span class="sc">$</span>res, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">breaks=</span><span class="dv">20</span>, <span class="at">xlab=</span><span class="st">"Simulated Geary c"</span>)</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bperm_GC<span class="sc">$</span>res, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">breaks=</span><span class="dv">20</span>, <span class="at">xlab=</span><span class="st">"Simulated Geary c"</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Distribution:</strong> The histogram shows a roughly bell-shaped distribution, suggesting that the simulated Geary’s C values are approximately normally distributed.</p></li>
+<li><p><strong>Central Tendency:</strong> The distribution appears to be centered around a value slightly greater than 1.0, indicating that the majority of simulated values are close to 1.0.</p></li>
+<li><p><strong>Spread:</strong> The distribution is relatively narrow, suggesting that the simulated values are not highly dispersed.</p></li>
+<li><p><strong>Observed Statistic:</strong> The red vertical line represents the observed Geary’s C statistic. It is located towards the right tail of the distribution, indicating that the observed value is relatively high compared to the simulated values.</p></li>
+</ol>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><p><strong>Normality:</strong> The approximately normal distribution of the simulated Geary’s C values suggests that the Monte Carlo permutation test is valid and that the p-value calculated from the test is reliable.</p></li>
+<li><p><strong>Central Tendency:</strong> The fact that the majority of simulated values are close to 1.0 indicates that under random permutations, Geary’s C tends to be close to 1.0, which is the expected value under no spatial autocorrelation.</p></li>
+<li><p><strong>Spread:</strong> The relatively narrow distribution suggests that the simulated values are not highly dispersed, which is expected given the nature of the Monte Carlo permutation test.</p></li>
+<li><p><strong>Observed Statistic:</strong> The location of the observed Geary’s C statistic in the right tail of the distribution indicates that it is significantly different from the simulated values. This suggests that the observed spatial autocorrelation is unlikely to occur by chance.</p></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The histogram provides visual evidence for the statistical significance of the observed Geary’s C statistic. The distribution of simulated values is approximately normal, centered around 1.0, and relatively narrow. The observed Geary’s C statistic is located in the right tail of the distribution, indicating that it is significantly different from the simulated values, supporting the conclusion of positive spatial autocorrelation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>bperm<span class="ot">=</span> <span class="fu">moran.mc</span>(combined_province_data<span class="sc">$</span>total_offenses, </span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">listw=</span>weights_list, </span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">nsim=</span><span class="dv">999</span>, </span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">zero.policy =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">na.action=</span>na.omit)</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>bperm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>bperm<span class="ot">=</span> <span class="fu">moran.mc</span>(combined_province_data<span class="sc">$</span>total_offenses, </span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">listw=</span>weights_list, </span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">nsim=</span><span class="dv">999</span>, </span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">zero.policy =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">na.action=</span>na.omit)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>bperm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Monte-Carlo simulation of Moran I
@@ -974,56 +1108,113 @@ statistic = 0.19036, observed rank = 1000, p-value = 0.001
 alternative hypothesis: greater</code></pre>
 </div>
 </div>
+<p>Similiarly, function <code>moran.mc</code> performs a Monte Carlo permutation test to assess the statistical significance of the observed Moran’s I statistic.</p>
+<p><strong>Output Interpretation:</strong></p>
+<ul>
+<li><p><strong>Monte-Carlo simulation of Moran I:</strong> This indicates that a Monte Carlo permutation test was conducted to assess the statistical significance of the Moran’s I statistic.</p></li>
+<li><p><strong>data: combined_province_data$total_offenses</strong>: This indicates that the variable of interest is <code>total_offenses</code>.</p></li>
+<li><p><strong>weights: weights_list</strong>: This indicates that the spatial weights matrix used is <code>weights_list</code>.</p></li>
+<li><p><strong>number of simulations + 1: 1000</strong>: This indicates that the total number of simulations performed was 1000 (including the observed data).</p></li>
+<li><p><strong>statistic = 0.19036</strong>: This is the observed Moran’s I statistic.</p></li>
+<li><p><strong>observed rank 1000</strong>: This indicates that the observed Moran’s I statistic is the largest (or smallest, depending on the alternative hypothesis) out of all 1000 simulated values.</p></li>
+<li><p><strong>p-value = 0.001</strong>: This small p-value indicates that the observed Moran’s I statistic is highly unlikely to occur by chance if there were no spatial autocorrelation. It provides strong evidence for the existence of spatial clustering in the data.</p></li>
+<li><p><strong>alternative hypothesis: greater</strong>: This specifies that the alternative hypothesis is that the expected value of Moran’s I is greater than the observed statistic, suggesting positive spatial autocorrelation.</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(bperm<span class="sc">$</span>res[<span class="dv">1</span><span class="sc">:</span><span class="dv">999</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(bperm<span class="sc">$</span>res[<span class="dv">1</span><span class="sc">:</span><span class="dv">999</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.002503914</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bperm<span class="sc">$</span>res, </span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">freq=</span><span class="cn">TRUE</span>, </span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks=</span><span class="dv">20</span>, </span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Simulated Moran's I"</span>)</span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, </span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bperm<span class="sc">$</span>res, </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">freq=</span><span class="cn">TRUE</span>, </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks=</span><span class="dv">20</span>, </span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Simulated Moran's I"</span>)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Distribution:</strong> The histogram shows a right-skewed distribution, meaning that there is a longer tail to the right. This indicates that the simulated Moran’s I values are more likely to be higher than the mean.</p></li>
+<li><p><strong>Central Tendency:</strong> The distribution appears to be centered around a value slightly greater than 0, suggesting that the majority of simulated values are close to 0.</p></li>
+<li><p><strong>Spread:</strong> The distribution is relatively wide, indicating that the simulated values are dispersed over a wider range.</p></li>
+<li><p><strong>Observed Statistic:</strong> The red vertical line represents the observed Moran’s I statistic. It is located towards the right tail of the distribution, indicating that the observed value is relatively high compared to the simulated values.</p></li>
+</ol>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><p><strong>Skewness:</strong> The right-skewed distribution suggests that there are some simulated values that are significantly higher than the majority of the others. This could be due to the presence of strong spatial clusters or other factors influencing the distribution of Moran’s I.</p></li>
+<li><p><strong>Central Tendency:</strong> The fact that the majority of simulated values are close to 0 indicates that under random permutations, Moran’s I tends to be close to 0, which is the expected value under no spatial autocorrelation.</p></li>
+<li><p><strong>Spread:</strong> The relatively wide distribution suggests that the simulated values are not highly dispersed, which is expected given the nature of the Monte Carlo permutation test.</p></li>
+<li><p><strong>Observed Statistic:</strong> The location of the observed Moran’s I statistic in the right tail of the distribution indicates that it is significantly different from the simulated values. This suggests that the observed spatial autocorrelation is unlikely to occur by chance.</p></li>
+</ul>
+<p><strong>Conclusion:</strong></p>
+<p>The histogram provides visual evidence for the statistical significance of the observed Moran’s I statistic. The right-skewed distribution of simulated values suggests that the observed value is relatively high compared to the majority of the simulated values, supporting the conclusion of positive spatial autocorrelation.</p>
+<section id="mapping-the-local-morans-i" class="level4">
+<h4 class="anchored" data-anchor-id="mapping-the-local-morans-i">Mapping the local Moran’s I</h4>
+<p>Before mapping the local Moran’s I map, it is wise to append the local Moran’s I dataframe (i.e.&nbsp;localMI) onto hunan SpatialPolygonDataFrame. The code chunks below can be used to perform the task. The out SpatialPolygonDataFrame is called <em>hunan.localMI</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>province.localMI <span class="ot">&lt;-</span> <span class="fu">cbind</span>(combined_province_data,local_moran) <span class="sc">%&gt;%</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Pr.Ii =</span> Pr.z....E.Ii..)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>province.localMI <span class="ot">&lt;-</span> <span class="fu">cbind</span>(combined_province_data,local_moran) <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Pr.Ii =</span> Pr.z....E.Ii..)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Using choropleth mapping functions of <strong>tmap</strong> package, we can plot the local Moran’s I values by using the code chunks below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(province.localMI) <span class="sc">+</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"Ii"</span>, </span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">style =</span> <span class="st">"pretty"</span>,</span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="st">"RdBu"</span>,</span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"local moran statistics"</span>) <span class="sc">+</span></span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(province.localMI) <span class="sc">+</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"Ii"</span>, </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">style =</span> <span class="st">"pretty"</span>,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="st">"RdBu"</span>,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"local moran statistics"</span>) <span class="sc">+</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Variable(s) "Ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Spatial Clustering:</strong> The map clearly illustrates distinct clusters of provinces based on the Local Moran’s I statistic, suggesting significant spatial autocorrelation in the underlying variable (likely drug offenses, based on the previous context).</p></li>
+<li><p><strong>Hotspots and Coldspots:</strong></p>
+<ul>
+<li><p><strong>Hotspots:</strong> Provinces in the northern and southern regions appear to form hotspots (darker shades), indicating that these areas have high values of the variable and are surrounded by other regions with high values.</p></li>
+<li><p><strong>Coldspots:</strong> Some provinces in the central and southern regions seem to form coldspots (lighter shades), suggesting that these areas have low values of the variable and are surrounded by other regions with low values.</p></li>
+</ul></li>
+<li><p><strong>Mixed Clusters:</strong> There are also provinces that exhibit mixed patterns, such as low-high or high-low clusters, indicating more complex spatial relationships.</p></li>
+</ol>
+<p><strong>Potential Explanations and Further Analysis:</strong></p>
+<p>Given the previous context of drug offenses in Thailand, the following explanations can be considered:</p>
+<ul>
+<li><p><strong>Geographical Factors:</strong> Proximity to borders with neighboring countries, such as Myanmar and Laos, could influence drug trafficking routes and contribute to clustering in those regions.</p></li>
+<li><p><strong>Socioeconomic Conditions:</strong> Poverty, unemployment, and lack of educational opportunities might be correlated with higher rates of drug offenses and clustering.</p></li>
+<li><p><strong>Governance and Law Enforcement:</strong> The effectiveness of law enforcement agencies and anti-drug initiatives could vary across different regions, impacting the spatial distribution of drug offenses.</p></li>
+<li><p><strong>Drug Production and Trafficking:</strong> Understanding the specific types of drugs involved and their production/trafficking routes could provide valuable insights into the spatial patterns.</p></li>
+</ul>
+<p>Overall, the map provides a valuable visual representation of the spatial distribution of drug offenses in Thailand and the statistical significance of the observed clusters. By carefully examining the hotspots and coldspots, researchers and policymakers can gain insights into the underlying factors driving these patterns and inform targeted interventions to address the drug problem.</p>
+</section>
+</section>
+</section>
+<section id="computing-local-gi-statistics" class="level1">
+<h1>Computing local Gi* statistics</h1>
+<p>need to derive a spatial weight matrix before we can compute local Gi* statistics. Code chunk below will be used to derive a spatial weight matrix by using sfdep functions and tidyverse approach</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>wm_thai <span class="ot">&lt;-</span> combined_province_data <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wts =</span> <span class="fu">st_inverse_distance</span>(nb,geometry,</span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">scale=</span><span class="dv">1</span>,</span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha=</span><span class="dv">1</span>),</span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>wm_thai <span class="ot">&lt;-</span> combined_province_data <span class="sc">%&gt;%</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wts =</span> <span class="fu">st_inverse_distance</span>(nb,geometry,</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">scale=</span><span class="dv">1</span>,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha=</span><span class="dv">1</span>),</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>! Polygon provided. Using point on surface.</code></pre>
 </div>
@@ -1035,25 +1226,25 @@ Caused by warning in `st_point_on_surface.sfc()`:
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>HCSA <span class="ot">&lt;-</span> wm_thai <span class="sc">%&gt;%</span> </span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_Gi =</span> <span class="fu">local_gstar_perm</span>(</span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    total_offenses,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unnest</span>(local_Gi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>HCSA <span class="ot">&lt;-</span> wm_thai <span class="sc">%&gt;%</span> </span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_Gi =</span> <span class="fu">local_gstar_perm</span>(</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    total_offenses,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unnest</span>(local_Gi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>HCSA_sig <span class="ot">&lt;-</span> HCSA <span class="sc">%&gt;%</span> </span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_sim<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>HCSA_sig <span class="ot">&lt;-</span> HCSA <span class="sc">%&gt;%</span> </span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_sim<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>tmap mode set to plotting</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA)<span class="sc">+</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()<span class="sc">+</span></span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA_sig)<span class="sc">+</span></span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"gi_star"</span>)<span class="sc">+</span></span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA)<span class="sc">+</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()<span class="sc">+</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA_sig)<span class="sc">+</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"gi_star"</span>)<span class="sc">+</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: One tm layer group has duplicated layer types, which are omitted. To
 draw multiple layers of the same type, use multiple layer groups (i.e. specify
@@ -1065,13 +1256,37 @@ tm_shape prior to each of them).</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="take_home_ex2_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Spatial Clustering:</strong> The map illustrates significant spatial clustering of drug abuse cases, with distinct hotspots and coldspots visible.</p></li>
+<li><p><strong>Hotspots:</strong> Provinces in the northern and southern regions appear to have higher Geary’s I values, indicating stronger spatial autocorrelation and potentially higher levels of drug abuse clustered in these areas.</p></li>
+<li><p><strong>Coldspots:</strong> Some provinces in the central region seem to have lower Geary’s I values, suggesting weaker spatial autocorrelation and potentially lower levels of drug abuse or more dispersed patterns.</p></li>
+</ol>
+<p><strong>Potential Explanations and Further Analysis:</strong></p>
+<ul>
+<li><p><strong>Geographical Factors:</strong> Proximity to borders with neighboring countries, such as Myanmar and Laos, could influence drug trafficking routes and contribute to clustering in those regions.</p></li>
+<li><p><strong>Socioeconomic Conditions:</strong> Poverty, unemployment, and lack of educational opportunities might be correlated with higher drug abuse rates and clustering.</p></li>
+<li><p><strong>Governance and Law Enforcement:</strong> The effectiveness of law enforcement agencies and anti-drug initiatives could vary across different regions, impacting the spatial distribution of drug abuse.</p></li>
+<li><p><strong>Drug Production and Trafficking:</strong> Understanding the specific types of drugs involved and their production/trafficking routes could provide valuable insights into the spatial patterns</p></li>
+</ul>
+<p>Overall, the map provides a valuable visual representation of the spatial distribution of drug abuse in Thailand and the statistical significance of the observed clusters. By carefully examining the hotspots and coldspots, researchers and policymakers can gain insights into the underlying factors driving these patterns and inform targeted interventions to address the drug problem..</p>
+</section>
+<section id="conclusion-and-reflection" class="level1">
+<h1>Conclusion and Reflection</h1>
+<p>The spatial analysis of drug abuse indicators across Thailand reveals significant regional variations in drug offenses, highlighting the impact of Thailand’s geographical proximity to the Golden Triangle, a notorious drug production area. Provinces near this region exhibit higher rates of drug-related offenses, underscoring their role as both consumption areas and transit hubs for drug trafficking. The use of spatial autocorrelation methods, such as global and local Moran’s I, confirmed clusters of high drug offenses in these provinces. This suggests that drug-related activities are not randomly distributed but are spatially concentrated in specific areas.</p>
+<p>The findings further emphasize the vulnerability of certain provinces, particularly those with strong transportation links and infrastructure developments, which facilitate the movement of drugs. The high concentration of drug offenses among youth, especially vocational school students, calls for targeted intervention programs aimed at this demographic.</p>
+<section id="reflection" class="level3">
+<h3 class="anchored" data-anchor-id="reflection">Reflection</h3>
+<p>This assignment underscored the importance of using spatial analysis tools to understand the geographic distribution of social issues like drug abuse. By applying techniques such as spatial autocorrelation, we gained insights into the areas most affected by drug trafficking and consumption in Thailand. The data-driven approach helps inform policy decisions and resource allocation, allowing authorities to focus on high-risk regions and populations.</p>
+<p>The exercise also illustrated the complexity of addressing drug abuse in Thailand, as it is influenced by a combination of geopolitical factors, infrastructural developments, and socio-economic conditions. Future studies could explore the relationship between drug offenses and other socio-economic variables, such as income levels, education, and employment, to further refine prevention strategies. Overall, spatial analysis provided a valuable lens through which to examine drug-related issues and supports the development of more effective, geographically targeted interventions.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
