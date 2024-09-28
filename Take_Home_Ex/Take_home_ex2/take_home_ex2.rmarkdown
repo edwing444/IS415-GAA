@@ -432,15 +432,17 @@ global_moran_perm(wm_thai_g$total_offenses,
 
     -   Since the Moran's I value is positive and the p-value is extremely low, there is significant evidence to conclude that **positive spatial autocorrelation exists** in the drug offense data.
 
-3.   **Moran I statistic:** 0.1903562142 - This indicates that the calculated Global Moran's I statistic is 0.19. This suggests a weak positive spatial autocorrelation, meaning that provinces with higher rates of total offenses tend to be clustered together geographically.
+3.  **Moran I statistic:** 0.1903562142 - This indicates that the calculated Global Moran's I statistic is 0.19. This suggests a weak positive spatial autocorrelation, meaning that provinces with higher rates of total offenses tend to be clustered together geographically.
 
-    -   **Standard deviate:** 16.077 - This is the standard deviation of the Moran's I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.
+```         
+-   **Standard deviate:** 16.077 - This is the standard deviation of the Moran's I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.
 
-    -   **Sample estimates:**
+-   **Sample estimates:**
 
-        -   **Expectation:** -0.0022271715 - This is the expected value of the Moran's I statistic under random permutations.
+    -   **Expectation:** -0.0022271715 - This is the expected value of the Moran's I statistic under random permutations.
 
-        -   **Variance:** 0.0001434901 - This is the variance of the Moran's I statistic under random permutations.
+    -   **Variance:** 0.0001434901 - This is the variance of the Moran's I statistic under random permutations.
+```
 
 ### Conclusion
 
@@ -470,7 +472,7 @@ combined_province_data$lisa <- lisa[, "Ii"]
 ```
 
 
-## Visualisng Local Moran's I (LISA) 
+## Visualisng Local Moran's I (LISA)
 
 
 ```{r}
