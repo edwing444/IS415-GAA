@@ -1,6 +1,6 @@
 ---
 title: "Take Home Exercise 2: Application of Geospatial Analysis Methods to Discover Thailand Drug Abuse at the Province Level"
-author: "edwin"
+author: "edwin tan"
 execute: 
   eval: true
   echo: true
@@ -279,6 +279,7 @@ tm_shape(combined_province_data) +
 # Preparing data for **Global Measures of Spatial Autocorrelation**
 
 ```{r}
+#|eval: false
 # Create neighbors list
 neighbors <- st_contiguity(combined_province_data)
 ```
@@ -292,6 +293,18 @@ I create a **contiguity-based neighbors list** for spatial analysis
 -   The function creates a list of neighboring provinces based on their shared borders.
 
 The result is a list where each province has an associated set of neighboring provinces.\
+
+### Save Derived data
+
+```{r}
+write_rds(neighbors,"data/rds/neighbors.rds")
+```
+
+### Read Derived data
+
+```{r}
+neighbors<-read_rds("data/rds/neighbors.rds")
+```
 
 ```{r}
 length(combined_province_data$total_offenses)  # Check the length of your data
@@ -338,11 +351,24 @@ The analysis suggests that there is a weak positive spatial autocorrelation in t
 # Global measures of Spatial Association
 
 ```{r}
+#|eval: false
 wm_thai_g <- combined_province_data %>% 
   mutate(nb=st_contiguity(geometry),
          wt=st_weights(nb,
                        style="W"),
          .before = 1)
+```
+
+### Save Derived data
+
+```{r}
+write_rds(wm_thai_g,"data/rds/wm_thai_g.rds")
+```
+
+### Read Derived data
+
+```{r}
+wm_thai_g<-read_rds("data/rds/wm_thai_g.rds")
 ```
 
 ## Computing Global Moran'I
@@ -397,15 +423,13 @@ global_moran_perm(wm_thai_g$total_offenses,
 
 3.  **Moran I statistic:** 0.1903562142 - This indicates that the calculated Global Moran's I statistic is 0.19. This suggests a weak positive spatial autocorrelation, meaning that provinces with higher rates of total offenses tend to be clustered together geographically.
 
-```         
--   **Standard deviate:** 16.077 - This is the standard deviation of the Moran's I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.
+4.  **Standard deviate:** 16.077 - This is the standard deviation of the Moran's I statistic under random permutations. It provides a measure of variability around the expected value of 0 under no autocorrelation.
 
--   **Sample estimates:**
+5.  **Sample estimates:**
 
     -   **Expectation:** -0.0022271715 - This is the expected value of the Moran's I statistic under random permutations.
 
     -   **Variance:** 0.0001434901 - This is the variance of the Moran's I statistic under random permutations.
-```
 
 ### Conclusion
 
@@ -758,12 +782,25 @@ Overall, the map provides a valuable visual representation of the spatial distri
 need to derive a spatial weight matrix before we can compute local Gi\* statistics. Code chunk below will be used to derive a spatial weight matrix by using sfdep functions and tidyverse approach
 
 ```{r}
+#|eval: false
 wm_thai <- combined_province_data %>% 
   mutate(nb=st_contiguity(geometry),
          wts = st_inverse_distance(nb,geometry,
                                    scale=1,
                                    alpha=1),
          .before = 1)
+```
+
+### Save Derived data
+
+```{r}
+write_rds(wm_thai,"data/rds/wm_thai.rds")
+```
+
+### Read Derived data
+
+```{r}
+wm_thai<- read_rds("data/rds/wm_thai.rds")
 ```
 
 ```{r}
@@ -816,4 +853,4 @@ The findings further emphasize the vulnerability of certain provinces, particula
 
 This assignment underscored the importance of using spatial analysis tools to understand the geographic distribution of social issues like drug abuse. By applying techniques such as spatial autocorrelation, we gained insights into the areas most affected by drug trafficking and consumption in Thailand. The data-driven approach helps inform policy decisions and resource allocation, allowing authorities to focus on high-risk regions and populations.
 
-The exercise also illustrated the complexity of addressing drug abuse in Thailand, as it is influenced by a combination of geopolitical factors, infrastructural developments, and socio-economic conditions. Future studies could explore the relationship between drug offenses and other socio-economic variables, such as income levels, education, and employment, to further refine prevention strategies. Overall, spatial analysis provided a valuable lens through which to examine drug-related issues and supports the development of more effective, geographically targeted interventionss
+The exercise also illustrated the complexity of addressing drug abuse in Thailand, as it is influenced by a combination of geopolitical factors, infrastructural developments, and socio-economic conditions. Future studies could explore the relationship between drug offenses and other socio-economic variables, such as income levels, education, and employment, to further refine prevention strategies. Overall, spatial analysis provided a valuable lens through which to examine drug-related issues and supports the development of more effective, geo graphically targeted interventionss

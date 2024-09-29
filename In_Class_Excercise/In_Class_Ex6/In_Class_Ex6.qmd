@@ -152,7 +152,7 @@ HCSA <- wm_idw %>%
       unnest(local_Gi)
 ```
 
-## Visualinsing hot spot and cold spot areas
+## Visualizing hot spot and cold spot areas
 
 ```{r}
 HCSA_sig <- HCSA %>% 
