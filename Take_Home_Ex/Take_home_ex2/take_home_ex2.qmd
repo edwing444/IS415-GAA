@@ -2,7 +2,7 @@
 title: "Take Home Exercise 2: Application of Geospatial Analysis Methods to Discover Thailand Drug Abuse at the Province Level"
 author: "edwin tan"
 execute: 
-  eval: true
+  eval: false
   echo: true
   freeze: true
 ---
@@ -435,6 +435,8 @@ global_moran_perm(wm_thai_g$total_offenses,
 
 The test results suggest that drug offenses in Thailand are **spatially clustered** rather than randomly dispersed. There is a moderate level of clustering of similar values (provinces with similar levels of offenses are located near each other), and this result is statistically significant.
 
+# Local Moran's I (LISA) calculation
+
 ```{r}
 # Local Moran's I (LISA) calculation
 local_moran <- localmoran(combined_province_data$total_offenses, listw)
@@ -447,15 +449,13 @@ head(local_moran)
 
 -   **Z.Ii and Pr(z != E(Ii))**: High Z-scores and low p-values suggest statistically significant clustering or dispersion.
 
-# Local Moran's I (LISA) calculation
+## Visualisng Local Moran's I (LISA)
 
 ```{r}
 # Local Moran's I (LISA) calculation
 lisa <- localmoran(combined_province_data$total_offenses, listw = weights_list)
 combined_province_data$lisa <- lisa[, "Ii"] 
 ```
-
-## Visualisng Local Moran's I (LISA)
 
 ```{r}
 # Set tmap mode to interactive or static

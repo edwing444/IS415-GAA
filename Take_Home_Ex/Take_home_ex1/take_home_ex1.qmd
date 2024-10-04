@@ -2,7 +2,7 @@
 title: "Take Home Exercise 1: Geospatial Analytics for Social Good: Application of Spatial and Spatio-temporal Point Patterns Analysis to discover the geographical distribution of Armed Conflict in Myanmar"
 author: "edwin tan"
 execute: 
-  eval: true
+  eval: false
   echo: true
   freeze: true
 ---
