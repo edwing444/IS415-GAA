@@ -2,7 +2,7 @@
 title: "Take Home Exercise 2: Application of Geospatial Analysis Methods to Discover Thailand Drug Abuse at the Province Level"
 author: "edwin tan"
 execute: 
-  eval: false
+  eval: true
   echo: true
   freeze: true
 ---
