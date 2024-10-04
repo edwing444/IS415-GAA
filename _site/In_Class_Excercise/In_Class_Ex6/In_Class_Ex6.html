@@ -160,6 +160,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex6b.html">
  <span class="dropdown-text">Hands-on Exercise 6b</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex6b.html">
+ <span class="dropdown-text">Hands-on Exercise 8</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -201,6 +205,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../../Take_Home_Ex/Take_home_ex1/take_home_ex1.html">
  <span class="dropdown-text">Take-Home Exercise 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take_Home_Ex/Take_home_ex2/take_home_ex2.html">
+ <span class="dropdown-text">Take-Home Exercise 2</span></a>
   </li>  
     </ul>
   </li>
@@ -244,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#visualisng-lisa-map" id="toc-visualisng-lisa-map" class="nav-link" data-scroll-target="#visualisng-lisa-map">Visualisng LISA map</a></li>
   <li><a href="#computing-local-gi-statistics" id="toc-computing-local-gi-statistics" class="nav-link" data-scroll-target="#computing-local-gi-statistics">Computing local Gi* statistics</a>
   <ul class="collapse">
-  <li><a href="#visualinsing-hot-spot-and-cold-spot-areas" id="toc-visualinsing-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualinsing-hot-spot-and-cold-spot-areas">Visualinsing hot spot and cold spot areas</a></li>
+  <li><a href="#visualizing-hot-spot-and-cold-spot-areas" id="toc-visualizing-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualizing-hot-spot-and-cold-spot-areas">Visualizing hot spot and cold spot areas</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -508,8 +516,8 @@ Caused by warning in `st_point_on_surface.sfc()`:
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unnest</span>(local_Gi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualinsing-hot-spot-and-cold-spot-areas" class="level2">
-<h2 class="anchored" data-anchor-id="visualinsing-hot-spot-and-cold-spot-areas">Visualinsing hot spot and cold spot areas</h2>
+<section id="visualizing-hot-spot-and-cold-spot-areas" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-hot-spot-and-cold-spot-areas">Visualizing hot spot and cold spot areas</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>HCSA_sig <span class="ot">&lt;-</span> HCSA <span class="sc">%&gt;%</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_sim<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
