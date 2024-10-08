@@ -79,4 +79,14 @@ Our analysis will use a data-driven approach, combining socio-economic data from
 
     -   **Expected Findings**: Identification of the key tensions between industrial growth and environmental sustainability, and potential impacts on Vietnam’s agricultural sectors.
 
-### 5. **Early Prototypes / Storyboards**
+### 5. **Early Prototypes** 
+
+**Prototypes**:
+
+-   **Urbanization vs Rural Migration Maps**: Visualizations showing population migration patterns from rural to urban areas and how they correlate with regional economic performance.
+
+-   **Industrial Growth by Sector**: Interactive charts showing which industries are growing the fastest and their geographical distribution.
+
+-   **Environmental Impact Visualizations**: Graphs and maps showing deforestation, pollution, and water resource stress, particularly in agricultural regions.
+
+![](images/clipboard-1810027560.png)
