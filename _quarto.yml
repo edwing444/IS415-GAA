@@ -46,6 +46,11 @@ website:
           href: Take_Home_Ex/Take_home_ex1/take_home_ex1.html
         - text: Take-Home Exercise 2
           href: Take_Home_Ex/Take_home_ex2/take_home_ex2.html
+    - text: Project
+      menu:
+        - text: Proposal
+          href: project/geospatial project.html
+       
          
     right: 
       - href: index.qmd
