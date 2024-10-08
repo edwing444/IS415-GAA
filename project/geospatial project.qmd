@@ -37,6 +37,8 @@ Prior studies have extensively examined Vietnam’s economic growth, particularl
 
 -   **World Bank’s Urbanization Report on Vietnam**: Discusses the impact of urban migration but lacks a deep analysis of labor market transformations.
 
+    -   <https://documents1.worldbank.org/curated/en/856201604684234125/pdf/Main-Report.pdf>
+
 -   **Vietnam’s National Statistics**: Provides data on industry growth and employment, but more detailed socio-economic outcomes related to industrialization are underexplored.
 
 -   **Environmental Studies**: Focus on pollution and deforestation but often separate these from the broader industrial and urban development narrative.
