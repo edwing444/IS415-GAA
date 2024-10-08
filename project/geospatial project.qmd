@@ -87,8 +87,30 @@ Our analysis will use a data-driven approach, combining socio-economic data from
 
 -   **Urbanization vs Rural Migration Maps**: Visualizations showing population migration patterns from rural to urban areas and how they correlate with regional economic performance.
 
--   **Industrial Growth by Sector**: Interactive charts showing which industries are growing the fastest and their geographical distribution.
+-   **Industrial Growth by Sector**: Charts showing which industries are growing the fastest and their geographical distribution.
 
 -   **Environmental Impact Visualizations**: Graphs and maps showing deforestation, pollution, and water resource stress, particularly in agricultural regions.
+
+-   **Urban vs Rural Development:** Contrasting economic conditions and challenges in urban and rural areas.
+
+```{=html}
+<!-- -->
+```
+-   **Labor Markets:** Analysis of labor markets, including industrial standards and social markets.
+
+```{=html}
+<!-- -->
+```
+-   **Spatial Analysis:** Examining the spatial distribution of economic activities and their impact.
+
+```{=html}
+<!-- -->
+```
+-   **Environmental Factors:** Assessing the influence of environmental factors on economic development.
+
+```{=html}
+<!-- -->
+```
+-   **Living Standards:** Evaluating the quality of life and living standards in different regions.
 
 ![](images/clipboard-1810027560.png)
