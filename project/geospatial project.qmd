@@ -1,5 +1,5 @@
 ---
-title: "Project Proposal"
+title: "Project Proposal:Industrialization, Urbanization, and Their Socio-Economic Impacts in Vietnam"
 author: "Edwin, Kai Feng"
 ---
 
@@ -81,7 +81,7 @@ Our analysis will use a data-driven approach, combining socio-economic data from
 
     -   **Expected Findings**: Identification of the key tensions between industrial growth and environmental sustainability, and potential impacts on Vietnam’s agricultural sectors.
 
-### 5. **Early Prototypes** 
+### 5. **Early Prototypes**
 
 **Prototypes**:
 
@@ -93,24 +93,20 @@ Our analysis will use a data-driven approach, combining socio-economic data from
 
 -   **Urban vs Rural Development:** Contrasting economic conditions and challenges in urban and rural areas.
 
-```{=html}
 <!-- -->
-```
+
 -   **Labor Markets:** Analysis of labor markets, including industrial standards and social markets.
 
-```{=html}
 <!-- -->
-```
+
 -   **Spatial Analysis:** Examining the spatial distribution of economic activities and their impact.
 
-```{=html}
 <!-- -->
-```
+
 -   **Environmental Factors:** Assessing the influence of environmental factors on economic development.
 
-```{=html}
 <!-- -->
-```
+
 -   **Living Standards:** Evaluating the quality of life and living standards in different regions.
 
 ![](images/clipboard-1810027560.png)
