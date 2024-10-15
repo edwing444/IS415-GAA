@@ -101,12 +101,4 @@ Our analysis will use a data-driven approach, combining socio-economic data from
 
 -   **Spatial Analysis:** Examining the spatial distribution of economic activities and their impact.
 
-<!-- -->
-
--   **Environmental Factors:** Assessing the influence of environmental factors on economic development.
-
-<!-- -->
-
--   **Living Standards:** Evaluating the quality of life and living standards in different regions.
-
 ![](images/clipboard-1810027560.png)
