@@ -161,8 +161,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Hands-on Exercise 6b</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex6b.html">
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex7/hands_on_ex7.html">
+ <span class="dropdown-text">Hands-on Exercise 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex8.html">
  <span class="dropdown-text">Hands-on Exercise 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex9.html">
+ <span class="dropdown-text">Hands-on Exercise 9</span></a>
   </li>  
     </ul>
   </li>
@@ -212,6 +220,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-project" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Project</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-project">    
+        <li>
+    <a class="dropdown-item" href="../../project/geospatial project.html">
+ <span class="dropdown-text">Proposal</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -234,7 +253,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-outcome" id="toc-learning-outcome" class="nav-link active" data-scroll-target="#learning-outcome"><strong>1.1 Learning Outcome</strong></a></li>
+  <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition"><strong>1.2 Data Acquisition</strong></a>
+  <ul class="collapse">
+  <li><a href="#extracting-the-geospatial-data-sets" id="toc-extracting-the-geospatial-data-sets" class="nav-link" data-scroll-target="#extracting-the-geospatial-data-sets"><strong>1.2.1 Extracting the geospatial data sets</strong></a></li>
+  <li><a href="#extracting-the-aspatial-data-set" id="toc-extracting-the-aspatial-data-set" class="nav-link" data-scroll-target="#extracting-the-aspatial-data-set"><strong>1.2.2 Extracting the aspatial data set</strong></a></li>
+  </ul></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><strong>1.3 Getting Started</strong></a></li>
+  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data"><strong>1.4 Importing Geospatial Data</strong></a>
+  <ul class="collapse">
+  <li><a href="#importing-polygon-feature-data-in-shapefile-format" id="toc-importing-polygon-feature-data-in-shapefile-format" class="nav-link" data-scroll-target="#importing-polygon-feature-data-in-shapefile-format"><strong>1.4.1 Importing polygon feature data in shapefile format</strong></a></li>
+  <li><a href="#importing-polyline-feature-data-in-shapefile-form" id="toc-importing-polyline-feature-data-in-shapefile-form" class="nav-link" data-scroll-target="#importing-polyline-feature-data-in-shapefile-form"><strong>1.4.2 Importing polyline feature data in shapefile form</strong></a></li>
+  <li><a href="#importing-gis-data-in-kml-format" id="toc-importing-gis-data-in-kml-format" class="nav-link" data-scroll-target="#importing-gis-data-in-kml-format"><strong>1.4.3 Importing GIS data in kml format</strong></a></li>
+  </ul></li>
+  <li><a href="#checking-the-content-of-a-simple-feature-data-frame" id="toc-checking-the-content-of-a-simple-feature-data-frame" class="nav-link" data-scroll-target="#checking-the-content-of-a-simple-feature-data-frame"><strong>1.5 Checking the Content of A Simple Feature Data Frame</strong></a>
+  <ul class="collapse">
+  <li><a href="#working-with-st_geometry" id="toc-working-with-st_geometry" class="nav-link" data-scroll-target="#working-with-st_geometry"><strong>1.5.1 Working with <em>st_geometry()</em></strong></a></li>
+  <li><a href="#working-with-glimpse" id="toc-working-with-glimpse" class="nav-link" data-scroll-target="#working-with-glimpse"><strong>1.5.2 Working with glimpse()</strong></a></li>
+  <li><a href="#working-with-head" id="toc-working-with-head" class="nav-link" data-scroll-target="#working-with-head"><strong>1.5.3 Working with <em>head()</em></strong></a></li>
+  </ul></li>
+  <li><a href="#plotting-the-geospatial-data" id="toc-plotting-the-geospatial-data" class="nav-link" data-scroll-target="#plotting-the-geospatial-data"><strong>1.6 Plotting the Geospatial Data</strong></a></li>
+  <li><a href="#working-with-projection" id="toc-working-with-projection" class="nav-link" data-scroll-target="#working-with-projection"><strong>1.7 Working with Projection</strong></a>
+  <ul class="collapse">
+  <li><a href="#assigning-epsg-code-to-a-simple-feature-data-frame" id="toc-assigning-epsg-code-to-a-simple-feature-data-frame" class="nav-link" data-scroll-target="#assigning-epsg-code-to-a-simple-feature-data-frame"><strong>1.7.1 Assigning EPSG code to a simple feature data frame</strong></a></li>
+  <li><a href="#transforming-the-projection-of-preschool-from-wgs84-to-svy21." id="toc-transforming-the-projection-of-preschool-from-wgs84-to-svy21." class="nav-link" data-scroll-target="#transforming-the-projection-of-preschool-from-wgs84-to-svy21."><strong>1.7.2 Transforming the projection of preschool from wgs84 to svy21.</strong></a></li>
+  </ul></li>
+  <li><a href="#importing-and-converting-an-aspatial-data" id="toc-importing-and-converting-an-aspatial-data" class="nav-link" data-scroll-target="#importing-and-converting-an-aspatial-data"><strong>1.8 Importing and Converting An Aspatial Data</strong></a>
+  <ul class="collapse">
+  <li><a href="#importing-the-aspatial-data" id="toc-importing-the-aspatial-data" class="nav-link" data-scroll-target="#importing-the-aspatial-data"><strong>1.8.1 Importing the aspatial data</strong></a></li>
+  <li><a href="#creating-a-simple-feature-data-frame-from-an-aspatial-data-frame" id="toc-creating-a-simple-feature-data-frame-from-an-aspatial-data-frame" class="nav-link" data-scroll-target="#creating-a-simple-feature-data-frame-from-an-aspatial-data-frame"><strong>1.8.2 Creating a simple feature data frame from an aspatial data frame</strong></a></li>
+  </ul></li>
+  <li><a href="#geoprocessing-with-sf-package" id="toc-geoprocessing-with-sf-package" class="nav-link" data-scroll-target="#geoprocessing-with-sf-package"><strong>1.9 Geoprocessing with sf package</strong></a>
+  <ul class="collapse">
+  <li><a href="#buffering" id="toc-buffering" class="nav-link" data-scroll-target="#buffering"><strong>1.9.1 Buffering</strong></a></li>
+  <li><a href="#point-in-polygon-count" id="toc-point-in-polygon-count" class="nav-link" data-scroll-target="#point-in-polygon-count"><strong>1.9.2 Point-in-polygon count</strong></a></li>
+  </ul></li>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda"><strong>1.10 Exploratory Data Analysis (EDA)</strong></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -264,41 +324,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="learning-outcome" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcome"><strong>1.1 Learning Outcome</strong></h2>
+<p>Geospatial Data Science is a process of importing, wrangling, integrating, and processing geographically referenced data sets. In this hands-on exercise, you will learn how to perform geospatial data science tasks in R by using <strong>sf</strong> package.</p>
+<p>By the end of this hands-on exercise, you should acquire the following competencies:</p>
+<ul>
+<li><p>installing and loading <a href="https://r-spatial.github.io/sf/">sf</a> and <a href="https://www.tidyverse.org/">tidyverse</a> packages into R environment,</p></li>
+<li><p>importing geospatial data by using appropriate functions of <strong>sf</strong> package,</p></li>
+<li><p>importing aspatial data by using appropriate function of <strong>readr</strong> package,</p></li>
+<li><p>exploring the content of simple feature data frame by using appropriate <strong>Base R</strong> and <strong>sf</strong> functions,</p></li>
+<li><p>assigning or transforming coordinate systems by using using appropriate <em>sf</em> functions,</p></li>
+<li><p>converting an aspatial data into a sf data frame by using appropriate function of <strong>sf</strong> package,</p></li>
+<li><p>performing geoprocessing tasks by using appropriate functions of <strong>sf</strong> package,</p></li>
+<li><p>performing data wrangling tasks by using appropriate functions of <strong>dplyr</strong> package and</p></li>
+<li><p>performing Exploratory Data Analysis (EDA) by using appropriate functions from <strong>ggplot2</strong> package.</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>Note: Students are encouraged to read the reference guide of each function, especially the input data requirements, syntaxt and argument option before using them.</p>
+</blockquote>
+</section>
+<section id="data-acquisition" class="level2">
+<h2 class="anchored" data-anchor-id="data-acquisition"><strong>1.2 Data Acquisition</strong></h2>
+<p>Data are key to data analytics including geospatial analytics. Hence, before analysing, we need to assemble the necessary data. In this hands-on exercise, you are required to extract the necessary data sets from the following sources:</p>
+<ul>
+<li><p>Master Plan 2014 Subzone Boundary (Web) from <a href="https://data.gov.sg/">data.gov.sg</a></p></li>
+<li><p>Pre-Schools Location from <a href="https://data.gov.sg/">data.gov.sg</a></p></li>
+<li><p>Cycling Path from <a href="https://www.mytransport.sg/content/mytransport/home/dataMall.html">LTADataMall</a></p></li>
+<li><p>Latest version of Singapore Airbnb listing data from <a href="http://insideairbnb.com/get-the-data.html">Inside Airbnb</a></p></li>
+</ul>
+<blockquote class="blockquote">
+<p>Note: The purpose of this section is not merely extracting the necessary data sets. It also aims to introduce you to public available data sets. Students are encouraged to explore the rest of the available data sets in these three data sources.</p>
+</blockquote>
+<section id="extracting-the-geospatial-data-sets" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-the-geospatial-data-sets"><strong>1.2.1 Extracting the geospatial data sets</strong></h3>
+<p>Next, at the <code>Hands-on_Ex01</code> folder, create a sub-folder called <code>data</code>. Then, inside the <code>data</code> sub-folder, create two sub-folders and name them <code>geospatial</code> and <code>aspatial</code> respectively.</p>
+<p>Place <code>Master Plan 2014 Subzone Boundary (Web)</code>, <code>Pre-Schools Location</code> and <code>Cycling Path</code> zipped files into <code>geospatial</code> sub-folder and unzipped them. Copy the unzipped files from their respective sub-folders and place them inside <code>geospatial</code> sub-folder.</p>
+</section>
+<section id="extracting-the-aspatial-data-set" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-the-aspatial-data-set"><strong>1.2.2 Extracting the aspatial data set</strong></h3>
+<p>Now, you will extract the downloaded <code>listing</code> data file. At <code>Downloads</code> folder, cut and paste <code>listing.csv</code> into <code>aspatial</code> sub-folder.</p>
+</section>
+</section>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started"><strong>1.3 Getting Started</strong></h2>
+<p>In this hands-on exercise, two R packages will be used. They are:</p>
+<ul>
+<li><p><strong>sf</strong> for importing, managing, and processing geospatial data, and</p></li>
+<li><p><strong>tidyverse</strong> for performing data science tasks such as importing, wrangling and visualising data.</p></li>
+</ul>
+<p>Tidyverse consists of a family of R packages. In this hands-on exercise, the following packages will be used:</p>
+<ul>
+<li><p><strong>readr</strong> for importing csv data,</p></li>
+<li><p><strong>readxl</strong> for importing Excel worksheet,</p></li>
+<li><p><strong>tidyr</strong> for manipulating data,</p></li>
+<li><p><strong>dplyr</strong> for transforming data, and</p></li>
+<li><p><strong>ggplot2</strong> for visualising data</p></li>
+</ul>
+<p>Type the following code chunk.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org/"</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Installing package into 'C:/Users/edwin/AppData/Local/R/win-library/4.4'
-(as 'lib' is unspecified)</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'pacman' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\edwin\AppData\Local\Temp\RtmpY1GO8n\downloaded_packages</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Installing package into 'C:/Users/edwin/AppData/Local/R/win-library/4.4'
-(as 'lib' is unspecified)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'pacman' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\edwin\AppData\Local\Temp\RtmpY1GO8n\downloaded_packages</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'pacman' was built under R version 4.4.1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, tidyverse)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mpsz <span class="ot">=</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"C:/Users/edwin/Documents/Hands_On_Ex/Ex1/data/geospatial"</span>, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">layer =</span> <span class="st">"MP14_SUBZONE_WEB_PL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What we can learn from the code chunk above:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/pacman/pacman.pdf"><code>p_load</code></a> function pf <a href="https://github.com/trinker/pacman"><strong>pacman</strong></a> package is used to install and load sf and tidyverse pacages into R environment.</li>
+</ul>
+</section>
+<section id="importing-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-geospatial-data"><strong>1.4 Importing Geospatial Data</strong></h2>
+<p>In this section, you will learn how to import the following geospatial data into R by using <a href="https://r-spatial.github.io/sf/reference/st_read.html"><em>st_read()</em></a> of <strong>sf</strong> package:</p>
+<ul>
+<li><p><code>MP14_SUBZONE_WEB_PL</code>, a polygon feature layer in ESRI shapefile format,</p></li>
+<li><p><code>CyclingPath</code>, a line feature layer in ESRI shapefile format, and</p></li>
+<li><p><code>PreSchool</code>, a point feature layer in kml file format.</p></li>
+</ul>
+<section id="importing-polygon-feature-data-in-shapefile-format" class="level3">
+<h3 class="anchored" data-anchor-id="importing-polygon-feature-data-in-shapefile-format"><strong>1.4.1 Importing polygon feature data in shapefile format</strong></h3>
+<p>The code chunk below uses <em>st_read()</em> function of <strong>sf</strong> package to import <code>MP14_SUBZONE_WEB_PL</code> shapefile into R as a polygon feature data frame. Note that when the input geospatial data is in shapefile format, two arguments will be used, namely: <code>dsn</code> to define the data path and <code>layer</code> to provide the shapefile name. Also note that no extension such as .shp, .dbf, .prj and .shx are needed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mpsz <span class="ot">=</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">layer =</span> <span class="st">"MP14_SUBZONE_WEB_PL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `MP14_SUBZONE_WEB_PL' from data source 
-  `C:\Users\edwin\Documents\Hands_On_Ex\Ex1\data\geospatial' 
+  `C:\edwing444\IS415-GAA\Hands_On_Ex\Hands_On_Ex1\data\geospatial' 
   using driver `ESRI Shapefile'
 Simple feature collection with 323 features and 15 fields
 Geometry type: MULTIPOLYGON
@@ -306,11 +413,18 @@ Dimension:     XY
 Bounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33
 Projected CRS: SVY21</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cyclingpath <span class="ot">=</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"C:/Users/edwin/Documents/Hands_On_Ex/Ex1/data/geospatial"</span>, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">layer =</span> <span class="st">"CyclingPathGazette"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The message above reveals that the geospatial objects are multipolygon features. There are a total of 323 multipolygon features and 15 fields in <code>mpsz</code> simple feature data frame. <code>mpsz</code> is in <strong>svy21</strong> projected coordinates systems. The bounding box provides the x extend and y extend of the data.</p>
+</section>
+<section id="importing-polyline-feature-data-in-shapefile-form" class="level3">
+<h3 class="anchored" data-anchor-id="importing-polyline-feature-data-in-shapefile-form"><strong>1.4.2 Importing polyline feature data in shapefile form</strong></h3>
+<p>The code chunk below uses <em>st_read()</em> function of <strong>sf</strong> package to import <code>CyclingPath</code> shapefile into R as line feature data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cyclingpath <span class="ot">=</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">layer =</span> <span class="st">"CyclingPathGazette"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `CyclingPathGazette' from data source 
-  `C:\Users\edwin\Documents\Hands_On_Ex\Ex1\data\geospatial' 
+  `C:\edwing444\IS415-GAA\Hands_On_Ex\Hands_On_Ex1\data\geospatial' 
   using driver `ESRI Shapefile'
 Simple feature collection with 3138 features and 2 fields
 Geometry type: MULTILINESTRING
@@ -318,10 +432,17 @@ Dimension:     XY
 Bounding box:  xmin: 11854.32 ymin: 28347.98 xmax: 42644.17 ymax: 48948.15
 Projected CRS: SVY21</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>preschool <span class="ot">=</span> <span class="fu">st_read</span>(<span class="st">"C:/Users/edwin/Documents/Hands_On_Ex/Ex1/data/geospatial/PreSchoolsLocation.kml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The message above reveals that there are a total of 2558 features and 2 fields in <code>cyclingpath</code> linestring feature data frame and it is in <strong>svy21</strong> projected coordinates system too.</p>
+</section>
+<section id="importing-gis-data-in-kml-format" class="level3">
+<h3 class="anchored" data-anchor-id="importing-gis-data-in-kml-format"><strong>1.4.3 Importing GIS data in kml format</strong></h3>
+<p>The <code>PreSchoolsLocation</code> is in kml format. The code chunk below will be used to import the kml into R. Notice that in the code chunk below, the complete path and the kml file extension were provided.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>preschool <span class="ot">=</span> <span class="fu">st_read</span>(<span class="st">"data/geospatial/PreSchoolsLocation.kml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `PRESCHOOLS_LOCATION' from data source 
-  `C:\Users\edwin\Documents\Hands_On_Ex\Ex1\data\geospatial\PreSchoolsLocation.kml' 
+  `C:\edwing444\IS415-GAA\Hands_On_Ex\Hands_On_Ex1\data\geospatial\PreSchoolsLocation.kml' 
   using driver `KML'
 Simple feature collection with 2290 features and 2 fields
 Geometry type: POINT
@@ -330,7 +451,18 @@ Bounding box:  xmin: 103.6878 ymin: 1.247759 xmax: 103.9897 ymax: 1.462134
 z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The message above reveals that <code>preschool</code> is a point feature data frame. There are a total of 2290 features and 2 fields. Different from the previous two simple feature data frame, preschool is in <strong>wgs84</strong> coordinates system.</p>
+</section>
+</section>
+<section id="checking-the-content-of-a-simple-feature-data-frame" class="level2">
+<h2 class="anchored" data-anchor-id="checking-the-content-of-a-simple-feature-data-frame"><strong>1.5 Checking the Content of A Simple Feature Data Frame</strong></h2>
+<p>In this sub-section, you will learn different ways to retrieve information related to the content of a simple feature data frame.</p>
+<section id="working-with-st_geometry" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-st_geometry"><strong>1.5.1 Working with <em>st_geometry()</em></strong></h3>
+<p>The column in the sf data.frame that contains the geometries is a list, of class <code>sfc</code>. We can retrieve the geometry list-column in this case by mpsz$geom or mpsz[[1]], but the more general way uses <em>st_geometry()</em> as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 323 features 
 Geometry type: MULTIPOLYGON
@@ -354,7 +486,14 @@ First 5 geometries:</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>MULTIPOLYGON (((26451.03 30396.46, 26440.47 303...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that the print only displays basic information of the feature class such as type of geometry, the geographic extent of the features and the coordinate system of the data.</p>
+</section>
+<section id="working-with-glimpse" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-glimpse"><strong>1.5.2 Working with glimpse()</strong></h3>
+<p>Beside the basic feature information, we also would like to learn more about the associated attribute information in the data frame. This is the time you will find <em>glimpse()</em> of <strong>dplyr</strong>. very handy as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 323
 Columns: 16
@@ -375,7 +514,14 @@ $ SHAPE_Leng &lt;dbl&gt; 5267.381, 3506.107, 1740.926, 3313.625, 2825.594, 4428.
 $ SHAPE_Area &lt;dbl&gt; 1630379.27, 559816.25, 160807.50, 595428.89, 387429.44, 103…
 $ geometry   &lt;MULTIPOLYGON [m]&gt; MULTIPOLYGON (((31495.56 30..., MULTIPOLYGON (…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mpsz, <span class="at">n=</span><span class="dv">5</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>glimpse()</em> report reveals the data type of each fields. For example <code>FMEL-UPD_D</code> field is in <strong>date</strong> data type and <code>X_ADDR</code>, <code>Y_ADDR</code>, <code>SHAPE_L</code> and <code>SHAPE_AREA</code> fields are all in <strong>double-precision values</strong>.</p>
+</section>
+<section id="working-with-head" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-head"><strong>1.5.3 Working with <em>head()</em></strong></h3>
+<p>Sometimes we would like to reveal complete information of a feature object, this is the job of <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/head"><em>head()</em></a> of Base R</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mpsz, <span class="at">n=</span><span class="dv">5</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 5 features and 15 fields
 Geometry type: MULTIPOLYGON
@@ -401,7 +547,17 @@ Projected CRS: SVY21
 4 29933.77   3313.625   595428.9 MULTIPOLYGON (((27131.28 30...
 5 30005.70   2825.594   387429.4 MULTIPOLYGON (((26451.03 30...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>Note: One of the useful argument of <em>head()</em> is it allows user to select the numbers of record to display (i.e.&nbsp;the n argument).</p>
+</blockquote>
+</section>
+</section>
+<section id="plotting-the-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-the-geospatial-data"><strong>1.6 Plotting the Geospatial Data</strong></h2>
+<p>In geospatial data science, by looking at the feature information is not enough. We are also interested to visualise the geospatial features. This is the time you will find <em>plot()</em> of R Graphic comes in very handy as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: plotting the first 9 out of 15 attributes; use max.plot = 15 to plot
 all</code></pre>
@@ -409,27 +565,47 @@ all</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(mpsz))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The default plot of an sf object is a multi-plot of all attributes, up to a reasonable maximum as shown above. We can, however, choose to plot only the geometry by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(mpsz))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpsz[<span class="st">"PLN_AREA_N"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternatively, we can also choose the plot the sf object by using a specific attribute as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpsz[<span class="st">"PLN_AREA_N"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>Note: <em>plot()</em> is mean for plotting the geospatial object for quick look. For high cartographic quality plot, other R package such as tmap should be used.</p>
+</blockquote>
+</section>
+<section id="working-with-projection" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-projection"><strong>1.7 Working with Projection</strong></h2>
+<p>Map projection is an important property of a geospatial data. In order to perform geoprocessing using two geospatial data, we need to ensure that both geospatial data are projected using similar coordinate system.</p>
+<p>In this section, you will learn how to project a simple feature data frame from one coordinate system to another coordinate system. The technical term of this process is called <strong>projection transformation</strong>.</p>
+<section id="assigning-epsg-code-to-a-simple-feature-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="assigning-epsg-code-to-a-simple-feature-data-frame"><strong>1.7.1 Assigning EPSG code to a simple feature data frame</strong></h3>
+<p>One of the common issue that can happen during importing geospatial data into R is that the coordinate system of the source data was either missing (such as due to missing .proj for ESRI shapefile) or wrongly assigned during the importing process.</p>
+<p>This is an example the coordinate system of <code>mpsz</code> simple feature data frame by using <em>st_crs()</em> of <em>sf</em> package as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(mpsz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Coordinate Reference System:
   User input: SVY21 
@@ -470,12 +646,19 @@ PROJCRS["SVY21",
             LENGTHUNIT["metre",1,
                 ID["EPSG",9001]]]]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mpsz3414 <span class="ot">&lt;-</span> <span class="fu">st_set_crs</span>(mpsz, <span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Although <code>mpsz</code> data frame is projected in svy21 but when we read until the end of the print, it indicates that the EPSG is 9001. This is a wrong EPSG code because the correct EPSG code for svy21 should be <a href="https://epsg.io/3414">3414</a>.</p>
+<p>In order to assign the correct EPSG code to <code>mpsz</code> data frame, <em>st_set_crs()</em> of <strong>sf</strong> package is used as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mpsz3414 <span class="ot">&lt;-</span> <span class="fu">st_set_crs</span>(mpsz, <span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for
 that</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(mpsz3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let us check the CSR again by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(mpsz3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Coordinate Reference System:
   User input: EPSG:3414 
@@ -519,39 +702,97 @@ PROJCRS["SVY21 / Singapore TM",
         BBOX[1.13,103.59,1.47,104.07]],
     ID["EPSG",3414]]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>preschool3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(preschool, </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">crs =</span> <span class="dv">3414</span>)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Although <code>mpsz</code> data frame is projected in svy21 but when we read until the end of the print, it indicates that the EPSG is 9001. This is a wrong EPSG code because the correct EPSG code for svy21 should be <a href="https://epsg.io/3414">3414</a>.</p>
+<p>In order to assign the correct EPSG code to <code>mpsz</code> data frame, <em>st_set_crs()</em> of <strong>sf</strong> package is used as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mpsz3414 <span class="ot">&lt;-</span> <span class="fu">st_set_crs</span>(mpsz, <span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for
+that</code></pre>
+</div>
+</div>
+<p>Now, let us check the CSR again by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(mpsz3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Geometry set for 323 features 
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33
-Projected CRS: SVY21 / Singapore TM
-First 5 geometries:</code></pre>
+<pre><code>Coordinate Reference System:
+  User input: EPSG:3414 
+  wkt:
+PROJCRS["SVY21 / Singapore TM",
+    BASEGEOGCRS["SVY21",
+        DATUM["SVY21",
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4757]],
+    CONVERSION["Singapore Transverse Mercator",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",1.36666666666667,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",103.833333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",28001.642,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",38744.572,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["northing (N)",north,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["easting (E)",east,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping."],
+        AREA["Singapore - onshore and offshore."],
+        BBOX[1.13,103.59,1.47,104.07]],
+    ID["EPSG",3414]]</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>MULTIPOLYGON (((31495.56 30140.01, 31980.96 296...</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>MULTIPOLYGON (((29092.28 30021.89, 29119.64 300...</code></pre>
+<p>Notice that the EPSG code is 3414 now.</p>
+</section>
+<section id="transforming-the-projection-of-preschool-from-wgs84-to-svy21." class="level3">
+<h3 class="anchored" data-anchor-id="transforming-the-projection-of-preschool-from-wgs84-to-svy21."><strong>1.7.2 Transforming the projection of preschool from wgs84 to svy21.</strong></h3>
+<p>In geospatial analytics, it is very common for us to transform the original data from geographic coordinate system to projected coordinate system. This is because geographic coordinate system is not appropriate if the analysis need to use distance or/and area measurements.</p>
+<p>Let us take preschool simple feature data frame as an example. The print below reveals that it is in wgs84 coordinate system.</p>
+<pre><code>Geometry set for 2290 features  Geometry type: POINT Dimension:     XYZ Bounding box:  xmin: 103.6878 ymin: 1.247759 xmax: 103.9897 ymax: 1.462134 z_range:       zmin: 0 zmax: 0 Geodetic CRS:  WGS 84 First 5 geometries:</code></pre>
+<p>This is a scenario that <em>st_set_crs()</em> is not appropriate and <em>st_transform()</em> of sf package should be used. This is because we need to reproject <code>preschool</code> from one coordinate system to another coordinate system mathemetically.</p>
+<p>Let us perform the projection transformation by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>preschool3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(preschool, </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">crs =</span> <span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<blockquote class="blockquote">
+<p>Note: In practice, we need find out the appropriate project coordinate system to use before performing the projection transformation.</p>
+</blockquote>
+<p>Next, let us display the content of preschool3414 sf data frame as shown below.</p>
+<pre><code>Geometry set for 2290 features  Geometry type: POINT Dimension:     XYZ Bounding box:  xmin: 11810.03 ymin: 25596.33 xmax: 45404.24 ymax: 49300.88 z_range:       zmin: 0 zmax: 0 Projected CRS: SVY21 / Singapore TM First 5 geometries:</code></pre>
+<p>Notice that it is in svy21 projected coordinate system now. Furthermore, if you refer to <em>Bounding box:</em>, the values are greater than 0-360 range of decimal degree commonly used by most of the geographic coordinate systems.</p>
+</section>
+</section>
+<section id="importing-and-converting-an-aspatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-and-converting-an-aspatial-data"><strong>1.8 Importing and Converting An Aspatial Data</strong></h2>
+<p>In practice, it is not unusual that we will come across data such as <code>listing</code> of Inside Airbnb. We call this kind of data aspatial data. This is because it is not a geospatial data but among the data fields, there are two fields that capture the x- and y-coordinates of the data points.</p>
+<p>In this section, you will learn how to import an aspatial data into R environment and save it as a tibble data frame. Next, you will convert it into a simple feature data frame.</p>
+<p>For the purpose of this exercise, the <code>listings.csv</code> data downloaded from AirBnb will be used.</p>
+<section id="importing-the-aspatial-data" class="level3">
+<h3 class="anchored" data-anchor-id="importing-the-aspatial-data"><strong>1.8.1 Importing the aspatial data</strong></h3>
+<p>Since <code>listings</code> data set is in csv file format, we will use <a href="https://readr.tidyverse.org/reference/read_delim.html"><em>read_csv()</em></a> of <strong>readr</strong> package to import <code>listing.csv</code> as shown the code chunk below. The output R object is called <code>listings</code> and it is a <a href="https://r4ds.had.co.nz/tibbles.html">tibble data frame</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>listings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/listings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>MULTIPOLYGON (((29932.33 29879.12, 29947.32 298...</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>MULTIPOLYGON (((27131.28 30059.73, 27088.33 297...</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>MULTIPOLYGON (((26451.03 30396.46, 26440.47 303...</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>listings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/edwin/Documents/Hands_On_Ex/Ex1/data/aspatial/listings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 3540 Columns: 75</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Column specification ────────────────────────────────────────────────────────
+<pre><code>Rows: 3540 Columns: 75
+── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr  (26): listing_url, source, name, description, neighborhood_overview, pi...
 dbl  (38): id, scrape_id, host_id, host_listings_count, host_total_listings_...
@@ -561,7 +802,11 @@ date  (5): last_scraped, host_since, calendar_last_scraped, first_review, la...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(listings) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After importing the data file into R, it is important for us to examine if the data file has been imported correctly.</p>
+<p>The code chunk below shows <em>list()</em> of Base R instead of <em>glimpse()</em> is used to do the job.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(listings) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 # A tibble: 3,540 × 75
@@ -585,11 +830,27 @@ date  (5): last_scraped, host_since, calendar_last_scraped, first_review, la...
 #   host_is_superhost &lt;lgl&gt;, host_thumbnail_url &lt;chr&gt;, host_picture_url &lt;chr&gt;,
 #   host_neighbourhood &lt;chr&gt;, host_listings_count &lt;dbl&gt;, …</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>listings_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(listings, </span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">3414</span>)</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(listings_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output reveals that <code>listing</code> tibble data frame consists of 4252 rows and 16 columns. Two useful fields we are going to use in the next phase are <code>latitude</code> and <code>longitude</code>. Note that they are in decimal degree format. As a best guess, we will assume that the data is in <strong>wgs84</strong> Geographic Coordinate System.</p>
+</section>
+<section id="creating-a-simple-feature-data-frame-from-an-aspatial-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-simple-feature-data-frame-from-an-aspatial-data-frame"><strong>1.8.2 Creating a simple feature data frame from an aspatial data frame</strong></h3>
+<p>The code chunk below converts <code>listing</code> data frame into a simple feature data frame by using <a href="https://r-spatial.github.io/sf/reference/st_as_sf.html"><em>st_as_sf()</em></a> of <strong>sf</strong> packages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>listings_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(listings, </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">3414</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Things to learn from the arguments above:</p>
+<ul>
+<li><p><em>coords</em> argument requires you to provide the column name of the x-coordinates first then followed by the column name of the y-coordinates.</p></li>
+<li><p><em>crs</em> argument requires you to provide the coordinates system in epsg format. <a href="https://epsg.io/4326">EPSG: 4326</a> is wgs84 Geographic Coordinate System and <a href="https://epsg.io/3414">EPSG: 3414</a> is Singapore SVY21 Projected Coordinate System. You can search for other country’s epsg code by referring to <a href="https://epsg.io/">epsg.io</a>.</p></li>
+<li><p><em>%&gt;%</em> is used to nest <em>st_transform()</em> to transform the newly created simple feature data frame into svy21 projected coordinates system.</p></li>
+</ul>
+<p>Let us examine the content of this newly created simple feature data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(listings_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 3,540
 Columns: 74
@@ -668,20 +929,60 @@ $ calculated_host_listings_count_shared_rooms  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 
 $ reviews_per_month                            &lt;dbl&gt; 0.12, 0.15, 0.29, 0.15, 0…
 $ geometry                                     &lt;POINT [m]&gt; POINT (41972.5 3639…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>buffer_cycling <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(cyclingpath, </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">dist=</span><span class="dv">5</span>, <span class="at">nQuadSegs =</span> <span class="dv">30</span>)</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>buffer_cycling<span class="sc">$</span>AREA <span class="ot">&lt;-</span> <span class="fu">st_area</span>(buffer_cycling)</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(buffer_cycling<span class="sc">$</span>AREA) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Table above shows the content of <code>listing_sf</code>. Notice that a new column called <code>geometry</code> has been added into the data frame. On the other hand, the <code>longitude</code> and <code>latitude</code> columns have been dropped from the data frame.</p>
+</section>
+</section>
+<section id="geoprocessing-with-sf-package" class="level2">
+<h2 class="anchored" data-anchor-id="geoprocessing-with-sf-package"><strong>1.9 Geoprocessing with sf package</strong></h2>
+<p>Besides providing functions to handling (i.e.&nbsp;importing, exporting, assigning projection, transforming projection etc) geospatial data, <strong>sf</strong> package also offers a wide range of geoprocessing (also known as GIS analysis) functions.</p>
+<p>In this section, you will learn how to perform two commonly used geoprocessing functions, namely <a href="https://www.gislounge.com/buffers-in-gis/">buffering</a> and point in polygon count.</p>
+<section id="buffering" class="level3">
+<h3 class="anchored" data-anchor-id="buffering"><strong>1.9.1 Buffering</strong></h3>
+<p>The scenario:</p>
+<p>The authority is planning to upgrade the exiting cycling path. To do so, they need to acquire 5 metres of reserved land on the both sides of the current cycling path. You are tasked to determine the extend of the land need to be acquired and their total area.</p>
+<p>The solution:</p>
+<p>Firstly, <a href="https://r-spatial.github.io/sf/reference/geos_unary.html"><em>st_buffer()</em></a> of <strong>sf</strong> package is used to compute the 5-meter buffers around cycling paths</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>buffer_cycling <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(cyclingpath, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">dist=</span><span class="dv">5</span>, <span class="at">nQuadSegs =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is followed by calculating the area of the buffers as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>buffer_cycling<span class="sc">$</span>AREA <span class="ot">&lt;-</span> <span class="fu">st_area</span>(buffer_cycling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly, sum() of Base R will be used to derive the total land involved</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(buffer_cycling<span class="sc">$</span>AREA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2218855 [m^2]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span><span class="ot">&lt;-</span> <span class="fu">lengths</span>(<span class="fu">st_intersects</span>(mpsz3414, preschool3414))</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Mission Accomplished!</strong></p>
+</section>
+<section id="point-in-polygon-count" class="level3">
+<h3 class="anchored" data-anchor-id="point-in-polygon-count"><strong>1.9.2 Point-in-polygon count</strong></h3>
+<p>The scenario:</p>
+<p>A pre-school service group want to find out the numbers of pre-schools in each Planning Subzone.</p>
+<p>The solution:</p>
+<p>The code chunk below performs two operations at one go. Firstly, identify pre-schools located inside each Planning Subzone by using <a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_intersects()</a>. Next, <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length"><em>length()</em></a> of Base R is used to calculate numbers of pre-schools that fall inside each planning subzone.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span><span class="ot">&lt;-</span> <span class="fu">lengths</span>(<span class="fu">st_intersects</span>(mpsz3414, preschool3414))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Warning</strong>: You should not confuse with <a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection()</a>.</p>
+</blockquote>
+<p>You can check the summary statistics of the newly derived <em>PreSch Count</em> field by using <em>summary()</em> as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    0.00    0.00    4.00    7.09   10.00   72.00 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">top_n</span>(mpsz3414, <span class="dv">1</span>, <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To list the planning subzone with the most number of pre-school, the&nbsp;<a href="https://dplyr.tidyverse.org/reference/top_n.html"><em>top_n()</em></a>&nbsp;of&nbsp;<strong>dplyr</strong>&nbsp;package is used as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">top_n</span>(mpsz3414, <span class="dv">1</span>, <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 1 feature and 16 fields
 Geometry type: MULTIPOLYGON
@@ -695,44 +996,72 @@ Projected CRS: SVY21 / Singapore TM
   SHAPE_Area                       geometry PreSch Count
 1    4339824 MULTIPOLYGON (((42196.76 38...           72</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>mpsz3414<span class="sc">$</span>Area <span class="ot">&lt;-</span> mpsz3414 <span class="sc">%&gt;%</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_area</span>()</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>mpsz3414 <span class="ot">&lt;-</span> mpsz3414 <span class="sc">%&gt;%</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span><span class="sc">/</span>Area <span class="sc">*</span> <span class="dv">1000000</span>)</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>DIY: Calculate the density of pre-school by planning subzone.</strong></p>
+</blockquote>
+<p>The solution:</p>
+<p>Firstly, the code chunk below uses <a href="https://r-spatial.github.io/sf/reference/geos_measures.html"><em>st_area()</em></a> of <strong>sf</strong> package to derive the area of each planning subzone.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>mpsz3414<span class="sc">$</span>Area <span class="ot">&lt;-</span> mpsz3414 <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_area</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next,&nbsp;<a href="https://dplyr.tidyverse.org/reference/mutate.html"><em>mutate()</em></a>&nbsp;of&nbsp;<a href="https://dplyr.tidyverse.org/"><strong>dplyr</strong></a>&nbsp;package is used to compute the density by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>mpsz3414 <span class="ot">&lt;-</span> mpsz3414 <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span><span class="sc">/</span>Area <span class="sc">*</span> <span class="dv">1000000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exploratory-data-analysis-eda" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis-eda"><strong>1.10 Exploratory Data Analysis (EDA)</strong></h2>
+<p>In practice, many geospatial analytics start with Exploratory Data Analysis. In this section, you will learn how to use appropriate <a href="https://ggplot2.tidyverse.org/">ggplot2</a> functions to create functional and yet truthful statistical graphs for EDA purposes.</p>
+<p>Firstly, we will plot a histogram to reveal the distribution of <code>PreSch Density</code>. Conventionally, <em>hist()</em> of R Graphics will be used as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mpsz3414<span class="sc">$</span><span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpsz3414, </span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)))<span class="sc">+</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>) <span class="sc">+</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Are pre-school even distributed in Singapore?"</span>,</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span> <span class="st">"There are many planning sub-zones with a single pre-school, on the other hand, </span><span class="sc">\n</span><span class="st">there are two planning sub-zones with at least 20 pre-schools"</span>,</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Pre-school density (per km sq)"</span>,</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Although the syntax is very easy to use however the output is far from meeting publication quality. Furthermore, the function has limited room for further customisation.</p>
+<p>In the code chunk below, appropriate <strong>ggplot2</strong> functions will be used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpsz3414, </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)))<span class="sc">+</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Are pre-school even distributed in Singapore?"</span>,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span> <span class="st">"There are many planning sub-zones with a single pre-school, on the other hand, </span><span class="sc">\n</span><span class="st">there are two planning sub-zones with at least 20 pre-schools"</span>,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Pre-school density (per km sq)"</span>,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpsz3414, </span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>, </span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">x=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)))<span class="sc">+</span></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span><span class="st">"light blue"</span>) <span class="sc">+</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="sc">+</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="sc">+</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">""</span>,</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Pre-school density (per km sq)"</span>,</span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Pre-school count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>DIY: Using ggplot2 method, plot a scatterplot showing the relationship between Pre-school Density and Pre-school Count.</strong></p>
+</blockquote>
+<p>The solution:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpsz3414, </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">PreSch Count</span><span class="st">`</span>, </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">x=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">PreSch Density</span><span class="st">`</span>)))<span class="sc">+</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span><span class="st">"light blue"</span>) <span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">""</span>,</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Pre-school density (per km sq)"</span>,</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Pre-school count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
@@ -740,13 +1069,14 @@ Projected CRS: SVY21 / Singapore TM
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hands_on_ex1_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
