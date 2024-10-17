@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Hands-on Exercise 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex6/hands_on_ex9.html">
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex9/hands_on_ex9.html">
  <span class="dropdown-text">Hands-on Exercise 9</span></a>
   </li>  
     </ul>
@@ -271,6 +271,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#a-short-note-about-clustgeo-package" id="toc-a-short-note-about-clustgeo-package" class="nav-link" data-scroll-target="#a-short-note-about-clustgeo-package"><strong>12.9.1 A short note about ClustGeo package</strong></a></li>
   <li><a href="#ward-like-hierarchical-clustering-clustgeo" id="toc-ward-like-hierarchical-clustering-clustgeo" class="nav-link" data-scroll-target="#ward-like-hierarchical-clustering-clustgeo"><strong>12.9.2 Ward-like hierarchical clustering: ClustGeo</strong></a></li>
+  <li><a href="#spatially-constrained-hierarchical-clustering" id="toc-spatially-constrained-hierarchical-clustering" class="nav-link" data-scroll-target="#spatially-constrained-hierarchical-clustering"><strong>12.9.3 Spatially Constrained Hierarchical Clustering</strong></a></li>
+  </ul></li>
+  <li><a href="#visual-interpretation-of-clusters" id="toc-visual-interpretation-of-clusters" class="nav-link" data-scroll-target="#visual-interpretation-of-clusters"><strong>12.10 Visual Interpretation of Clusters</strong></a>
+  <ul class="collapse">
+  <li><a href="#visualising-individual-clustering-variable" id="toc-visualising-individual-clustering-variable" class="nav-link" data-scroll-target="#visualising-individual-clustering-variable"><strong>12.10.1 Visualising individual clustering variable</strong></a></li>
+  <li><a href="#multivariate-visualisation" id="toc-multivariate-visualisation" class="nav-link" data-scroll-target="#multivariate-visualisation"><strong>12.10.2 Multivariate Visualisation</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -304,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 16, 2024</p>
+      <p class="date-modified">October 17, 2024</p>
     </div>
   </div>
     
@@ -329,7 +335,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First, we need to convert <code>shan_sf</code> into SpatialPolygonsDataFrame. This is because SKATER function only support <strong>sp</strong> objects such as SpatialPolygonDataFrame.</p>
 <p>The code chunk below uses <a href="https://r-spatial.github.io/sf/reference/coerce-methods.html"><em>as_Spatial()</em></a> of <strong>sf</strong> package to convert <em>shan_sf</em> into a SpatialPolygonDataFrame called <em>shan_sp</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shan_sp <span class="ot">&lt;-</span> <span class="fu">as_Spatial</span>(shan_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shan_sf <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/shan_sf.rds"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>shan_sp <span class="ot">&lt;-</span> <span class="fu">as_Spatial</span>(shan_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="computing-neighbour-list" class="level3">
@@ -338,19 +345,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>shan.nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(shan_sp)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shan.nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Neighbour list object:
+Number of regions: 55 
+Number of nonzero links: 264 
+Percentage nonzero weights: 8.727273 
+Average number of links: 4.8 
+Link number distribution:
+
+ 2  3  4  5  6  7  8  9 
+ 5  9  7 21  4  3  5  1 
+5 least connected regions:
+3 5 7 9 47 with 2 links
+1 most connected region:
+8 with 9 links</code></pre>
+</div>
 </div>
 <p>We can plot the neighbours list on shan_sp by using the code chunk below. Since we now can plot the community area boundaries as well, we plot this graph on top of the map. The first plot command gives the boundaries. This is followed by the plot of the neighbor list object, with coordinates applied to the original SpatialPolygonDataFrame (Shan state township boundaries) to extract the centroids of the polygons. These are used as the nodes for the graph representation. We also set the color to blue and specify add=TRUE to plot the network on top of the boundaries.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_centroid</span>(<span class="fu">st_geometry</span>(shan_sf)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_centroid</span>(<span class="fu">st_geometry</span>(shan_sf)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">grey</span>(.<span class="dv">5</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shan.nb,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     coords, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"blue"</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">grey</span>(.<span class="dv">5</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shan.nb,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     coords, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"blue"</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Note that if you plot the network first and then the boundaries, some of the areas will be clipped. This is because the plotting area is determined by the characteristics of the first plot. In this example, because the boundary map extends further than the graph, we plot it first.</p>
 </section>
@@ -361,17 +390,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next, <a href="https://r-spatial.github.io/spdep/reference/nbcosts.html"><em>nbcosts()</em></a> of <strong>spdep</strong> package is used to compute the cost of each edge. It is the distance between it nodes. This function compute this distance using a data.frame with observations vector in each node.</p>
 <p>The code chunk below is used to compute the cost of each edge.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lcosts <span class="ot">&lt;-</span> <span class="fu">nbcosts</span>(shan.nb, shan_ict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shan_ict <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/shan_ict.rds"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lcosts <span class="ot">&lt;-</span> <span class="fu">nbcosts</span>(shan.nb, shan_ict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For each observation, this gives the pairwise dissimilarity between its values on the five variables and the values for the neighbouring observation (from the neighbour list). Basically, this is the notion of a generalised weight for a spatial weights matrix.</p>
 <p>Next, We will incorporate these costs into a weights object in the same way as we did in the calculation of inverse of distance weights. In other words, we convert the neighbour list to a list weights object by specifying the just computed <strong><em>lcosts</em></strong> as the weights.</p>
 <p>In order to achieve this, <a href="https://r-spatial.github.io/spdep/reference/nb2listw.html"><em>nb2listw()</em></a> of <strong>spdep</strong> package is used as shown in the code chunk below.</p>
 <p>Note that we specify the <em>style</em> as <strong>B</strong> to make sure the cost values are not row-standardised.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shan.w <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(shan.nb, </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   lcosts, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">style=</span><span class="st">"B"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shan.w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shan.w <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(shan.nb, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                   lcosts, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">style=</span><span class="st">"B"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shan.w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Characteristics of weights list object:
+Neighbour list object:
+Number of regions: 55 
+Number of nonzero links: 264 
+Percentage nonzero weights: 8.727273 
+Average number of links: 4.8 
+Link number distribution:
+
+ 2  3  4  5  6  7  8  9 
+ 5  9  7 21  4  3  5  1 
+5 least connected regions:
+3 5 7 9 47 with 2 links
+1 most connected region:
+8 with 9 links
+
+Weights style: B 
+Weights constants summary:
+   n   nn       S0       S1        S2
+B 55 3025 76267.65 58260785 522016004</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -379,89 +430,204 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="computing-minimum-spanning-tree-1"><strong>12.8.4 Computing minimum spanning tree</strong></h3>
 <p>The minimum spanning tree is computed by mean of the <a href="https://r-spatial.github.io/spdep/reference/mstree.html"><em>mstree()</em></a> of <strong>spdep</strong> package as shown in the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shan.mst <span class="ot">&lt;-</span> <span class="fu">mstree</span>(shan.w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>shan.mst <span class="ot">&lt;-</span> <span class="fu">mstree</span>(shan.w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After computing the MST, we can check its class and dimension by using the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "mst"    "matrix"</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 54  3</code></pre>
+</div>
 </div>
 <p>Note that the dimension is 54 and not 55. This is because the minimum spanning tree consists on n-1 edges (links) in order to traverse all the nodes.</p>
 <p>We can display the content of <em>shan.mst</em> by using <em>head()</em> as shown in the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shan.mst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]      [,3]
+[1,]   49   12  59.69478
+[2,]   12   28  78.78999
+[3,]   28   13  92.79567
+[4,]   13   52 110.55197
+[5,]   49   35 124.74445
+[6,]   35   37  91.65458</code></pre>
+</div>
 </div>
 <p>The plot method for the MST include a way to show the observation numbers of the nodes in addition to the edge. As before, we plot this together with the township boundaries. We can see how the initial neighbour list is simplified to just one edge connecting each of the nodes, while passing through all the nodes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">5</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.mst</span>(shan.mst, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>         coords, </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">col=</span><span class="st">"blue"</span>, </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.lab=</span><span class="fl">0.7</span>, </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.circles=</span><span class="fl">0.005</span>, </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">5</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.mst</span>(shan.mst, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>         coords, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">col=</span><span class="st">"blue"</span>, </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.lab=</span><span class="fl">0.7</span>, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.circles=</span><span class="fl">0.005</span>, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 <section id="computing-spatially-constrained-clusters-using-skater-method" class="level3">
 <h3 class="anchored" data-anchor-id="computing-spatially-constrained-clusters-using-skater-method"><strong>12.8.5 Computing spatially constrained clusters using SKATER method</strong></h3>
 <p>The code chunk below compute the spatially constrained cluster using <a href="https://r-spatial.github.io/spdep/reference/skater.html"><em>skater()</em></a> of <strong>spdep</strong> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>clust6 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">skater</span>(<span class="at">edges =</span> shan.mst[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> shan_ict, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"euclidean"</span>, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ncuts =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>clust6 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">skater</span>(<span class="at">edges =</span> shan.mst[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> shan_ict, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"euclidean"</span>, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ncuts =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <em>skater()</em> takes three mandatory arguments: - the first two columns of the MST matrix (i.e.&nbsp;not the cost), - the data matrix (to update the costs as units are being grouped), and - the number of cuts. Note: It is set to <strong>one less than the number of clusters</strong>. So, the value specified is <strong>not</strong> the number of clusters, but the number of cuts in the graph, one less than the number of clusters.</p>
 <p>The result of the <em>skater()</em> is an object of class <strong>skater</strong>. We can examine its contents by using the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(clust6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(clust6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 8
+ $ groups      : num [1:55] 3 3 6 3 3 3 3 3 3 3 ...
+ $ edges.groups:List of 6
+  ..$ :List of 3
+  .. ..$ node: num [1:22] 13 48 45 55 52 37 34 16 25 54 ...
+  .. ..$ edge: num [1:21, 1:3] 48 55 45 37 34 16 52 25 13 28 ...
+  .. ..$ ssw : num 3423
+  ..$ :List of 3
+  .. ..$ node: num [1:18] 47 27 53 38 42 15 41 51 43 32 ...
+  .. ..$ edge: num [1:17, 1:3] 53 15 42 38 41 51 15 27 15 43 ...
+  .. ..$ ssw : num 3759
+  ..$ :List of 3
+  .. ..$ node: num [1:11] 2 6 8 1 36 4 10 9 46 5 ...
+  .. ..$ edge: num [1:10, 1:3] 6 1 8 36 4 6 8 10 10 9 ...
+  .. ..$ ssw : num 1458
+  ..$ :List of 3
+  .. ..$ node: num [1:2] 44 20
+  .. ..$ edge: num [1, 1:3] 44 20 95
+  .. ..$ ssw : num 95
+  ..$ :List of 3
+  .. ..$ node: num 23
+  .. ..$ edge: num[0 , 1:3] 
+  .. ..$ ssw : num 0
+  ..$ :List of 3
+  .. ..$ node: num 3
+  .. ..$ edge: num[0 , 1:3] 
+  .. ..$ ssw : num 0
+ $ not.prune   : NULL
+ $ candidates  : int [1:6] 1 2 3 4 5 6
+ $ ssto        : num 12613
+ $ ssw         : num [1:6] 12613 10977 9962 9540 9123 ...
+ $ crit        : num [1:2] 1 Inf
+ $ vec.crit    : num [1:55] 1 1 1 1 1 1 1 1 1 1 ...
+ - attr(*, "class")= chr "skater"</code></pre>
+</div>
 </div>
 <p>The most interesting component of this list structure is the groups vector containing the labels of the cluster to which each observation belongs (as before, the label itself is arbitary). This is followed by a detailed summary for each of the clusters in the edges.groups list. Sum of squares measures are given as ssto for the total and ssw to show the effect of each of the cuts on the overall criterion.</p>
 <p>We can check the cluster assignment by using the conde chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ccs6 <span class="ot">&lt;-</span> clust6<span class="sc">$</span>groups</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ccs6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ccs6 <span class="ot">&lt;-</span> clust6<span class="sc">$</span>groups</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ccs6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 3 3 6 3 3 3 3 3 3 3 2 1 1 1 2 1 1 1 2 4 1 2 5 1 1 1 2 1 2 2 1 2 2 1 1 3 1 2
+[39] 2 2 2 2 2 4 1 3 2 1 1 1 2 1 2 1 1</code></pre>
+</div>
 </div>
 <p>We can find out how many observations are in each cluster by means of the table command. Parenthetially, we can also find this as the dimension of each vector in the lists contained in edges.groups. For example, the first list has node with dimension 12, which is also the number of observations in the first cluster.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ccs6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ccs6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ccs6
+ 1  2  3  4  5  6 
+22 18 11  2  1  1 </code></pre>
+</div>
 </div>
 <p>Lastly, we can also plot the pruned tree that shows the five clusters on top of the townshop area.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">5</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(clust6, </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>     coords, </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.lab=</span>.<span class="dv">7</span>,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">groups.colors=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"green"</span>,<span class="st">"blue"</span>, <span class="st">"brown"</span>, <span class="st">"pink"</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.circles=</span><span class="fl">0.005</span>, </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf), </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">5</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(clust6, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>     coords, </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.lab=</span>.<span class="dv">7</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">groups.colors=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"green"</span>,<span class="st">"blue"</span>, <span class="st">"brown"</span>, <span class="st">"pink"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.circles=</span><span class="fl">0.005</span>, </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in segments(coords[id1, 1], coords[id1, 2], coords[id2, 1], coords[id2,
+: "add" is not a graphical parameter
+Warning in segments(coords[id1, 1], coords[id1, 2], coords[id2, 1], coords[id2,
+: "add" is not a graphical parameter
+Warning in segments(coords[id1, 1], coords[id1, 2], coords[id2, 1], coords[id2,
+: "add" is not a graphical parameter
+Warning in segments(coords[id1, 1], coords[id1, 2], coords[id2, 1], coords[id2,
+: "add" is not a graphical parameter</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 <section id="visualising-the-clusters-in-choropleth-map" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-the-clusters-in-choropleth-map"><strong>12.8.6 Visualising the clusters in choropleth map</strong></h3>
 <p>The code chunk below is used to plot the newly derived clusters by using SKATER method.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>groups_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(clust6<span class="sc">$</span>groups)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>shan_sf_spatialcluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf_cluster, <span class="fu">as.factor</span>(groups_mat)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">SP_CLUSTER</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">as.factor.groups_mat.</span><span class="st">`</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qtm</span>(shan_sf_spatialcluster, <span class="st">"SP_CLUSTER"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>proxmat <span class="ot">&lt;-</span> <span class="fu">dist</span>(shan_ict, <span class="at">method =</span> <span class="st">'euclidean'</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(proxmat, <span class="at">method =</span> <span class="st">'ward.D'</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">cutree</span>(hclust_ward, <span class="at">k=</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>shan_sf_cluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf, <span class="fu">as.matrix</span>(groups)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">CLUSTER</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">as.matrix.groups.</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>groups_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(clust6<span class="sc">$</span>groups)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>shan_sf_spatialcluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf_cluster, <span class="fu">as.factor</span>(groups_mat)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">SP_CLUSTER</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">as.factor.groups_mat.</span><span class="st">`</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qtm</span>(shan_sf_spatialcluster, <span class="st">"SP_CLUSTER"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>For easy comparison, it will be better to place both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>hclust.map <span class="ot">&lt;-</span> <span class="fu">qtm</span>(shan_sf_cluster,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"CLUSTER"</span>) <span class="sc">+</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>shclust.map <span class="ot">&lt;-</span> <span class="fu">qtm</span>(shan_sf_spatialcluster,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"SP_CLUSTER"</span>) <span class="sc">+</span> </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(hclust.map, shclust.map,</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">asp=</span><span class="cn">NA</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>hclust.map <span class="ot">&lt;-</span> <span class="fu">qtm</span>(shan_sf_cluster,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"CLUSTER"</span>) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>shclust.map <span class="ot">&lt;-</span> <span class="fu">qtm</span>(shan_sf_spatialcluster,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"SP_CLUSTER"</span>) <span class="sc">+</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(hclust.map, shclust.map,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">asp=</span><span class="cn">NA</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One tm layer group has duplicated layer types, which are omitted. To
+draw multiple layers of the same type, use multiple layer groups (i.e. specify
+tm_shape prior to each of them).
+Warning: One tm layer group has duplicated layer types, which are omitted. To
+draw multiple layers of the same type, use multiple layer groups (i.e. specify
+tm_shape prior to each of them).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -479,29 +645,170 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>ClustGeo package provides function called <code>hclustgeo()</code> to perform a typical Ward-like hierarchical clustering just like <code>hclust()</code> you learned in previous section.</p>
 <p>To perform non-spatially constrained hierarchical clustering, we only need to provide the function a dissimilarity matrix as shown in the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nongeo_cluster <span class="ot">&lt;-</span> <span class="fu">hclustgeo</span>(proxmat)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nongeo_cluster, <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(nongeo_cluster, </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">k =</span> <span class="dv">6</span>, </span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">border =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>nongeo_cluster <span class="ot">&lt;-</span> <span class="fu">hclustgeo</span>(proxmat)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nongeo_cluster, <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(nongeo_cluster, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">k =</span> <span class="dv">6</span>, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">border =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Note that the dissimilarity matrix must be an object of class <code>dist</code>, i.e.&nbsp;an object obtained with the function <code>dist()</code>. For sample code chunk, please refer to <a href="https://r4gdsa.netlify.app/chap05#computing-proximity-matrix">5.7.6 Computing proximity matrix</a></p>
 <section id="mapping-the-clusters-formed" class="level4">
 <h4 class="anchored" data-anchor-id="mapping-the-clusters-formed">12.9.2.1 Mapping the clusters formed</h4>
 <p>Similarly, we can plot the clusters on a categorical area shaded map by using the steps we learned in 5.7.12 Mapping the clusters formed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">cutree</span>(nongeo_cluster, <span class="at">k=</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">cutree</span>(nongeo_cluster, <span class="at">k=</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>shan_sf_ngeo_cluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf, <span class="fu">as.matrix</span>(groups)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">CLUSTER</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">as.matrix.groups.</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>shan_sf_ngeo_cluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf, <span class="fu">as.matrix</span>(groups)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">CLUSTER</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">as.matrix.groups.</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qtm</span>(shan_sf_ngeo_cluster, <span class="st">"CLUSTER"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qtm</span>(shan_sf_ngeo_cluster, <span class="st">"CLUSTER"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-
-
+</div>
+</div>
 </section>
+</section>
+<section id="spatially-constrained-hierarchical-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="spatially-constrained-hierarchical-clustering"><strong>12.9.3 Spatially Constrained Hierarchical Clustering</strong></h3>
+<p>Before we can performed spatially constrained hierarchical clustering, a spatial distance matrix will be derived by using <a href="https://r-spatial.github.io/sf/reference/geos_measures.html"><code>st_distance()</code></a> of sf package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">st_distance</span>(shan_sf, shan_sf)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>distmat <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that <code>as.dist()</code> is used to convert the data frame into matrix.</p>
+<p>Next, <code>choicealpha()</code> will be used to determine a suitable value for the mixing parameter alpha as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>cr <span class="ot">&lt;-</span> <span class="fu">choicealpha</span>(proxmat, distmat, <span class="at">range.alpha =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>), <span class="at">K=</span><span class="dv">6</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With reference to the graphs above, alpha = 0.2 will be used as shown in the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>clustG <span class="ot">&lt;-</span> <span class="fu">hclustgeo</span>(proxmat, distmat, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next,&nbsp;<code>cutree()</code>&nbsp;is used to derive the cluster objecct.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">cutree</span>(clustG, <span class="at">k=</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will then join back the group list with&nbsp;<em>shan_sf</em>&nbsp;polygon feature data frame by using the code chunk below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>shan_sf_Gcluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(shan_sf, <span class="fu">as.matrix</span>(groups)) <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">CLUSTER</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">as.matrix.groups.</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now plot the map of the newly delineated spatially constrained clusters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qtm</span>(shan_sf_Gcluster, <span class="st">"CLUSTER"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visual-interpretation-of-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="visual-interpretation-of-clusters"><strong>12.10 Visual Interpretation of Clusters</strong></h2>
+<section id="visualising-individual-clustering-variable" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-individual-clustering-variable"><strong>12.10.1 Visualising individual clustering variable</strong></h3>
+<p>Code chunk below is used to reveal the distribution of a clustering variable (i.e RADIO_PR) by cluster.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> shan_sf_ngeo_cluster,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> CLUSTER, <span class="at">y =</span> RADIO_PR)) <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The boxplot reveals Cluster 3 displays the highest mean Radio Ownership Per Thousand Household. This is followed by Cluster 2, 1, 4, 6 and 5.</p>
+</section>
+<section id="multivariate-visualisation" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-visualisation"><strong>12.10.2 Multivariate Visualisation</strong></h3>
+<p>Past studies shown that parallel coordinate plot can be used to reveal clustering variables by cluster very effectively. In the code chunk below, <a href="https://ggobi.github.io/ggally/reference/ggparcoord.html"><code>ggparcoord()</code></a> of <a href="https://ggobi.github.io/ggally/index.html"><strong>GGally</strong></a> package</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggparcoord</span>(<span class="at">data =</span> shan_sf_ngeo_cluster, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">17</span><span class="sc">:</span><span class="dv">21</span>), </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">scale =</span> <span class="st">"globalminmax"</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">alphaLines =</span> <span class="fl">0.2</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">boxplot =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">"Multiple Parallel Coordinates Plots of ICT Variables by Cluster"</span>) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span> CLUSTER) <span class="sc">+</span> </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hands_on_ex8_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The parallel coordinate plot above reveals that households in Cluster 4 townships tend to own the highest number of TV and mobile-phone. On the other hand, households in Cluster 5 tends to own the lowest of all the five ICT.</p>
+<p>Note that the <code>scale</code> argument of <code>ggparcoor()</code> provide several methods to scale the clustering variables. They are:</p>
+<ul>
+<li><p>std: univariately, subtract mean and divide by standard deviation.</p></li>
+<li><p>robust: univariately, subtract median and divide by median absolute deviation.</p></li>
+<li><p>uniminmax: univariately, scale so the minimum of the variable is zero, and the maximum is one.</p></li>
+<li><p>globalminmax: no scaling is done; the range of the graphs is defined by the global minimum and the global maximum.</p></li>
+<li><p>center: use uniminmax to standardize vertical height, then center each variable at a value specified by the scaleSummary param.</p></li>
+<li><p>centerObs: use uniminmax to standardize vertical height, then center each variable at the value of the observation specified by the centerObsID param</p></li>
+</ul>
+<p>There is no one best scaling method to use. You should explore them and select the one that best meet your analysis need.</p>
+<p>Last but not least, we can also compute the summary statistics such as mean, median, sd, etc to complement the visual interpretation.</p>
+<p>In the code chunk below, <code>group_by()</code> and <code>summarise()</code> of dplyr are used to derive mean values of the clustering variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>shan_sf_ngeo_cluster <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_geometry</span>(<span class="cn">NULL</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CLUSTER) <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_RADIO_PR =</span> <span class="fu">mean</span>(RADIO_PR),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_TV_PR =</span> <span class="fu">mean</span>(TV_PR),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_LLPHONE_PR =</span> <span class="fu">mean</span>(LLPHONE_PR),</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_MPHONE_PR =</span> <span class="fu">mean</span>(MPHONE_PR),</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_COMPUTER_PR =</span> <span class="fu">mean</span>(COMPUTER_PR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  CLUSTER mean_RADIO_PR mean_TV_PR mean_LLPHONE_PR mean_MPHONE_PR
+  &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+1 1               221.        521.            44.2           246.
+2 2               237.        402.            23.9           134.
+3 3               300.        611.            52.2           392.
+4 4               196.        744.            99.0           651.
+5 5               124.        224.            38.0           132.
+6 6                98.6       499.            74.5           468.
+# ℹ 1 more variable: mean_COMPUTER_PR &lt;dbl&gt;</code></pre>
+</div>
+</div>
+
+
 </section>
 </section>
 
