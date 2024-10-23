@@ -7,6 +7,8 @@ author: "Edwin Tan"
 pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep,spgwr,exactextractr)
 ```
 
+# Reading data
+
 ```{r}
 # Import administrative boundary data for vietnam
 boundary_data <- st_read(dsn="data/geospatial",
@@ -14,297 +16,496 @@ boundary_data <- st_read(dsn="data/geospatial",
 ```
 
 ```{r}
-boundary_data <- boundary_data %>% 
-  dplyr::select(-ADM1_VI,-ADM1_REF,-ADM1ALT1EN,-ADM1ALT2EN,-ADM1ALT1VI,-ADM0_EN,-ADM0_PCODE,-ADM1ALT2EN, -ADM1ALT2VI, -ADM0_VI,-date,-validOn,-validTo) %>% 
+PCI_2012_data <- read.csv("data/aspatial/2012.csv")
+PCI_2013_data <- read.csv("data/aspatial/2013.csv")
+PCI_2014_data <- read.csv("data/aspatial/2014.csv")
+PCI_2015_data <- read.csv("data/aspatial/2015.csv")
+PCI_2016_data <- read.csv("data/aspatial/2016.csv")
+PCI_2017_data <- read.csv("data/aspatial/2017.csv")
+PCI_2018_data <- read.csv("data/aspatial/2018.csv")
+PCI_2019_data <- read.csv("data/aspatial/2019.csv")
+PCI_2020_data <- read.csv("data/aspatial/2020.csv")
+PCI_2021_data <- read.csv("data/aspatial/2021.csv")
+PCI_2022_data <- read.csv("data/aspatial/2022.csv")
+```
+
+# Cleaning data
+
+```{r}
+boundary_data <- boundary_data %>%
+  dplyr::select(-ADM1_VI,-ADM1_REF,-ADM1ALT1EN,-ADM1ALT2EN,-ADM1ALT1VI,-ADM1ALT2EN, -ADM1ALT2VI, -ADM0_VI,-ADM0_EN,-ADM0_PCODE,-date,-validOn,-validTo,-ADM1_PCODE) %>% 
   rename(province = ADM1_EN)
+
+```
+
+::: panel-tabset
+## 2012
+
+```{r}
+PCI_2012_data <- PCI_2012_data %>%
+  dplyr::select(-X,-X.1,-X.2,-X.3,-X.4,-X.5, -X.6, -X.7,-X.8,-X.9,-X.10,-No) %>% 
+  rename(province = Province)
+```
+
+## 2013
+
+```{r}
+PCI_2013_data <- PCI_2013_data %>%
+  dplyr::select(-X,-X.1,-X.2,-X.3,-X.4,-X.5, -X.6, -X.7,-X.8,-X.9,-PCI.2013.ranking,-No) %>% 
+  rename(province = Province)
+```
+
+## 2014
+
+```{r}
+PCI_2014_data <- PCI_2014_data %>%
+  dplyr::select(-X,-X.1,-X.2,-X.3,-X.4,-X.5, -X.6, -X.7,-X.8,-X.9,-PCI.2014.ranking,-No) %>% 
+  rename(province = Province)
+```
+
+## 2015
+
+```{r}
+PCI_2015_data <- PCI_2015_data %>%
+  dplyr::select(-X,-X.1,-X.2,-X.3,-X.4,-X.5, -X.6, -X.7,-X.8,-X.9,-PCI.2015.ranking,-No) %>% 
+  rename(province = Province)
+```
+
+## 2016
+
+```{r}
+PCI_2016_data <- PCI_2016_data %>%
+  dplyr::select(-X,-X.1,-X.2,-X.3,-X.4,-X.5, -X.6, -X.7,-X.8,-X.9,-X.10,-X.11,-PCI.2016.ranking,-No) %>% 
+  rename(province = Province)
+```
+
+## 2017
+
+```{r}
+PCI_2017_data <- PCI_2017_data %>%
+  dplyr::select(-Rank) %>% 
+  rename(province = Province)
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+PCI_2018_data <- PCI_2018_data %>%
+  dplyr::select(-Rank) %>% 
+  rename(province = Province)
+```
+
+## 2019
+
+```{r}
+PCI_2019_data <- PCI_2019_data %>%
+  dplyr::select(-Rank) %>% 
+  rename(province = Province)
+```
+
+## 2020
+
+```{r}
+PCI_2020_data <- PCI_2020_data %>%
+  rename(province = Province)
+```
+
+## 2021
+
+```{r}
+PCI_2021_data <- PCI_2021_data %>%
+  rename(province = Province)
+```
+
+## 2022
+
+```{r}
+PCI_2022_data <- PCI_2022_data %>%
+  rename(province = Province)
+```
+:::
+
+# Joining data
+
+::: panel-tabset
+## 2012
+
+```{r}
+PCI_2012_data <- boundary_data %>%
+  left_join(PCI_2012_data, by = "province")
+
+PCI_2012_data <- drop_na(PCI_2012_data)
+```
+
+## 2013
+
+```{r}
+PCI_2013_data <- boundary_data %>%
+  left_join(PCI_2013_data, by = "province")
+
+PCI_2013_data <- drop_na(PCI_2013_data)
+```
+
+## 2014
+
+```{r}
+PCI_2014_data <- boundary_data %>%
+  left_join(PCI_2014_data, by = "province")
+
+PCI_2014_data <- drop_na(PCI_2014_data)
+```
+
+## 2015
+
+```{r}
+PCI_2015_data <- boundary_data %>%
+  left_join(PCI_2015_data, by = "province")
+
+PCI_2015_data <- drop_na(PCI_2015_data)
+```
+
+## 2016
+
+```{r}
+PCI_2016_data <- boundary_data %>%
+  left_join(PCI_2016_data, by = "province")
+
+PCI_2016_data <- drop_na(PCI_2016_data)
+```
+
+## 2017
+
+```{r}
+PCI_2017_data <- boundary_data %>%
+  left_join(PCI_2017_data, by = "province")
+
+PCI_2017_data <- drop_na(PCI_2017_data)
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+PCI_2018_data <- boundary_data %>%
+  left_join(PCI_2018_data, by = "province")
+
+PCI_2018_data <- drop_na(PCI_2018_data)
+```
+
+## 2019
+
+```{r}
+PCI_2019_data <- boundary_data %>%
+  left_join(PCI_2019_data, by = "province")
+
+PCI_2019_data <- drop_na(PCI_2019_data)
+```
+
+## 2020
+
+```{r}
+PCI_2020_data <- boundary_data %>%
+  left_join(PCI_2020_data, by = "province")
+
+PCI_2020_data <- drop_na(PCI_2020_data)
+```
+
+## 2021
+
+```{r}
+PCI_2021_data <- boundary_data %>%
+  left_join(PCI_2021_data, by = "province")
+
+PCI_2021_data <- drop_na(PCI_2021_data)
+```
+
+## 2022
+
+```{r}
+PCI_2022_data <- boundary_data %>%
+  left_join(PCI_2022_data, by = "province")
+
+PCI_2022_data <- drop_na(PCI_2022_data)
+```
+:::
+
+# Preparing and Computing Data for Global Moran I
+
+::: panel-tabset
+## 2012
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2012 <- st_centroid(st_geometry(PCI_2012_data)) # Use centroids of polygons
+nb_global_2012 <- poly2nb(PCI_2012_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2012 <- nb2listw(nb_global_2012, style = "W") # Convert to weights list (row-standardized)
+```
+
+### Computing Moran I
+
+```{r}
+#covert to numeric for PCI 2012
+PCI_2012_data$PCI.2012 <- as.numeric(PCI_2012_data$PCI.2012)
+# Step 2: Compute Global Moran's I
+global_moran_2012 <- moran.test(PCI_2012_data$PCI.2012, lw_global_2012)
+# Step 3: Print the results
+print(global_moran_2012)
+```
+
+## 2013
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2013 <- st_centroid(st_geometry(PCI_2013_data)) # Use centroids of polygons
+nb_global_2013 <- poly2nb(PCI_2013_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2013 <- nb2listw(nb_global_2013, style = "W") # Convert to weights list (row-standardized
+```
+
+### Computing Moran I
+
+```{r}
+#covert to numeric for PCI 2013
+PCI_2013_data$PCI.2013 <- as.numeric(PCI_2013_data$PCI.2013)
+# Step 2: Compute Global Moran's I
+global_moran_2013 <- moran.test(PCI_2013_data$PCI.2013, lw_global_2013)
+# Step 3: Print the results
+print(global_moran_2013)
+```
+
+## 2014
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2014 <- st_centroid(st_geometry(PCI_2014_data)) # Use centroids of polygons
+nb_global_2014 <- poly2nb(PCI_2014_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2014 <- nb2listw(nb_global_2014, style = "W") # Convert to weights list (row-standardized
+```
+
+### Computing Global Moran I
+
+```{r}
+#covert to numeric for PCI 2013
+PCI_2014_data$PCI.2014 <- as.numeric(PCI_2014_data$PCI.2014)
+# Step 2: Compute Global Moran's I
+global_moran_2014 <- moran.test(PCI_2014_data$PCI.2014, lw_global_2014)
+# Step 3: Print the results
+print(global_moran_2014)
+```
+
+## 2015
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2015 <- st_centroid(st_geometry(PCI_2015_data)) # Use centroids of polygons
+nb_global_2015 <- poly2nb(PCI_2015_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2015 <- nb2listw(nb_global_2015, style = "W") # Convert to weights list (row-standardized
+```
+
+## Computing Global Moran I
+
+```{r}
+#covert to numeric for PCI 2013
+PCI_2015_data$PCI.2015 <- as.numeric(PCI_2015_data$PCI.2015)
+# Step 2: Compute Global Moran's I
+global_moran_2015 <- moran.test(PCI_2015_data$PCI.2015, lw_global_2015)
+# Step 3: Print the results
+print(global_moran_2015)
+```
+
+## 2016
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2016 <- st_centroid(st_geometry(PCI_2016_data)) # Use centroids of polygons
+nb_global_2016 <- poly2nb(PCI_2016_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2016 <- nb2listw(nb_global_2016, style = "W") # Convert to weights list (row-standardized
+```
+
+## Computing Global Moran I
+
+```{r}
+#covert to numeric for PCI 2013
+PCI_2016_data$PCI.2016 <- as.numeric(PCI_2016_data$PCI.2016)
+# Step 2: Compute Global Moran's I
+global_moran_2016 <- moran.test(PCI_2016_data$PCI.2016, lw_global_2016)
+# Step 3: Print the results
+print(global_moran_2016)
+```
+
+## 2017
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2017 <- st_centroid(st_geometry(PCI_2017_data)) # Use centroids of polygons
+nb_global_2017 <- poly2nb(PCI_2017_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2017 <- nb2listw(nb_global_2017, style = "W") # Convert to weights list (row-standardized
+```
+
+## Computing Global Moran I
+
+```{r}
+#covert to numeric for PCI 2013
+PCI_2017_data$The.Weighted.PCI.Score.in.2017 <- as.numeric(PCI_2017_data$The.Weighted.PCI.Score.in.2017)
+# Step 2: Compute Global Moran's I
+global_moran_2017 <- moran.test(PCI_2017_data$The.Weighted.PCI.Score.in.2017, lw_global_2017)
+# Step 3: Print the results
+print(global_moran_2017)
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2018 <- st_centroid(st_geometry(PCI_2018_data)) # Use centroids of polygons
+nb_global_2018 <- poly2nb(PCI_2018_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2018 <- nb2listw(nb_global_2018, style = "W") # Convert to weights list (row-standardized
 ```
 
 ```{r}
-plot(boundary_data)
+#covert to numeric for PCI 2013
+PCI_2018_data$The.Weighted.PCI.Score.in.2018 <- as.numeric(PCI_2018_data$The.Weighted.PCI.Score.in.2018)
+# Step 2: Compute Global Moran's I
+global_moran_2018 <- moran.test(PCI_2018_data$The.Weighted.PCI.Score.in.2018, lw_global_2018)
+# Step 3: Print the results
+print(global_moran_2018)
+```
+
+## 2019
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2019 <- st_centroid(st_geometry(PCI_2019_data)) # Use centroids of polygons
+nb_global_2019 <- poly2nb(PCI_2019_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2019 <- nb2listw(nb_global_2019, style = "W") # Convert to weights list (row-standardized
 ```
 
 ```{r}
-doc_data <- read.csv("data/aspatial/doctors.csv")
+#covert to numeric for PCI 2013
+PCI_2019_data$The.Weighted.PCI.Score <- as.numeric(PCI_2019_data$The.Weighted.PCI.Score)
+# Step 2: Compute Global Moran's I
+global_moran_2019 <- moran.test(PCI_2019_data$The.Weighted.PCI.Score, lw_global_2019)
+# Step 3: Print the results
+print(global_moran_2019)
+```
+
+## 2020
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2020 <- st_centroid(st_geometry(PCI_2020_data)) # Use centroids of polygons
+nb_global_2020 <- poly2nb(PCI_2020_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2020 <- nb2listw(nb_global_2020, style = "W") # Convert to weights list (row-standardized
 ```
 
 ```{r}
-doc_data <- doc_data %>% 
-  rename(province=Cities..Provinces,
-         Y2018=X2018,
-         Y2019=X2019,
-         Y2020=X2020,
-         Y2022=Prel..2022)
+#covert to numeric for PCI 2013
+PCI_2020_data$The.Weighted.PCI.Score <- as.numeric(PCI_2020_data$The.Weighted.PCI.Score)
+# Step 2: Compute Global Moran's I
+global_moran_2020 <- moran.test(PCI_2020_data$The.Weighted.PCI.Score, lw_global_2020)
+# Step 3: Print the results
+print(global_moran_2020)
+```
+
+## 2021
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2021 <- st_centroid(st_geometry(PCI_2021_data)) # Use centroids of polygons
+nb_global_2021 <- poly2nb(PCI_2021_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2021 <- nb2listw(nb_global_2021, style = "W") # Convert to weights list (row-standardized
 ```
 
 ```{r}
-doc_data <- boundary_data %>%
-  left_join(doc_data, by = "province")
+#covert to numeric for PCI 2013
+PCI_2021_data$The.Weighted.PCI.Score <- as.numeric(PCI_2021_data$The.Weighted.PCI.Score)
+# Step 2: Compute Global Moran's I
+global_moran_2021 <- moran.test(PCI_2021_data$The.Weighted.PCI.Score, lw_global_2021)
+# Step 3: Print the results
+print(global_moran_2021)
+```
+
+## 2022
+
+```{r}
+# Step 1: Create spatial weights matrix (Queen Contiguity)
+coords_global_2022 <- st_centroid(st_geometry(PCI_2022_data)) # Use centroids of polygons
+nb_global_2022 <- poly2nb(PCI_2022_data, queen = TRUE) # Create neighbors list using queen contiguity
+lw_global_2022 <- nb2listw(nb_global_2022, style = "W") # Convert to weights list (row-standardized
 ```
 
 ```{r}
-doc_data <- doc_data %>%
-  filter(!is.na(Y2018))
+#covert to numeric for PCI 2013
+PCI_2022_data$The.Weighted.PCI.Score <- as.numeric(PCI_2022_data$The.Weighted.PCI.Score)
+# Step 2: Compute Global Moran's I
+global_moran_2022 <- moran.test(PCI_2022_data$The.Weighted.PCI.Score, lw_global_2022)
+# Step 3: Print the results
+print(global_moran_2022)
 ```
+:::
 
-```{r}
-# Example: KDE (if you have point data)
-tm_shape(doc_data) +
-  tm_polygons("X2021", 
-              title = "Number of doctors", 
-              palette = "Oranges", 
-              style = "cont") + # Continuous color scale
-  tm_layout(main.title = "Number of doctors", 
-            legend.outside = TRUE)
-```
+# Preparing Data for LISA
 
-```{r}
-poverty_data <- read.csv("data/aspatial/poverty_rate.csv")
-```
+::: panel-tabset
+## 2012
 
-```{r}
-poverty_data <- boundary_data %>%
-  left_join(poverty_data, by = "province")
+## 2013
 
-poverty_data <- poverty_data %>%
-  filter(!is.na(Y2012))
-```
+## 2014
 
-```{r}
-tm_shape(poverty_data) +
-  tm_polygons("Y2014", 
-              title = "Poverty rate", 
-              palette = "Oranges", 
-              style = "cont") + # Continuous color scale
-  tm_layout(main.title = "Poverty rate", 
-            legend.outside = TRUE)
-```
+## 2015
 
-```{r}
-income_data <- read.csv("data/aspatial/avg_income.csv")
-```
+## 2016
 
-```{r}
-income_data <- boundary_data %>%
-  left_join(income_data, by = "province")
-```
-
-```{r}
-tm_shape(income_data) +
-  tm_polygons("Y2021", 
-              title = "income_data", 
-              palette = "Oranges", 
-              style = "cont") + # Continuous color scale
-  tm_layout(main.title = "income_data", 
-            legend.outside = TRUE)
-```
-
-```{r}
-hdi_data <- read.csv("data/aspatial/hdi.csv")
-```
-
-```{r}
-hdi_data <- boundary_data %>%
-  left_join(hdi_data, by = "province")
-
-hdi_data <- hdi_data %>%
-  filter(!is.na(Y2018))
-```
-
-```{r}
-tm_shape(hdi_data) +
-  tm_polygons("Y2021", 
-              title = "HDI", 
-              palette = "Blues", # Use a color palette that intuitively matches the meaning of the data
-              style = "quantile", # Use quantile breaks to divide into equal population groups
-              n = 5, # Five different levels (can adjust depending on the distribution)
-              border.col = "white", # Use a light border for better visual separation
-              border.alpha = 0.5) + 
-  tm_text("province", 
-          size = 0.7, 
-          col = "darkblue", 
-          remove.overlap = TRUE) + # Add country labels, only showing non-overlapping text
-  tm_borders(lwd = 0.5, col = "gray", alpha = 0.8) + # Add subtle borders to enhance readability
-  tm_legend(title.size = 1.5, 
-            text.size = 1.0, 
-            outside = TRUE, 
-            frame = TRUE) + # Adjust legend size and position for clarity
-  tm_layout(main.title = "Human Development Index (HDI) 2021", 
-            main.title.size = 2.0, # Larger title for emphasis
-            frame = FALSE, # Remove map frame for a cleaner look
-            inner.margins = c(0.05, 0.1, 0.05, 0.1)) + # Adjust margins to make the map more central
-  tm_credits("Source: UNDP, 2021", 
-             position = c("RIGHT", "BOTTOM"), 
-             size = 0.7, col = "black") + # Add credits for data source
-  tm_compass(position = c("left", "top"), size = 2) + # Add compass to orient map
-  tm_scale_bar(position = c("left", "bottom"), width = 0.15) # Add scale bar for distance reference
-```
-
-```{r}
-income_inequality_data <- read.csv("data/aspatial/income_inequality.csv")
-```
-
-```{r}
-income_inequality_data <- boundary_data %>%
-  left_join(income_inequality_data, by = "province")
-
-income_inequality_data <- income_inequality_data %>%
-  filter(!is.na(X2018))
-```
-
-```{r}
-tm_shape(income_inequality_data) +
-  tm_polygons("X2021", 
-              title = "income_inequality_data", 
-              palette = "Oranges", 
-              style = "cont") + # Continuous color scale
-  tm_layout(main.title = "income_inequality_data", 
-            legend.outside = TRUE)
-```
-
-```{r}
-solid_waste_data <- read.csv("data/aspatial/solid_waste.csv")
-```
-
-```{r}
-solid_waste_data <- boundary_data %>%
-  left_join(solid_waste_data, by = "province")
-
-solid_waste_data <- solid_waste_data %>%
-  filter(!is.na(X2018))
-```
-
-```{r}
-tm_shape(solid_waste_data) +
-  tm_polygons("X2018", 
-              title = "solid_waste_data", 
-              palette = "Oranges", 
-              style = "cont") + # Continuous color scale
-  tm_layout(main.title = "solid_waste_data", 
-            legend.outside = TRUE)
-```
+## 2017
+:::
 
 ```{r}
 # Create a spatial weights matrix
-coords <- st_coordinates(st_centroid(hdi_data))
+coords <- st_coordinates(st_centroid(PCI_2012_data))
 nb <- knn2nb(knearneigh(coords, k = 4)) # K-nearest neighbors
 lw <- nb2listw(nb, style = "W")
 ```
 
 ```{r}
+
 # Calculate local Moran's I for each region
-local_moran <- localmoran(hdi_data$Y2021, lw)
+local_moran_2012 <- localmoran(PCI_2012_data$PCI.2012, lw)
 
 # Add the results to the data for visualization
-hdi_data$local_moran <- as.numeric(local_moran[, "Ii"])
+PCI_2012_data$local_moran_2012 <- as.numeric(local_moran_2012[, "Ii"])
 ```
+
+# Visualising LISA
 
 ```{r}
 # Create the LISA cluster map
-tm_shape(hdi_data) +
-  tm_polygons("local_moran", 
-              title = "Local Moran's I (HDI Clusters)", 
+tm_shape(PCI_2012_data) +
+  tm_polygons("local_moran_2012", 
+              title = "Local Moran's I (PCI Clusters)", 
               palette = "RdBu", 
               style = "cont") + 
-  tm_layout(main.title = "LISA Cluster Map: HDI", 
+  tm_layout(main.title = "LISA Cluster Map: PCI", 
             legend.outside = TRUE)
 ```
 
 ```{r}
 # Calculate Getis-Ord Gi* statistic for each region
-gi_star <- localG(hdi_data$Y2021, lw)
+gi_star <- localG(PCI_2012_data$PCI.2012, lw)
 
 # Add Gi* values to the data
-hdi_data$gi_star <- as.numeric(gi_star)
+PCI_2012_data$gi_star <- as.numeric(gi_star)
 
 # Create a hotspot map
-tm_shape(hdi_data) +
+tm_shape(PCI_2012_data) +
   tm_polygons("gi_star", 
               title = "Getis-Ord Gi* (HDI Hotspots)", 
               palette = "YlOrRd", 
               style = "cont") + 
   tm_layout(main.title = "Hotspot Analysis: HDI", 
             legend.outside = TRUE)
-```
-
-```{r}
-hdi_test_data <- read.csv("data/aspatial/hdi_test.csv")
-```
-
-```{r}
-hdi_test_data <- boundary_data %>%
-  left_join(hdi_test_data, by = "province")
-
-hdi_test_data <- hdi_test_data %>%
-  filter(!is.na(Y2018))
-```
-
-```{r}
-# GWR formula, assuming "literacy_rate" is a variable in your dataset
-gwr_model <- gwr(Y2021 ~ income, data = hdi_test_data, coords = coords, bandwidth = 50)
-
-# Add GWR results to the data
-hdi_test_data$gwr_residuals <- gwr_model$lm$residuals
-
-# Create a map of residuals
-tm_shape(hdi_test_data) +
-  tm_polygons("gwr_residuals", 
-              title = "GWR Residuals (HDI)", 
-              palette = "-orange", 
-              style = "cont") + 
-  tm_layout(main.title = "GWR Residuals Map: HDI vs. Literacy", 
-            legend.outside = TRUE)
-```
-
-```{r}
-doc_coords_sf <- st_as_sf(doc_data)
-```
-
-```{r}
-# KDE raster layer + Healthcare facility points
-
-```
-
-```{r}
-# Reproject the data to a projected coordinate system (VN-2000, EPSG:3405)
-boundary_data <- st_transform(boundary_data, crs = 3405)
-doc_data <- st_transform(doc_data, crs = 3405)
-```
-
-```{r}
-# Extract the coordinates of healthcare facilities
-doc_coords <- st_coordinates(doc_data)
-# Define the observation window using the boundary data
-window <- as.owin(boundary_data)
-
-# Create the `ppp` object without marks (just the coordinates)
-doc_ppp <- ppp(x = doc_coords[,1], y = doc_coords[,2], window = window)
-
-# Apply kernel density estimation
-kde_doc <- density(doc_ppp, sigma=bw.diggle,
-                              edge=TRUE,
-                            kernel="gaussian")
-
-# Plot the density result
-plot(kde_doc, main = "Kernel Density of Healthcare Facilities")
-```
-
-```{r}
-# Convert the kernel density result to a raster format
-kde_raster <- raster(kde_doc)
-
-tm_shape(boundary_data) + 
-  tm_borders(lwd = 1.5, col = "black") +  # Thicker borders with black color for clarity
-  tm_shape(kde_raster) +
-  tm_raster(palette = "Blues", style = "cont", alpha = 0.7, 
-            title = "Density of Conflict Events", 
-            breaks = seq(0, max(values(kde_raster), na.rm = TRUE), length.out = 7)) +  # Customize breaks
-  tm_layout(title = "Kernel Density of Armed Conflict Events",
-            title.size = 1.2,
-            legend.outside = TRUE,  # Position legend outside for better readability
-            legend.outside.position = "right",  # Move legend to the right side
-            legend.title.size = 1, 
-            legend.text.size = 0.8,
-            frame = FALSE) +  # Turn off outer frame
-  tm_scale_bar(position = c("left", "bottom"), text.size = 0.7) +  # Add a scale bar
-  tm_compass(type = "8star", position = c("right", "top"))  # Add a north arro
 ```

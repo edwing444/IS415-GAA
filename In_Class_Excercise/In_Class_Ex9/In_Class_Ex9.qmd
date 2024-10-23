@@ -140,7 +140,7 @@ plot(skater.clust6,
 ```
 :::
 
-## **Visualising the clusters in choropleth map** 
+## **Visualising the clusters in choropleth map**
 
 ```{r}
 groups_mat <-as.matrix(skater.clust6$groups)
