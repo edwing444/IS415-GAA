@@ -244,8 +244,6 @@ nb_global_2012 <- poly2nb(PCI_2012_data, queen = TRUE) # Create neighbors list u
 lw_global_2012 <- nb2listw(nb_global_2012, style = "W") # Convert to weights list (row-standardized)
 ```
 
-### Computing Moran I
-
 ```{r}
 #covert to numeric for PCI 2012
 PCI_2012_data$PCI.2012 <- as.numeric(PCI_2012_data$PCI.2012)
@@ -263,8 +261,6 @@ coords_global_2013 <- st_centroid(st_geometry(PCI_2013_data)) # Use centroids of
 nb_global_2013 <- poly2nb(PCI_2013_data, queen = TRUE) # Create neighbors list using queen contiguity
 lw_global_2013 <- nb2listw(nb_global_2013, style = "W") # Convert to weights list (row-standardized
 ```
-
-### Computing Moran I
 
 ```{r}
 #covert to numeric for PCI 2013
@@ -304,8 +300,6 @@ nb_global_2015 <- poly2nb(PCI_2015_data, queen = TRUE) # Create neighbors list u
 lw_global_2015 <- nb2listw(nb_global_2015, style = "W") # Convert to weights list (row-standardized
 ```
 
-## Computing Global Moran I
-
 ```{r}
 #covert to numeric for PCI 2013
 PCI_2015_data$PCI.2015 <- as.numeric(PCI_2015_data$PCI.2015)
@@ -324,8 +318,6 @@ nb_global_2016 <- poly2nb(PCI_2016_data, queen = TRUE) # Create neighbors list u
 lw_global_2016 <- nb2listw(nb_global_2016, style = "W") # Convert to weights list (row-standardized
 ```
 
-## Computing Global Moran I
-
 ```{r}
 #covert to numeric for PCI 2013
 PCI_2016_data$PCI.2016 <- as.numeric(PCI_2016_data$PCI.2016)
@@ -343,8 +335,6 @@ coords_global_2017 <- st_centroid(st_geometry(PCI_2017_data)) # Use centroids of
 nb_global_2017 <- poly2nb(PCI_2017_data, queen = TRUE) # Create neighbors list using queen contiguity
 lw_global_2017 <- nb2listw(nb_global_2017, style = "W") # Convert to weights list (row-standardized
 ```
-
-## Computing Global Moran I
 
 ```{r}
 #covert to numeric for PCI 2013
@@ -464,6 +454,34 @@ print(global_moran_2022)
 ## 2017
 :::
 
+::: panel-tabset
+## 2018
+
+## 2019
+
+## 2020
+
+## 2021
+
+## 2022
+
+```{r}
+wm_q_2022 <- PCI_2022_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2022 <- wm_q_2022 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+:::
+
 ```{r}
 # Create a spatial weights matrix
 coords <- st_coordinates(st_centroid(PCI_2012_data))
@@ -481,6 +499,33 @@ PCI_2012_data$local_moran_2012 <- as.numeric(local_moran_2012[, "Ii"])
 ```
 
 # Visualising LISA
+
+```{r}
+lisa_sig_2022 <- lisa_2022 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+tm_shape(lisa_2022)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2022)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+```{r}
+ tm_shape(lisa_2022)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+Below is my sdep lisa cluster
 
 ```{r}
 # Create the LISA cluster map
