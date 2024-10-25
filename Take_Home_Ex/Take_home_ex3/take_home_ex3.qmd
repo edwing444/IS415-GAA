@@ -280,8 +280,6 @@ nb_global_2014 <- poly2nb(PCI_2014_data, queen = TRUE) # Create neighbors list u
 lw_global_2014 <- nb2listw(nb_global_2014, style = "W") # Convert to weights list (row-standardized
 ```
 
-### Computing Global Moran I
-
 ```{r}
 #covert to numeric for PCI 2013
 PCI_2014_data$PCI.2014 <- as.numeric(PCI_2014_data$PCI.2014)
@@ -443,25 +441,185 @@ print(global_moran_2022)
 ::: panel-tabset
 ## 2012
 
+```{r}
+wm_q_2012 <- PCI_2012_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2012 <- wm_q_2012 %>% 
+  mutate(local_moran = local_moran(
+    PCI.2012,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
 ## 2013
+
+```{r}
+wm_q_2013 <- PCI_2013_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2013 <- wm_q_2013 %>% 
+  mutate(local_moran = local_moran(
+    PCI.2013,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
 
 ## 2014
 
+```{r}
+wm_q_2014 <- PCI_2014_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2014 <- wm_q_2014 %>% 
+  mutate(local_moran = local_moran(
+    PCI.2014,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
 ## 2015
+
+```{r}
+wm_q_2015 <- PCI_2015_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2015 <- wm_q_2015 %>% 
+  mutate(local_moran = local_moran(
+    PCI.2015,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
 
 ## 2016
 
+```{r}
+wm_q_2016 <- PCI_2016_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2016 <- wm_q_2016 %>% 
+  mutate(local_moran = local_moran(
+    PCI.2016,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
 ## 2017
+
+```{r}
+wm_q_2017 <- PCI_2017_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2017 <- wm_q_2017 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score.in.2017,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
 :::
 
 ::: panel-tabset
 ## 2018
 
+```{r}
+wm_q_2018 <- PCI_2018_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2018 <- wm_q_2018 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score.in.2018,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
 ## 2019
+
+```{r}
+wm_q_2019 <- PCI_2019_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2019 <- wm_q_2019 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
 
 ## 2020
 
+```{r}
+wm_q_2020 <- PCI_2020_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2020 <- wm_q_2020 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
 ## 2021
+
+```{r}
+wm_q_2021 <- PCI_2021_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+```{r}
+lisa_2021 <- wm_q_2021 %>% 
+  mutate(local_moran = local_moran(
+    The.Weighted.PCI.Score,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
 
 ## 2022
 
@@ -482,6 +640,8 @@ lisa_2022 <- wm_q_2022 %>%
 ```
 :::
 
+Below is LISA sdep method
+
 ```{r}
 # Create a spatial weights matrix
 coords <- st_coordinates(st_centroid(PCI_2012_data))
@@ -500,18 +660,284 @@ PCI_2012_data$local_moran_2012 <- as.numeric(local_moran_2012[, "Ii"])
 
 # Visualising LISA
 
+::: panel-tabset
+## 2012
+
 ```{r}
-lisa_sig_2022 <- lisa_2022 %>% 
+lisa_sig_2012 <- lisa_2012 %>% 
   filter(p_ii < 0.05)
 ```
 
 ```{r}
-tm_shape(lisa_2022)+
+ tm_shape(lisa_2012)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2012)+
   tm_polygons()+
   tm_borders(alpha=0.5)+
-  tm_shape(lisa_sig_2022)+
+  tm_shape(lisa_sig_2012)+
   tm_fill("mean")+
   tm_borders(alpha=0.4)
+```
+
+## 2013
+
+```{r}
+lisa_sig_2013 <- lisa_2013 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2013)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2013)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2013)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2014
+
+```{r}
+lisa_sig_2014 <- lisa_2014 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2014)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2014)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2014)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2015
+
+```{r}
+lisa_sig_2015 <- lisa_2015 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2015)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2015)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2015)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2016
+
+```{r}
+lisa_sig_2016 <- lisa_2016 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2016)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2016)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2016)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2017
+
+```{r}
+lisa_sig_2017 <- lisa_2017 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2017)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2017)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2017)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+lisa_sig_2018 <- lisa_2018 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+tm_shape(lisa_2018)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2018)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2018)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2019
+
+```{r}
+lisa_sig_2019 <- lisa_2019 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+tm_shape(lisa_2019)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2019)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2019)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2020
+
+```{r}
+lisa_sig_2020 <- lisa_2020 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2020)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2020)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2020)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2021
+
+```{r}
+lisa_sig_2021 <- lisa_2021 %>% 
+  filter(p_ii < 0.05)
+```
+
+```{r}
+ tm_shape(lisa_2021)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(5,8))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 2
+  )
+```
+
+```{r}
+tm_shape(lisa_2021)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2021)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+
+## 2022
+
+```{r}
+lisa_sig_2022 <- lisa_2022 %>% 
+  filter(p_ii < 0.05)
 ```
 
 ```{r}
@@ -524,6 +950,16 @@ tm_shape(lisa_2022)+
     main.title.size = 2
   )
 ```
+
+```{r}
+tm_shape(lisa_2022)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+  tm_shape(lisa_sig_2022)+
+  tm_fill("mean")+
+  tm_borders(alpha=0.4)
+```
+:::
 
 Below is my sdep lisa cluster
 
