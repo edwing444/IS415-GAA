@@ -4,7 +4,7 @@ author: "Edwin Tan"
 ---
 
 ```{r}
-pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep,spgwr,exactextractr)
+pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep)
 ```
 
 # Reading data
@@ -436,7 +436,7 @@ print(global_moran_2022)
 ```
 :::
 
-# Preparing Data for LISA
+# Preparing Data for LISA of PCI
 
 ::: panel-tabset
 ## 2012
@@ -644,7 +644,7 @@ Below is LISA sdep method
 
 ```{r}
 # Create a spatial weights matrix
-coords <- st_coordinates(st_centroid(PCI_2012_data))
+coords <- st_coordinates(st_centroid(PCI_2022_data))
 nb <- knn2nb(knearneigh(coords, k = 4)) # K-nearest neighbors
 lw <- nb2listw(nb, style = "W")
 ```
@@ -652,13 +652,13 @@ lw <- nb2listw(nb, style = "W")
 ```{r}
 
 # Calculate local Moran's I for each region
-local_moran_2012 <- localmoran(PCI_2012_data$PCI.2012, lw)
+local_moran_2022 <- localmoran(PCI_2022_data$The.Weighted.PCI.Score, lw)
 
 # Add the results to the data for visualization
-PCI_2012_data$local_moran_2012 <- as.numeric(local_moran_2012[, "Ii"])
+PCI_2022_data$local_moran_2022 <- as.numeric(local_moran_2022[, "Ii"])
 ```
 
-# Visualising LISA
+# Visualising LISA of PCI
 
 ::: panel-tabset
 ## 2012
@@ -965,8 +965,8 @@ Below is my sdep lisa cluster
 
 ```{r}
 # Create the LISA cluster map
-tm_shape(PCI_2012_data) +
-  tm_polygons("local_moran_2012", 
+tm_shape(PCI_2022_data) +
+  tm_polygons("local_moran_2022", 
               title = "Local Moran's I (PCI Clusters)", 
               palette = "RdBu", 
               style = "cont") + 
@@ -974,19 +974,395 @@ tm_shape(PCI_2012_data) +
             legend.outside = TRUE)
 ```
 
+# Computing local Gi\* statistics for PCI
+
+```{r}
+wm_idw_2022 <- PCI_2022_data %>% 
+  mutate(nb=st_contiguity(geometry),
+         wts = st_inverse_distance(nb,geometry,
+                                   scale=1,
+                                   alpha=1),
+         .before = 1)
+```
+
+```{r}
+HCSA_2022 <- wm_idw_2022 %>% 
+  mutate(local_Gi = local_gstar_perm(
+    The.Weighted.PCI.Score,nb,wt,nsim=99),
+    .before=1) %>% 
+      unnest(local_Gi)
+```
+
+# Visualising hot spot and cold spot areas
+
+```{r}
+HCSA_sig_2022 <- HCSA_2022 %>% 
+  filter(p_sim<0.05)
+tmap_mode("plot")
+tm_shape(HCSA_2022)+
+  tm_polygons()+
+  tm_borders(alpha=0.5)+
+tm_shape(HCSA_sig_2022)+
+  tm_fill("gi_star")+
+  tm_borders(alpha=0.4)
+```
+
+Below is my sdep for GI hotspot
+
 ```{r}
 # Calculate Getis-Ord Gi* statistic for each region
-gi_star <- localG(PCI_2012_data$PCI.2012, lw)
+gi_star <- localG(PCI_2022_data$The.Weighted.PCI.Score, lw)
 
 # Add Gi* values to the data
-PCI_2012_data$gi_star <- as.numeric(gi_star)
+PCI_2022_data$gi_star <- as.numeric(gi_star)
 
 # Create a hotspot map
-tm_shape(PCI_2012_data) +
+tm_shape(PCI_2022_data) +
   tm_polygons("gi_star", 
-              title = "Getis-Ord Gi* (HDI Hotspots)", 
+              title = "Getis-Ord Gi* (PCI Hotspots)", 
               palette = "YlOrRd", 
               style = "cont") + 
-  tm_layout(main.title = "Hotspot Analysis: HDI", 
+  tm_layout(main.title = "Hotspot Analysis: PCI", 
+            legend.outside = TRUE)
+```
+
+# Preparing data for LISA of industrial production
+
+```{r}
+ind_prod <- read.csv('data/aspatial/industrial_prod.csv')
+```
+
+### Joining data
+
+```{r}
+ind_prod <- boundary_data %>%
+  left_join(ind_prod, by = "province")
+
+ind_prod <- drop_na(ind_prod)
+```
+
+### Computing LISA
+
+```{r}
+wm_q_ind <- ind_prod %>% 
+  mutate(nb=st_contiguity(geometry),
+         wt=st_weights(nb,
+                       style="W"),
+         .before = 1)
+```
+
+::: panel-tabset
+#### 2012
+
+```{r}
+lisa_ind_2012 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2012,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+#### 2013
+
+```{r}
+lisa_ind_2013 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2013,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+#### 2014
+
+```{r}
+lisa_ind_2014 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2014,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+#### 2015
+
+```{r}
+lisa_ind_2015 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2015,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+#### 2016
+
+```{r}
+lisa_ind_2016 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2016,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+#### 2017
+
+```{r}
+lisa_ind_2017 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2017,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+lisa_ind_2018 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2018,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+## 2019
+
+```{r}
+lisa_ind_2019 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2019,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+## 2020
+
+```{r}
+lisa_ind_2020 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2020,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+## 2021
+
+```{r}
+lisa_ind_2021 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2021,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+## 2022
+
+```{r}
+lisa_ind_2022 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2022,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+
+## 2023
+
+```{r}
+lisa_ind_2023 <- wm_q_ind %>% 
+  mutate(local_moran = local_moran(
+    Y2012,nb,wt,nsim=99),
+    .before=1) %>% 
+  unnest(local_moran)
+```
+:::
+
+# Visualising LISA of Industrial Production
+
+::: panel-tabset
+## 2012
+
+```{r}
+tm_shape(lisa_ind_2012)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2013
+
+```{r}
+tm_shape(lisa_ind_2013)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2014
+
+```{r}
+tm_shape(lisa_ind_2014)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2015
+
+```{r}
+tm_shape(lisa_ind_2015)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2016
+
+```{r}
+tm_shape(lisa_ind_2016)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2017
+
+```{r}
+tm_shape(lisa_ind_2017)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+:::
+
+::: panel-tabset
+## 2018
+
+```{r}
+tm_shape(lisa_ind_2018)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2019
+
+```{r}
+tm_shape(lisa_ind_2019)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2020
+
+```{r}
+tm_shape(lisa_ind_2020)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2021
+
+```{r}
+tm_shape(lisa_ind_2021)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2022
+
+```{r}
+tm_shape(lisa_ind_2022)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+
+## 2023
+
+```{r}
+tm_shape(lisa_ind_2023)+
+  tm_fill('ii')+
+  tm_borders(alpha=0.5)+
+  tm_view(set.zoom.limits = c(3,6))+
+  tm_layout(
+    main.title = "local Moran's I of G",
+    main.title.size = 1
+  )
+```
+:::
+
+# Computing local Gi\* statistics for Industrial Production
+
+```{r}
+# Create a spatial weights matrix
+coords_prod <- st_coordinates(st_centroid(ind_prod))
+nb_prod <- knn2nb(knearneigh(coords_prod, k = 4)) # K-nearest neighbors
+lw_prod <- nb2listw(nb_prod, style = "W")
+```
+
+```{r}
+# Calculate Getis-Ord Gi* statistic for each region
+gi_star_prod <- localG(ind_prod$Y2022, lw_prod)
+
+# Add Gi* values to the data
+ind_prod$gi_star_prod <- as.numeric(gi_star_prod)
+```
+
+# Visualising Hotspot Map
+
+```{r}
+# Create a hotspot map
+tm_shape(ind_prod) +
+  tm_polygons("gi_star_prod", 
+              title = "Getis-Ord Gi* (Indistrial Production Hotspots)", 
+              palette = "YlOrRd", 
+              style = "cont") + 
+  tm_layout(main.title = "Hotspot Analysis: Industrial Production", 
             legend.outside = TRUE)
 ```
