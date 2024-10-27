@@ -253,6 +253,20 @@ global_moran_2012 <- moran.test(PCI_2012_data$PCI.2012, lw_global_2012)
 print(global_moran_2012)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0807, a positive value indicating weak positive spatial autocorrelation. This suggests that locations with similar PCI Scores in 2012 show a slight tendency to cluster geographically, but the effect is minimal.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which reflects what would be expected in a random spatial pattern.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00860, which helps in assessing the significance of the observed Moran's I.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.0588 indicates that the observed Moran's I statistic is about 1.06 standard deviations above the expected value under the null hypothesis. This suggests a slight presence of spatial clustering, though not substantial.
+
+5.  **p-value**: The p-value is 0.1448, which is higher than the conventional significance level of 0.05, meaning that the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2012 indicates weak positive spatial autocorrelation, but with a p-value of 0.1448, the result is not statistically significant. This suggests that there is insufficient evidence to reject the null hypothesis of no spatial autocorrelation. Therefore, the slight clustering of similar PCI Scores in 2012 is not strong enough to be considered statistically significant.
+
 ## 2013
 
 ```{r}
@@ -271,6 +285,20 @@ global_moran_2013 <- moran.test(PCI_2013_data$PCI.2013, lw_global_2013)
 print(global_moran_2013)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0152, which is very close to zero, indicating an almost random spatial distribution of PCI Scores in 2013. This suggests little to no spatial autocorrelation, meaning that similar PCI Scores are not clustered geographically in any significant way.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0179, consistent with what would be seen in a random spatial pattern.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.0090, which is used to assess the statistical significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 0.3486 indicates that the observed Moran's I is close to the expected value under the null hypothesis, further suggesting little to no spatial clustering.
+
+5.  **p-value**: The p-value is 0.3637, which is considerably above the common significance level of 0.05. This indicates that the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2013 shows no significant spatial autocorrelation, as indicated by the near-zero Moran's I statistic and a high p-value (0.3637). This suggests there is no evidence to reject the null hypothesis of no spatial autocorrelation, meaning PCI Scores in 2013 are distributed in a largely random pattern without meaningful geographic clustering.
+
 ## 2014
 
 ```{r}
@@ -288,6 +316,20 @@ global_moran_2014 <- moran.test(PCI_2014_data$PCI.2014, lw_global_2014)
 # Step 3: Print the results
 print(global_moran_2014)
 ```
+
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0952, a positive value indicating weak positive spatial autocorrelation. This suggests a slight tendency for areas with similar PCI Scores in 2014 to be clustered geographically, though the effect is minimal.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which would align with a random spatial pattern.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00849, which helps in determining the significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.2237 indicates that the observed Moran's I statistic is about 1.22 standard deviations above the expected value, suggesting a slight presence of spatial clustering.
+
+5.  **p-value**: The p-value is 0.1105, which is above the standard significance level of 0.05, indicating that the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2014 shows weak positive spatial autocorrelation, but with a p-value of 0.1105, this result is not statistically significant. Therefore, there is insufficient evidence to reject the null hypothesis of no spatial autocorrelation, meaning that any clustering of similar PCI Scores in 2014 is weak and not statistically meaningful.
 
 ## 2015
 
@@ -325,6 +367,20 @@ global_moran_2016 <- moran.test(PCI_2016_data$PCI.2016, lw_global_2016)
 print(global_moran_2016)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0287, which is close to zero, indicating an almost random spatial distribution of PCI Scores in 2016. This suggests little to no spatial autocorrelation, meaning there is no meaningful geographic clustering of similar scores.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, consistent with what would be expected for a random spatial pattern.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00815, which is used to evaluate the statistical significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 0.5123 shows that the observed Moran's I statistic is close to the expected value under the null hypothesis, indicating a lack of spatial clustering.
+
+5.  **p-value**: The p-value is 0.3042, which is much higher than the standard significance threshold of 0.05. This indicates that the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2016 suggests no significant spatial autocorrelation, as indicated by the near-zero Moran's I statistic and a high p-value (0.3042). This lack of statistical significance means there is no evidence to reject the null hypothesis of no spatial autocorrelation. Therefore, PCI Scores in 2016 are distributed in a largely random pattern without significant geographic clustering.
+
 ## 2017
 
 ```{r}
@@ -342,6 +398,20 @@ global_moran_2017 <- moran.test(PCI_2017_data$The.Weighted.PCI.Score.in.2017, lw
 # Step 3: Print the results
 print(global_moran_2017)
 ```
+
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0782, indicating a weak positive spatial autocorrelation. This suggests a slight tendency for similar PCI Scores in 2017 to be geographically clustered, though the effect is minimal.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which would correspond to a random spatial distribution.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00848, which assists in evaluating the statistical significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.0397 indicates that the observed Moran's I is just over one standard deviation above the expected value under the null hypothesis, suggesting slight clustering.
+
+5.  **p-value**: The p-value is 0.1492, which is higher than the typical significance level of 0.05, indicating that the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2017 shows weak positive spatial autocorrelation, but with a p-value of 0.1492, this result is not statistically significant. Therefore, there is insufficient evidence to reject the null hypothesis of no spatial autocorrelation, suggesting that any clustering of similar PCI Scores in 2017 is minimal and not statistically meaningful.
 :::
 
 ::: panel-tabset
@@ -363,6 +433,20 @@ global_moran_2018 <- moran.test(PCI_2018_data$The.Weighted.PCI.Score.in.2018, lw
 print(global_moran_2018)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.1093, a positive value indicating weak positive spatial autocorrelation. This suggests that locations with similar Weighted PCI Scores in 2018 tend to be slightly clustered geographically, but the effect is not strong.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which reflects random spatial patterns.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00837, which is used to assess the statistical significance of the observed Moran's I.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.3862 indicates that the observed Moran's I statistic is about 1.39 standard deviations above the expected value under the null hypothesis. This suggests a mild presence of spatial clustering, but not strongly so.
+
+5.  **p-value**: The p-value is 0.08284, which is greater than the common significance level of 0.05. This indicates that the spatial autocorrelation is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2018 shows weak positive spatial autocorrelation, but the p-value (0.08284) suggests that this result is not statistically significant at the 5% level. There is insufficient evidence to reject the null hypothesis of no spatial autocorrelation. Therefore, while there is a slight tendency for areas with similar PCI Scores in 2018 to cluster geographically, this pattern is not strong enough to be considered statistically significant.
+
 ## 2019
 
 ```{r}
@@ -380,6 +464,20 @@ global_moran_2019 <- moran.test(PCI_2019_data$The.Weighted.PCI.Score, lw_global_
 # Step 3: Print the results
 print(global_moran_2019)
 ```
+
+1.  **Moran's I statistic**: The Moran's I statistic is 0.0757, a positive value, suggesting weak positive spatial autocorrelation. This means that locations with similar Weighted PCI Scores in 2019 show a slight tendency to cluster geographically, but the correlation is quite weak.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which is typical for random spatial distributions.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00842, used to assess the statistical significance of the observed Moran's I.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.0163 indicates that the observed Moran's I statistic is about 1 standard deviation higher than what would be expected under the null hypothesis. This suggests a very mild degree of spatial clustering.
+
+5.  **p-value**: The p-value is 0.1547, which is greater than the common significance level of 0.05. This means the result is not statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2019 shows weak positive spatial autocorrelation, but the result is not statistically significant (p-value = 0.1547). There is insufficient evidence to reject the null hypothesis of no spatial autocorrelation. Therefore, the slight tendency for areas with similar PCI Scores in 2019 to cluster geographically is not strong enough to be considered statistically significant.
 
 ## 2020
 
@@ -399,6 +497,20 @@ global_moran_2020 <- moran.test(PCI_2020_data$The.Weighted.PCI.Score, lw_global_
 print(global_moran_2020)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.1278, which is a positive value, suggesting some positive spatial autocorrelation. This means that locations with similar Weighted PCI Scores in 2020 tend to be geographically closer to one another, but the correlation is relatively weak.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175. This reflects a random spatial distribution.
+
+3.  **Variance**: The variance of Moran's I statistic under randomization is 0.00803, which helps to determine the significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 1.622 indicates that the observed Moran's I statistic is about 1.62 standard deviations above the expected value under the null hypothesis. This suggests some presence of spatial clustering but not very strong.
+
+5.  **p-value**: The p-value is 0.0524, which is slightly above the typical significance threshold of 0.05. While this result is close to being statistically significant, it does not reach conventional levels of significance.
+
+### Conclusion:
+
+The Moran's I test for 2020 suggests weak positive spatial autocorrelation, but the p-value (0.0524) indicates that it is not quite statistically significant at the 5% level. Although there is a mild tendency for areas with similar PCI Scores in 2020 to cluster geographically, the evidence is not strong enough to confidently reject the null hypothesis of no spatial autocorrelation. This result is on the borderline of significance.
+
 ## 2021
 
 ```{r}
@@ -417,6 +529,20 @@ global_moran_2021 <- moran.test(PCI_2021_data$The.Weighted.PCI.Score, lw_global_
 print(global_moran_2021)
 ```
 
+1.  **Moran's I statistic**: The Moran's I statistic is 0.1722, a positive value indicating moderate positive spatial autocorrelation. This suggests that locations with similar Weighted PCI Scores in 2021 tend to be geographically clustered.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which reflects a random spatial pattern.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00851, used in determining the significance of the observed Moran's I.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 2.0572 indicates that the observed Moran's I statistic is about 2.06 standard deviations above the expected value under the null hypothesis. This suggests a noticeable degree of spatial clustering.
+
+5.  **p-value**: The p-value is 0.01984, which is lower than the 0.05 significance threshold. This indicates that the spatial autocorrelation is statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2021 shows moderate positive spatial autocorrelation, with a statistically significant result (p = 0.01984). This means there is strong evidence to reject the null hypothesis of no spatial autocorrelation, indicating that areas with similar PCI Scores in 2021 are more likely to cluster geographically.
+
 ## 2022
 
 ```{r}
@@ -434,6 +560,20 @@ global_moran_2022 <- moran.test(PCI_2022_data$The.Weighted.PCI.Score, lw_global_
 # Step 3: Print the results
 print(global_moran_2022)
 ```
+
+1.  **Moran's I statistic**: The Moran's I statistic is 0.2409, a positive value indicating moderate to strong positive spatial autocorrelation. This suggests that locations with similar Weighted PCI Scores in 2022 tend to cluster geographically.
+
+2.  **Expectation**: The expected value of Moran's I under the null hypothesis of no spatial autocorrelation is -0.0175, which is typical for random spatial patterns.
+
+3.  **Variance**: The variance of the Moran's I statistic is 0.00855, used to evaluate the statistical significance of the observed Moran's I value.
+
+4.  **Standard deviate (Z-score)**: The Z-score of 2.7947 indicates that the observed Moran's I statistic is nearly 2.8 standard deviations above the expected value under the null hypothesis. This points to a strong degree of spatial clustering.
+
+5.  **p-value**: The p-value is 0.002597, which is well below the typical significance threshold of 0.05. This means the result is highly statistically significant.
+
+### Conclusion:
+
+The Moran's I test for 2022 shows strong positive spatial autocorrelation, with a highly significant p-value (0.002597). This provides strong evidence to reject the null hypothesis of no spatial autocorrelation, indicating that areas with similar PCI Scores in 2022 are highly likely to cluster geographically. The spatial clustering observed in 2022 is stronger and more significant than in previous years.
 :::
 
 # Preparing Data for LISA of PCI
@@ -674,10 +814,16 @@ lisa_sig_2012 <- lisa_2012 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
+
+1.  **High-High Clusters (Hotspots)**: These areas, indicated by dark green, are likely the most economically vibrant regions. Urban centers or economically prosperous areas fall into this category.
+
+2.  **Low-Low Clusters (Cold spots)**: Dark red regions indicate significant economic challenges, highlighting areas needing substantial policy intervention and development efforts.
+
+3.  **Transitional Zones**: Yellow to light green areas represent moderate competitiveness. These regions are improving but still require support to sustain growth.
 
 ```{r}
 tm_shape(lisa_2012)+
@@ -687,6 +833,14 @@ tm_shape(lisa_2012)+
   tm_fill("mean")+
   tm_borders(alpha=0.4)
 ```
+
+-   **Low-Low Clusters (Light Blue)**: These regions have low values surrounded by other low-value regions. They are likely areas with economic or developmental challenges.
+
+-   **High-Low Clusters (Green)**: High-value regions surrounded by low-value areas. These might be urban centers or economically prosperous areas adjacent to less developed regions, indicating a stark socio-economic contrast.
+
+-   **Low-High Clusters (Purple)**: Low-value regions surrounded by high-value areas. These could be rural or underdeveloped regions located near more prosperous areas.
+
+-   **High-High Clusters (Red)**: High-value areas surrounded by other high-value regions. These are likely major urban centers or regions with significant economic activity.
 
 ## 2013
 
@@ -701,7 +855,7 @@ lisa_sig_2013 <- lisa_2013 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -728,7 +882,7 @@ lisa_sig_2014 <- lisa_2014 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -755,7 +909,7 @@ lisa_sig_2015 <- lisa_2015 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -782,7 +936,7 @@ lisa_sig_2016 <- lisa_2016 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -809,7 +963,7 @@ lisa_sig_2017 <- lisa_2017 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -838,7 +992,7 @@ tm_shape(lisa_2018)+
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -865,7 +1019,7 @@ tm_shape(lisa_2019)+
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -892,7 +1046,7 @@ lisa_sig_2020 <- lisa_2020 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -919,7 +1073,7 @@ lisa_sig_2021 <- lisa_2021 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
@@ -946,7 +1100,7 @@ lisa_sig_2022 <- lisa_2022 %>%
   tm_borders(alpha=0.5)+
   tm_view(set.zoom.limits = c(5,8))+
   tm_layout(
-    main.title = "local Moran's I of G",
+    main.title = "LISA Cluster Map: PCI",
     main.title.size = 2
   )
 ```
