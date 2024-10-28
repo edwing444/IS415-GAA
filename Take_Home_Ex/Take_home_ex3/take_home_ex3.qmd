@@ -9,6 +9,12 @@ pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep)
 
 # Reading data
 
+1.  **`boundary_data`**: This object loads the **administrative boundary data** for Vietnam from a geospatial source file, specifically for the **first administrative level** (likely provinces). The data will enable geographic plotting and spatial analyses of provinces across Vietnam. The `st_read` function from the `sf` package is used here to load this shapefile, making it suitable for spatial analysis tasks such as mapping or integrating spatial features with aspatial data.
+
+2.  **PCI Data (`PCI_2012_data` to `PCI_2022_data`)**: These objects load **Provincial Competitiveness Index (PCI) data** for Vietnam for each year from **2012 to 2022**. Each CSV file contains aspatial (non-geographic) data that likely includes indicators of economic performance, governance quality, business environment, and investment appeal at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of PCI metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.
+
+This setup aims to combine spatial and aspatial data for a comprehensive analysis of Vietnam’s provincial competitiveness over a decade.
+
 ```{r}
 # Import administrative boundary data for vietnam
 boundary_data <- st_read(dsn="data/geospatial",
@@ -31,12 +37,28 @@ PCI_2022_data <- read.csv("data/aspatial/2022.csv")
 
 # Cleaning data
 
+This code refines the **administrative boundary data** by performing two main actions:
+
+1.  **Selecting and Dropping Columns**: It removes several unnecessary columns from `boundary_data`, including administrative codes, alternative names, and validity dates, to keep only essential information. This reduces the dataset size and complexity, making it more manageable and focused on what is likely required for analysis.
+
+2.  **Renaming a Column**: It renames the `ADM1_EN` column to `province`. This renaming enhances readability, making it clearer that this column represents the **province name** in English.
+
+Overall, these changes prepare the `boundary_data` for integration with other datasets (like the PCI data), focusing only on necessary columns for analysis.
+
 ```{r}
 boundary_data <- boundary_data %>%
   dplyr::select(-ADM1_VI,-ADM1_REF,-ADM1ALT1EN,-ADM1ALT2EN,-ADM1ALT1VI,-ADM1ALT2EN, -ADM1ALT2VI, -ADM0_VI,-ADM0_EN,-ADM0_PCODE,-date,-validOn,-validTo,-ADM1_PCODE) %>% 
   rename(province = ADM1_EN)
 
 ```
+
+These codes processes the **PCI data for 2012-2022** by:
+
+1.  **Dropping Unnecessary Columns**: It removes various unnamed columns (`X`, `X.1`, `X.2`, etc.) and the `No` column, which may contain indices or irrelevant data. These columns might have been automatically generated during data export or are not needed for analysis.
+
+2.  **Renaming the Province Column**: The column `Province` is renamed to `province` to match the column name in `boundary_data`. Consistently naming this key column across datasets enables smoother data merging or joining, especially when linking the PCI data with the spatial boundary data.
+
+This preparation step ensures the PCI data is streamlined and ready for integration with other datasets in the analysis.
 
 ::: panel-tabset
 ## 2012
@@ -128,6 +150,14 @@ PCI_2022_data <- PCI_2022_data %>%
 :::
 
 # Joining data
+
+This code joins the **spatial boundary data** and **PCI data for 2012-2022** by:
+
+1.  **Merging Data**: The `left_join` function merges `boundary_data` with PCI data using the `province` column as a common key. This results in a new PCI dataset that includes spatial information (geometry) from `boundary_data` along with the PCI indicators for 2012-2022. The `left_join` ensures that all records from `boundary_data` are kept, and matching rows from PCI data are added.
+
+2.  **Removing Rows with Missing Data**: `drop_na` removes any rows with `NA` values from PCI data, likely to ensure that only provinces with complete PCI data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.
+
+This approach creates a complete dataset with both spatial and PCI data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.
 
 ::: panel-tabset
 ## 2012
@@ -234,6 +264,16 @@ PCI_2022_data <- drop_na(PCI_2022_data)
 
 # Preparing and Computing Data for Global Moran I
 
+This code prepares a **spatial weights matrix** using **Queen contiguity** to model spatial relationships between provinces in the PCI dataset:
+
+1.  **Calculate Centroids**: `st_centroid(st_geometry(PCI_2012_data))` computes the centroids of each province's polygon. While centroids aren't directly needed for creating a contiguity matrix, they can be useful for visualizations or other analyses.
+
+2.  **Create Neighbor List Using Queen Contiguity**: `poly2nb(PCI_2012_data, queen = TRUE)` establishes a **neighbors list** where provinces sharing a border are considered neighbors (Queen contiguity). This approach is inclusive, considering any shared edge or corner between polygons as a connection.
+
+3.  **Convert to Spatial Weights List**: `nb2listw(nb_global_2012, style = "W")` transforms the neighbors list (`nb_global_2012`) into a **spatial weights matrix** (`lw_global_2012`). The `style = "W"` parameter row-standardizes the weights, meaning each row sums to 1, providing relative influence among neighbors and helping avoid scale issues in spatial analysis.
+
+This setup is crucial for spatial econometric models and for analyzing spatial autocorrelation, as it defines how each province relates to its neighbors.
+
 ::: panel-tabset
 ## 2012
 
@@ -309,7 +349,7 @@ lw_global_2014 <- nb2listw(nb_global_2014, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2014
 PCI_2014_data$PCI.2014 <- as.numeric(PCI_2014_data$PCI.2014)
 # Step 2: Compute Global Moran's I
 global_moran_2014 <- moran.test(PCI_2014_data$PCI.2014, lw_global_2014)
@@ -341,7 +381,7 @@ lw_global_2015 <- nb2listw(nb_global_2015, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2015
 PCI_2015_data$PCI.2015 <- as.numeric(PCI_2015_data$PCI.2015)
 # Step 2: Compute Global Moran's I
 global_moran_2015 <- moran.test(PCI_2015_data$PCI.2015, lw_global_2015)
@@ -359,7 +399,7 @@ lw_global_2016 <- nb2listw(nb_global_2016, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2016
 PCI_2016_data$PCI.2016 <- as.numeric(PCI_2016_data$PCI.2016)
 # Step 2: Compute Global Moran's I
 global_moran_2016 <- moran.test(PCI_2016_data$PCI.2016, lw_global_2016)
@@ -391,7 +431,7 @@ lw_global_2017 <- nb2listw(nb_global_2017, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2017
 PCI_2017_data$The.Weighted.PCI.Score.in.2017 <- as.numeric(PCI_2017_data$The.Weighted.PCI.Score.in.2017)
 # Step 2: Compute Global Moran's I
 global_moran_2017 <- moran.test(PCI_2017_data$The.Weighted.PCI.Score.in.2017, lw_global_2017)
@@ -425,7 +465,7 @@ lw_global_2018 <- nb2listw(nb_global_2018, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2018
 PCI_2018_data$The.Weighted.PCI.Score.in.2018 <- as.numeric(PCI_2018_data$The.Weighted.PCI.Score.in.2018)
 # Step 2: Compute Global Moran's I
 global_moran_2018 <- moran.test(PCI_2018_data$The.Weighted.PCI.Score.in.2018, lw_global_2018)
@@ -457,7 +497,7 @@ lw_global_2019 <- nb2listw(nb_global_2019, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2019
 PCI_2019_data$The.Weighted.PCI.Score <- as.numeric(PCI_2019_data$The.Weighted.PCI.Score)
 # Step 2: Compute Global Moran's I
 global_moran_2019 <- moran.test(PCI_2019_data$The.Weighted.PCI.Score, lw_global_2019)
@@ -489,7 +529,7 @@ lw_global_2020 <- nb2listw(nb_global_2020, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2020
 PCI_2020_data$The.Weighted.PCI.Score <- as.numeric(PCI_2020_data$The.Weighted.PCI.Score)
 # Step 2: Compute Global Moran's I
 global_moran_2020 <- moran.test(PCI_2020_data$The.Weighted.PCI.Score, lw_global_2020)
@@ -521,7 +561,7 @@ lw_global_2021 <- nb2listw(nb_global_2021, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2021
 PCI_2021_data$The.Weighted.PCI.Score <- as.numeric(PCI_2021_data$The.Weighted.PCI.Score)
 # Step 2: Compute Global Moran's I
 global_moran_2021 <- moran.test(PCI_2021_data$The.Weighted.PCI.Score, lw_global_2021)
@@ -553,7 +593,7 @@ lw_global_2022 <- nb2listw(nb_global_2022, style = "W") # Convert to weights lis
 ```
 
 ```{r}
-#covert to numeric for PCI 2013
+#covert to numeric for PCI 2022
 PCI_2022_data$The.Weighted.PCI.Score <- as.numeric(PCI_2022_data$The.Weighted.PCI.Score)
 # Step 2: Compute Global Moran's I
 global_moran_2022 <- moran.test(PCI_2022_data$The.Weighted.PCI.Score, lw_global_2022)
@@ -577,6 +617,32 @@ The Moran's I test for 2022 shows strong positive spatial autocorrelation, with 
 :::
 
 # Preparing Data for LISA of PCI
+
+These codse enhances the **PCI 2012-2022** dataset by adding spatial contiguity and weight information as new columns:
+
+1.  **Calculate Neighbor List**: `st_contiguity(geometry)` identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column `nb`. This function creates a list where each province has a record of which other provinces are contiguous to it.
+
+2.  **Assign Weights to Neighbors**: `st_weights(nb, style="W")` calculates a **row-standardized weight** for each neighbor in `nb`, stored in the new column `wt`. The `style="W"` parameter means that the weights for each province's neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.
+
+3.  **Place Columns at the Beginning**: The `.before = 1` argument ensures that the new columns (`nb` and `wt`) are positioned at the beginning of the dataset, making them easy to access and review during analysis.
+
+This setup embeds spatial structure directly into the PCI dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.
+
+The 2nd code performs **Local Moran's I analysis** on the **PCI data for 2012-2022** to identify spatial autocorrelation at the provincial level:
+
+1.  **Calculate Local Moran's I**: `local_moran(PCI.2012, nb, wt, nsim=99)` computes Local Moran's I statistic for the `PCI.2012` variable, which represents the Provincial Competitiveness Index for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low PCI values relative to neighboring provinces:
+
+    -   `nb`: The neighbors list (spatial contiguity) column created earlier.
+
+    -   `wt`: The spatial weights column.
+
+    -   `nsim=99`: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.
+
+2.  **Store Results in `local_moran` Column**: This result is saved as a new column `local_moran`. The `.before=1` argument ensures that `local_moran` is placed at the start of the data frame for easy access.
+
+3.  **Unnest the Results**: `unnest(local_moran)` expands the `local_moran` column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran's I values for each province more accessible for further analysis or visualization.
+
+The resulting `lisa_2012` dataset provides **Local Moran's I values** for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in PCI values across Vietnam. And I repeat the above steps for the remaining years
 
 ::: panel-tabset
 ## 2012
@@ -800,6 +866,24 @@ PCI_2022_data$local_moran_2022 <- as.numeric(local_moran_2022[, "Ii"])
 
 # Visualising LISA of PCI
 
+This code filters the **Local Moran’s I analysis results** to keep only the provinces with **statistically significant spatial autocorrelation** at the 5% level:
+
+1.  **Filter Significant Results**: `filter(p_ii < 0.05)` selects only rows where `p_ii`, the p-value for the Local Moran's I statistic, is less than 0.05. This threshold indicates a statistically significant result, meaning that the observed clustering or dispersion in PCI values is unlikely due to random chance (with a confidence level of 95%).
+
+2.  **Create `lisa_sig_2012` Dataset**: The filtered dataset `lisa_sig_2012` now contains only those provinces with significant Local Moran's I values, indicating significant clusters or spatial outliers of the PCI in 2012.
+
+This refined dataset enables focused analysis or visualization of areas with meaningful spatial patterns in competitiveness, highlighting where PCI scores are spatially clustered or anomalous. And I repeat again for the remaining years
+
+### Reasons for Using the 5% Threshold
+
+1.  **Standard in Statistical Testing**: The 5% threshold has become a conventional standard across many fields, balancing rigor with a manageable likelihood of Type I error (incorrectly rejecting a true null hypothesis).
+
+2.  **Interpretability**: Results significant at the 5% level suggest a 95% confidence that there is a non-random spatial pattern, making findings more reliable and interpretable.
+
+3.  **Trade-Off**: Lowering the threshold (e.g., 1%) increases confidence but might miss some true effects, while a higher threshold (e.g., 10%) increases sensitivity but could result in more false positives. The 5% level strikes a balance between these.
+
+Using this threshold in your Local Moran’s I analysis ensures that significant spatial patterns are both reliable and meaningful.
+
 ::: panel-tabset
 ## 2012
 
@@ -819,12 +903,6 @@ lisa_sig_2012 <- lisa_2012 %>%
   )
 ```
 
-1.  **High-High Clusters (Hotspots)**: These areas, indicated by dark green, are likely the most economically vibrant regions. Urban centers or economically prosperous areas fall into this category.
-
-2.  **Low-Low Clusters (Cold spots)**: Dark red regions indicate significant economic challenges, highlighting areas needing substantial policy intervention and development efforts.
-
-3.  **Transitional Zones**: Yellow to light green areas represent moderate competitiveness. These regions are improving but still require support to sustain growth.
-
 ```{r}
 tm_shape(lisa_2012)+
   tm_polygons()+
@@ -833,14 +911,6 @@ tm_shape(lisa_2012)+
   tm_fill("mean")+
   tm_borders(alpha=0.4)
 ```
-
--   **Low-Low Clusters (Light Blue)**: These regions have low values surrounded by other low-value regions. They are likely areas with economic or developmental challenges.
-
--   **High-Low Clusters (Green)**: High-value regions surrounded by low-value areas. These might be urban centers or economically prosperous areas adjacent to less developed regions, indicating a stark socio-economic contrast.
-
--   **Low-High Clusters (Purple)**: Low-value regions surrounded by high-value areas. These could be rural or underdeveloped regions located near more prosperous areas.
-
--   **High-High Clusters (Red)**: High-value areas surrounded by other high-value regions. These are likely major urban centers or regions with significant economic activity.
 
 ## 2013
 
@@ -1128,6 +1198,20 @@ tm_shape(PCI_2022_data) +
             legend.outside = TRUE)
 ```
 
+1.  **High-High Clusters (Hotspots)**: These areas, indicated by dark green, are likely the most economically vibrant regions. Urban centers or economically prosperous areas fall into this category.
+
+2.  **Low-Low Clusters (Cold spots)**: Dark red regions indicate significant economic challenges, highlighting areas needing substantial policy intervention and development efforts.
+
+3.  **Transitional Zones**: Yellow to light green areas represent moderate competitiveness. These regions are improving but still require support to sustain growth.
+
+-   **Low-Low Clusters (Light Blue)**: These regions have low values surrounded by other low-value regions. They are likely areas with economic or developmental challenges.
+
+-   **High-Low Clusters (Green)**: High-value regions surrounded by low-value areas. These might be urban centers or economically prosperous areas adjacent to less developed regions, indicating a stark socio-economic contrast.
+
+-   **Low-High Clusters (Purple)**: Low-value regions surrounded by high-value areas. These could be rural or underdeveloped regions located near more prosperous areas.
+
+-   **High-High Clusters (Red)**: High-value areas surrounded by other high-value regions. These are likely major urban centers or regions with significant economic activity.
+
 # Computing local Gi\* statistics for PCI
 
 ```{r}
@@ -1139,6 +1223,36 @@ wm_idw_2022 <- PCI_2022_data %>%
          .before = 1)
 ```
 
+1.  **Calculate Neighbor List**:
+
+    -   `st_contiguity(geometry)` identifies neighboring provinces based on their geometry. This creates a list that shows which provinces are contiguous to each other.
+
+2.  **Compute Weights Using Inverse Distance**:
+
+    -   `st_inverse_distance(nb, geometry, scale=1, alpha=1)` calculates the inverse distance weights based on the contiguity of provinces:
+
+        -   **`nb`**: The neighbors list created from the `st_contiguity` function.
+
+        -   **`geometry`**: The geometrical representation of the provinces.
+
+        -   **`scale`**: This parameter controls the scaling of the distance; a value of 1 typically means that distances are used directly.
+
+        -   **`alpha`**: This parameter determines how much influence nearby provinces have compared to those farther away. An `alpha` of 1 indicates a direct inverse distance weighting, where closer provinces have significantly more influence than those farther away.
+
+3.  **Store New Columns at the Beginning**:
+
+    -   The `.before = 1` argument ensures that the newly calculated columns (`nb` for neighbors and `wts` for weights) are placed at the beginning of the dataset, making them readily accessible for subsequent analysis.
+
+### Overall Purpose
+
+The resulting dataset `wm_idw_2022` now contains:
+
+-   A `nb` column indicating the neighboring provinces for each province.
+
+-   A `wts` column that holds the inverse distance weights, reflecting the spatial relationships among provinces based on their distances.
+
+This setup is useful for spatial interpolation or analysis, particularly in creating maps or conducting further spatial econometric modeling that accounts for the influence of nearby provinces on each other.
+
 ```{r}
 HCSA_2022 <- wm_idw_2022 %>% 
   mutate(local_Gi = local_gstar_perm(
@@ -1146,6 +1260,14 @@ HCSA_2022 <- wm_idw_2022 %>%
     .before=1) %>% 
       unnest(local_Gi)
 ```
+
+The resulting dataset `HCSA_2022` now contains:
+
+-   The original data from `wm_idw_2022`, including the weighted PCI scores and the neighbors list.
+
+-   A new column `local_Gi` that contains the local Getis-Ord Gi\* statistics for each province, reflecting the degree of spatial clustering of high or low values in the weighted PCI scores.
+
+This setup allows for further analysis of spatial patterns in competitiveness scores, helping to identify areas of high performance (hot spots) or low performance (cold spots) in the context of provincial competitiveness in Vietnam for 2022.
 
 # Visualising hot spot and cold spot areas
 
@@ -1160,6 +1282,10 @@ tm_shape(HCSA_sig_2022)+
   tm_fill("gi_star")+
   tm_borders(alpha=0.4)
 ```
+
+This map effectively visualizes significant hotspot areas in northern Vietnam, showing where high values of the analyzed variable (possibly conflict data, health statistics, or economic factors) cluster spatially. The stronger hotspots are concentrated around the Red River Delta area, suggesting important spatial trends. No cold spots are observed, indicating that the focus is primarily on regions with high-value clustering.
+
+For a geospatial analyst, this map offers insights into spatial patterns that could inform policy decisions, resource allocation, or further investigation into why certain areas exhibit higher intensity for the variable being analyzed.
 
 Below is my sdep for GI hotspot
 
@@ -1180,13 +1306,73 @@ tm_shape(PCI_2022_data) +
             legend.outside = TRUE)
 ```
 
+-   *Getis-Ord Gi Statistic (Hotspot and Cold Spot Identification):*\*
+
+    -   **Hotspots (Red Areas):**
+
+        -   Provinces colored in **red** show significant clustering of **high PCI values**, meaning these regions exhibit **high competitiveness** in business and economic performance.
+
+        -   This suggests these provinces offer favorable conditions for businesses, such as efficient government services, good infrastructure, or policies that attract investment.
+
+        -   Key regions with high competitiveness (hotspots) are:
+
+            -   **Northern Vietnam**: Several provinces show up as red, indicating this region is a competitive hub.
+
+            -   **Central Vietnam**: Another area of high competitiveness, likely with favorable governance or economic policies that contribute to its strong PCI score.
+
+    -   **Cold Spots (Dark Areas):**
+
+        -   The map also shows **cold spots** (with negative Gi\* values), which represent provinces with **low competitiveness**. These are regions where low PCI scores cluster, indicating they are less attractive for business or have poor economic governance.
+
+        -   A few provinces in **central Vietnam** fall into this category, suggesting these areas might face challenges such as bureaucracy, underdeveloped infrastructure, or less favorable conditions for economic growth.
+
+    -   **Intermediate Areas (Yellow to Orange):**
+
+        -   Provinces in **yellow to orange** have moderate PCI values, indicating no significant clustering of competitiveness. These areas are neither clear hotspots nor cold spots but fall somewhere in the middle in terms of their competitive standing.
+
+-   **Significant Regional Trends:**
+
+    -   **Northern Vietnam**:
+
+        -   The northern provinces are a clear hotspot for competitiveness, particularly around the capital region of Hanoi. This likely reflects the concentration of government institutions, better infrastructure, and higher foreign direct investment (FDI) in the region.
+
+    -   **Central Vietnam**:
+
+        -   The central regions of Vietnam are somewhat mixed, with both cold spots and hotspots present. Certain areas are performing well, while others lag in terms of competitiveness.
+
+    -   **Southern Vietnam**:
+
+        -   A few provinces in the southern part of Vietnam, particularly around the Mekong Delta and near Ho Chi Minh City, are moderately competitive but don’t form strong clusters of high or low competitiveness.
+
+-   **Insights for Policy and Business:**
+
+    -   **Hotspot Areas** (Red) should be regarded as prime locations for further investment and expansion, given their strong competitive environment.
+
+    -   **Cold Spot Areas** (Dark) may require policy interventions, such as improvements in governance, infrastructure, or business regulations to enhance competitiveness.
+
+    -   **Yellow to Orange Areas** may be transitioning or developing regions where businesses might experience mixed results depending on local factors.
+
+### **Conclusion:**
+
+This map is a useful tool for understanding the **spatial patterns of competitiveness** in Vietnam's provinces. The identified **hotspots** in the north and central parts of the country represent regions where businesses are thriving, and the business environment is supportive of economic growth. Meanwhile, the **cold spots** point to provinces that may be struggling and in need of policy reforms or infrastructure investments to boost their competitiveness. This type of analysis can inform government initiatives, business decisions, and investments by highlighting where competitive advantages or disadvantages are geographically concentrated.
+
 # Preparing data for LISA of industrial production
+
+1.  **Ind Prod Data** : These objects load **Industrial Production data** for Vietnam for each year from **2012 to 2022**. Each CSV file contains aspatial (non-geographic) data that includes indicators of industrial production at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of industrial production metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.
 
 ```{r}
 ind_prod <- read.csv('data/aspatial/industrial_prod.csv')
 ```
 
 ### Joining data
+
+This code joins the **spatial boundary data** and **Industrial Production** by:
+
+1.  **Merging Data**: The `left_join` function merges `boundary_data` with **Industrial Production** using the `province` column as a common key. This results in a new **Industrial Production**dataset that includes spatial information (geometry) from `boundary_data` along with the **Industrial Production**indicators for 2012-2022. The `left_join` ensures that all records from `boundary_data` are kept, and matching rows from **Industrial Production**data are added.
+
+2.  **Removing Rows with Missing Data**: `drop_na` removes any rows with `NA` values from **Industrial Production**data, likely to ensure that only provinces with complete **Industrial Production** data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.
+
+This approach creates a complete dataset with both spatial and **Industrial Production**data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.
 
 ```{r}
 ind_prod <- boundary_data %>%
@@ -1196,6 +1382,32 @@ ind_prod <- drop_na(ind_prod)
 ```
 
 ### Computing LISA
+
+These codes enhances the **Industrial Production 2012-2022** dataset by adding spatial contiguity and weight information as new columns:
+
+1.  **Calculate Neighbor List**: `st_contiguity(geometry)` identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column `nb`. This function creates a list where each province has a record of which other provinces are contiguous to it.
+
+2.  **Assign Weights to Neighbors**: `st_weights(nb, style="W")` calculates a **row-standardized weight** for each neighbor in `nb`, stored in the new column `wt`. The `style="W"` parameter means that the weights for each province's neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.
+
+3.  **Place Columns at the Beginning**: The `.before = 1` argument ensures that the new columns (`nb` and `wt`) are positioned at the beginning of the dataset, making them easy to access and review during analysis.
+
+This setup embeds spatial structure directly into the **Industrial Production** dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.
+
+The 2nd code performs **Local Moran's I analysis** on the **PCI data for 2012-2022** to identify spatial autocorrelation at the provincial level:
+
+1.  **Calculate Local Moran's I**: `local_moran(industrial_production, nb, wt, nsim=99)` computes Local Moran's I statistic for the **Industrial Production** variable, which represents the **Industrial Production** for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low **Industrial Production** values relative to neighboring provinces:
+
+    -   `nb`: The neighbors list (spatial contiguity) column created earlier.
+
+    -   `wt`: The spatial weights column.
+
+    -   `nsim=99`: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.
+
+2.  **Store Results in `local_moran` Column**: This result is saved as a new column `local_moran`. The `.before=1` argument ensures that `local_moran` is placed at the start of the data frame for easy access.
+
+3.  **Unnest the Results**: `unnest(local_moran)` expands the `local_moran` column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran's I values for each province more accessible for further analysis or visualization.
+
+The resulting lisa_ind_2012 dataset provides **Local Moran's I values** for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in Industrial Production values across Vietnam. And I repeat the above steps for the remaining years
 
 ```{r}
 wm_q_ind <- ind_prod %>% 

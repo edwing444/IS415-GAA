@@ -207,6 +207,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../In_Class_Excercise/In_Class_Ex9/In_Class_Ex9.html">
  <span class="dropdown-text">In-Class Exercise 9</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../In_Class_Excercise/In_Class_Ex10/In_class_Ex10.html">
+ <span class="dropdown-text">In-Class Exercise 10</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -270,9 +274,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#joining-data" id="toc-joining-data" class="nav-link" data-scroll-target="#joining-data">Joining data</a></li>
   <li><a href="#preparing-and-computing-data-for-global-moran-i" id="toc-preparing-and-computing-data-for-global-moran-i" class="nav-link" data-scroll-target="#preparing-and-computing-data-for-global-moran-i">Preparing and Computing Data for Global Moran I</a></li>
   <li><a href="#preparing-data-for-lisa-of-pci" id="toc-preparing-data-for-lisa-of-pci" class="nav-link" data-scroll-target="#preparing-data-for-lisa-of-pci">Preparing Data for LISA of PCI</a></li>
-  <li><a href="#visualising-lisa-of-pci" id="toc-visualising-lisa-of-pci" class="nav-link" data-scroll-target="#visualising-lisa-of-pci">Visualising LISA of PCI</a></li>
-  <li><a href="#computing-local-gi-statistics-for-pci" id="toc-computing-local-gi-statistics-for-pci" class="nav-link" data-scroll-target="#computing-local-gi-statistics-for-pci">Computing local Gi* statistics for PCI</a></li>
-  <li><a href="#visualising-hot-spot-and-cold-spot-areas" id="toc-visualising-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualising-hot-spot-and-cold-spot-areas">Visualising hot spot and cold spot areas</a></li>
+  <li><a href="#visualising-lisa-of-pci" id="toc-visualising-lisa-of-pci" class="nav-link" data-scroll-target="#visualising-lisa-of-pci">Visualising LISA of PCI</a>
+  <ul class="collapse">
+  <li><a href="#reasons-for-using-the-5-threshold" id="toc-reasons-for-using-the-5-threshold" class="nav-link" data-scroll-target="#reasons-for-using-the-5-threshold">Reasons for Using the 5% Threshold</a></li>
+  </ul></li>
+  <li><a href="#computing-local-gi-statistics-for-pci" id="toc-computing-local-gi-statistics-for-pci" class="nav-link" data-scroll-target="#computing-local-gi-statistics-for-pci">Computing local Gi* statistics for PCI</a>
+  <ul class="collapse">
+  <li><a href="#overall-purpose" id="toc-overall-purpose" class="nav-link" data-scroll-target="#overall-purpose">Overall Purpose</a></li>
+  </ul></li>
+  <li><a href="#visualising-hot-spot-and-cold-spot-areas" id="toc-visualising-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualising-hot-spot-and-cold-spot-areas">Visualising hot spot and cold spot areas</a>
+  <ul class="collapse">
+  <li><a href="#conclusion-10" id="toc-conclusion-10" class="nav-link" data-scroll-target="#conclusion-10"><strong>Conclusion:</strong></a></li>
+  </ul></li>
   <li><a href="#preparing-data-for-lisa-of-industrial-production" id="toc-preparing-data-for-lisa-of-industrial-production" class="nav-link" data-scroll-target="#preparing-data-for-lisa-of-industrial-production">Preparing data for LISA of industrial production</a>
   <ul class="collapse">
   <li><a href="#joining-data-1" id="toc-joining-data-1" class="nav-link" data-scroll-target="#joining-data-1">Joining data</a></li>
@@ -317,6 +330,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="reading-data" class="level1">
 <h1>Reading data</h1>
+<ol type="1">
+<li><p><strong><code>boundary_data</code></strong>: This object loads the <strong>administrative boundary data</strong> for Vietnam from a geospatial source file, specifically for the <strong>first administrative level</strong> (likely provinces). The data will enable geographic plotting and spatial analyses of provinces across Vietnam. The <code>st_read</code> function from the <code>sf</code> package is used here to load this shapefile, making it suitable for spatial analysis tasks such as mapping or integrating spatial features with aspatial data.</p></li>
+<li><p><strong>PCI Data (<code>PCI_2012_data</code> to <code>PCI_2022_data</code>)</strong>: These objects load <strong>Provincial Competitiveness Index (PCI) data</strong> for Vietnam for each year from <strong>2012 to 2022</strong>. Each CSV file contains aspatial (non-geographic) data that likely includes indicators of economic performance, governance quality, business environment, and investment appeal at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of PCI metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.</p></li>
+</ol>
+<p>This setup aims to combine spatial and aspatial data for a comprehensive analysis of Vietnam’s provincial competitiveness over a decade.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import administrative boundary data for vietnam</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>boundary_data <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn=</span><span class="st">"data/geospatial"</span>,</span>
@@ -348,11 +366,23 @@ Geodetic CRS:  WGS 84</code></pre>
 </section>
 <section id="cleaning-data" class="level1">
 <h1>Cleaning data</h1>
+<p>This code refines the <strong>administrative boundary data</strong> by performing two main actions:</p>
+<ol type="1">
+<li><p><strong>Selecting and Dropping Columns</strong>: It removes several unnecessary columns from <code>boundary_data</code>, including administrative codes, alternative names, and validity dates, to keep only essential information. This reduces the dataset size and complexity, making it more manageable and focused on what is likely required for analysis.</p></li>
+<li><p><strong>Renaming a Column</strong>: It renames the <code>ADM1_EN</code> column to <code>province</code>. This renaming enhances readability, making it clearer that this column represents the <strong>province name</strong> in English.</p></li>
+</ol>
+<p>Overall, these changes prepare the <code>boundary_data</code> for integration with other datasets (like the PCI data), focusing only on necessary columns for analysis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>boundary_data <span class="ot">&lt;-</span> boundary_data <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ADM1_VI,<span class="sc">-</span>ADM1_REF,<span class="sc">-</span>ADM1ALT1EN,<span class="sc">-</span>ADM1ALT2EN,<span class="sc">-</span>ADM1ALT1VI,<span class="sc">-</span>ADM1ALT2EN, <span class="sc">-</span>ADM1ALT2VI, <span class="sc">-</span>ADM0_VI,<span class="sc">-</span>ADM0_EN,<span class="sc">-</span>ADM0_PCODE,<span class="sc">-</span>date,<span class="sc">-</span>validOn,<span class="sc">-</span>validTo,<span class="sc">-</span>ADM1_PCODE) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">province =</span> ADM1_EN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>These codes processes the <strong>PCI data for 2012-2022</strong> by:</p>
+<ol type="1">
+<li><p><strong>Dropping Unnecessary Columns</strong>: It removes various unnamed columns (<code>X</code>, <code>X.1</code>, <code>X.2</code>, etc.) and the <code>No</code> column, which may contain indices or irrelevant data. These columns might have been automatically generated during data export or are not needed for analysis.</p></li>
+<li><p><strong>Renaming the Province Column</strong>: The column <code>Province</code> is renamed to <code>province</code> to match the column name in <code>boundary_data</code>. Consistently naming this key column across datasets enables smoother data merging or joining, especially when linking the PCI data with the spatial boundary data.</p></li>
+</ol>
+<p>This preparation step ensures the PCI data is streamlined and ready for integration with other datasets in the analysis.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">2017</a></li></ul>
 <div class="tab-content">
@@ -440,6 +470,12 @@ Geodetic CRS:  WGS 84</code></pre>
 </section>
 <section id="joining-data" class="level1">
 <h1>Joining data</h1>
+<p>This code joins the <strong>spatial boundary data</strong> and <strong>PCI data for 2012-2022</strong> by:</p>
+<ol type="1">
+<li><p><strong>Merging Data</strong>: The <code>left_join</code> function merges <code>boundary_data</code> with PCI data using the <code>province</code> column as a common key. This results in a new PCI dataset that includes spatial information (geometry) from <code>boundary_data</code> along with the PCI indicators for 2012-2022. The <code>left_join</code> ensures that all records from <code>boundary_data</code> are kept, and matching rows from PCI data are added.</p></li>
+<li><p><strong>Removing Rows with Missing Data</strong>: <code>drop_na</code> removes any rows with <code>NA</code> values from PCI data, likely to ensure that only provinces with complete PCI data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.</p></li>
+</ol>
+<p>This approach creates a complete dataset with both spatial and PCI data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-4" role="tab" aria-controls="tabset-3-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-5" role="tab" aria-controls="tabset-3-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-6" role="tab" aria-controls="tabset-3-6" aria-selected="false">2017</a></li></ul>
 <div class="tab-content">
@@ -541,6 +577,13 @@ Geodetic CRS:  WGS 84</code></pre>
 </section>
 <section id="preparing-and-computing-data-for-global-moran-i" class="level1">
 <h1>Preparing and Computing Data for Global Moran I</h1>
+<p>This code prepares a <strong>spatial weights matrix</strong> using <strong>Queen contiguity</strong> to model spatial relationships between provinces in the PCI dataset:</p>
+<ol type="1">
+<li><p><strong>Calculate Centroids</strong>: <code>st_centroid(st_geometry(PCI_2012_data))</code> computes the centroids of each province’s polygon. While centroids aren’t directly needed for creating a contiguity matrix, they can be useful for visualizations or other analyses.</p></li>
+<li><p><strong>Create Neighbor List Using Queen Contiguity</strong>: <code>poly2nb(PCI_2012_data, queen = TRUE)</code> establishes a <strong>neighbors list</strong> where provinces sharing a border are considered neighbors (Queen contiguity). This approach is inclusive, considering any shared edge or corner between polygons as a connection.</p></li>
+<li><p><strong>Convert to Spatial Weights List</strong>: <code>nb2listw(nb_global_2012, style = "W")</code> transforms the neighbors list (<code>nb_global_2012</code>) into a <strong>spatial weights matrix</strong> (<code>lw_global_2012</code>). The <code>style = "W"</code> parameter row-standardizes the weights, meaning each row sums to 1, providing relative influence among neighbors and helping avoid scale issues in spatial analysis.</p></li>
+</ol>
+<p>This setup is crucial for spatial econometric models and for analyzing spatial autocorrelation, as it defines how each province relates to its neighbors.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-4" role="tab" aria-controls="tabset-5-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-5" role="tab" aria-controls="tabset-5-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-6" role="tab" aria-controls="tabset-5-6" aria-selected="false">2017</a></li></ul>
 <div class="tab-content">
@@ -632,7 +675,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>lw_global_2014 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2014, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2014</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>PCI_2014_data<span class="sc">$</span>PCI<span class="fl">.2014</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2014_data<span class="sc">$</span>PCI<span class="fl">.2014</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>global_moran_2014 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2014_data<span class="sc">$</span>PCI<span class="fl">.2014</span>, lw_global_2014)</span>
@@ -672,7 +715,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>lw_global_2015 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2015, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2015</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>PCI_2015_data<span class="sc">$</span>PCI<span class="fl">.2015</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2015_data<span class="sc">$</span>PCI<span class="fl">.2015</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>global_moran_2015 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2015_data<span class="sc">$</span>PCI<span class="fl">.2015</span>, lw_global_2015)</span>
@@ -701,7 +744,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>lw_global_2016 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2016, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2016</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>PCI_2016_data<span class="sc">$</span>PCI<span class="fl">.2016</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2016_data<span class="sc">$</span>PCI<span class="fl">.2016</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>global_moran_2016 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2016_data<span class="sc">$</span>PCI<span class="fl">.2016</span>, lw_global_2016)</span>
@@ -741,7 +784,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>lw_global_2017 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2017, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2017</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>PCI_2017_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2017</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2017_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2017</span>)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>global_moran_2017 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2017_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2017</span>, lw_global_2017)</span>
@@ -786,7 +829,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>lw_global_2018 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2018, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2018</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>PCI_2018_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2018</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2018_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2018</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>global_moran_2018 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2018_data<span class="sc">$</span>The.Weighted.PCI.Score.in<span class="fl">.2018</span>, lw_global_2018)</span>
@@ -826,7 +869,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>lw_global_2019 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2019, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2019</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>PCI_2019_data<span class="sc">$</span>The.Weighted.PCI.Score <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2019_data<span class="sc">$</span>The.Weighted.PCI.Score)</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>global_moran_2019 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2019_data<span class="sc">$</span>The.Weighted.PCI.Score, lw_global_2019)</span>
@@ -866,7 +909,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>lw_global_2020 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2020, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2020</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>PCI_2020_data<span class="sc">$</span>The.Weighted.PCI.Score <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2020_data<span class="sc">$</span>The.Weighted.PCI.Score)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>global_moran_2020 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2020_data<span class="sc">$</span>The.Weighted.PCI.Score, lw_global_2020)</span>
@@ -906,7 +949,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>lw_global_2021 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2021, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2021</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>PCI_2021_data<span class="sc">$</span>The.Weighted.PCI.Score <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2021_data<span class="sc">$</span>The.Weighted.PCI.Score)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>global_moran_2021 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2021_data<span class="sc">$</span>The.Weighted.PCI.Score, lw_global_2021)</span>
@@ -946,7 +989,7 @@ Moran I statistic       Expectation          Variance
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>lw_global_2022 <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_global_2022, <span class="at">style =</span> <span class="st">"W"</span>) <span class="co"># Convert to weights list (row-standardized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2013</span></span>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co">#covert to numeric for PCI 2022</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>PCI_2022_data<span class="sc">$</span>The.Weighted.PCI.Score <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(PCI_2022_data<span class="sc">$</span>The.Weighted.PCI.Score)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Compute Global Moran's I</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>global_moran_2022 <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(PCI_2022_data<span class="sc">$</span>The.Weighted.PCI.Score, lw_global_2022)</span>
@@ -983,6 +1026,25 @@ Moran I statistic       Expectation          Variance
 </section>
 <section id="preparing-data-for-lisa-of-pci" class="level1">
 <h1>Preparing Data for LISA of PCI</h1>
+<p>These codse enhances the <strong>PCI 2012-2022</strong> dataset by adding spatial contiguity and weight information as new columns:</p>
+<ol type="1">
+<li><p><strong>Calculate Neighbor List</strong>: <code>st_contiguity(geometry)</code> identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column <code>nb</code>. This function creates a list where each province has a record of which other provinces are contiguous to it.</p></li>
+<li><p><strong>Assign Weights to Neighbors</strong>: <code>st_weights(nb, style="W")</code> calculates a <strong>row-standardized weight</strong> for each neighbor in <code>nb</code>, stored in the new column <code>wt</code>. The <code>style="W"</code> parameter means that the weights for each province’s neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.</p></li>
+<li><p><strong>Place Columns at the Beginning</strong>: The <code>.before = 1</code> argument ensures that the new columns (<code>nb</code> and <code>wt</code>) are positioned at the beginning of the dataset, making them easy to access and review during analysis.</p></li>
+</ol>
+<p>This setup embeds spatial structure directly into the PCI dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.</p>
+<p>The 2nd code performs <strong>Local Moran’s I analysis</strong> on the <strong>PCI data for 2012-2022</strong> to identify spatial autocorrelation at the provincial level:</p>
+<ol type="1">
+<li><p><strong>Calculate Local Moran’s I</strong>: <code>local_moran(PCI.2012, nb, wt, nsim=99)</code> computes Local Moran’s I statistic for the <code>PCI.2012</code> variable, which represents the Provincial Competitiveness Index for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low PCI values relative to neighboring provinces:</p>
+<ul>
+<li><p><code>nb</code>: The neighbors list (spatial contiguity) column created earlier.</p></li>
+<li><p><code>wt</code>: The spatial weights column.</p></li>
+<li><p><code>nsim=99</code>: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.</p></li>
+</ul></li>
+<li><p><strong>Store Results in <code>local_moran</code> Column</strong>: This result is saved as a new column <code>local_moran</code>. The <code>.before=1</code> argument ensures that <code>local_moran</code> is placed at the start of the data frame for easy access.</p></li>
+<li><p><strong>Unnest the Results</strong>: <code>unnest(local_moran)</code> expands the <code>local_moran</code> column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran’s I values for each province more accessible for further analysis or visualization.</p></li>
+</ol>
+<p>The resulting <code>lisa_2012</code> dataset provides <strong>Local Moran’s I values</strong> for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in PCI values across Vietnam. And I repeat the above steps for the remaining years</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-4" role="tab" aria-controls="tabset-7-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-5" role="tab" aria-controls="tabset-7-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-6" role="tab" aria-controls="tabset-7-6" aria-selected="false">2017</a></li></ul>
 <div class="tab-content">
@@ -1196,6 +1258,20 @@ identical points</code></pre>
 </section>
 <section id="visualising-lisa-of-pci" class="level1">
 <h1>Visualising LISA of PCI</h1>
+<p>This code filters the <strong>Local Moran’s I analysis results</strong> to keep only the provinces with <strong>statistically significant spatial autocorrelation</strong> at the 5% level:</p>
+<ol type="1">
+<li><p><strong>Filter Significant Results</strong>: <code>filter(p_ii &lt; 0.05)</code> selects only rows where <code>p_ii</code>, the p-value for the Local Moran’s I statistic, is less than 0.05. This threshold indicates a statistically significant result, meaning that the observed clustering or dispersion in PCI values is unlikely due to random chance (with a confidence level of 95%).</p></li>
+<li><p><strong>Create <code>lisa_sig_2012</code> Dataset</strong>: The filtered dataset <code>lisa_sig_2012</code> now contains only those provinces with significant Local Moran’s I values, indicating significant clusters or spatial outliers of the PCI in 2012.</p></li>
+</ol>
+<p>This refined dataset enables focused analysis or visualization of areas with meaningful spatial patterns in competitiveness, highlighting where PCI scores are spatially clustered or anomalous. And I repeat again for the remaining years</p>
+<section id="reasons-for-using-the-5-threshold" class="level3">
+<h3 class="anchored" data-anchor-id="reasons-for-using-the-5-threshold">Reasons for Using the 5% Threshold</h3>
+<ol type="1">
+<li><p><strong>Standard in Statistical Testing</strong>: The 5% threshold has become a conventional standard across many fields, balancing rigor with a manageable likelihood of Type I error (incorrectly rejecting a true null hypothesis).</p></li>
+<li><p><strong>Interpretability</strong>: Results significant at the 5% level suggest a 95% confidence that there is a non-random spatial pattern, making findings more reliable and interpretable.</p></li>
+<li><p><strong>Trade-Off</strong>: Lowering the threshold (e.g., 1%) increases confidence but might miss some true effects, while a higher threshold (e.g., 10%) increases sensitivity but could result in more false positives. The 5% level strikes a balance between these.</p></li>
+</ol>
+<p>Using this threshold in your Local Moran’s I analysis ensures that significant spatial patterns are both reliable and meaningful.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-3" role="tab" aria-controls="tabset-9-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-4" role="tab" aria-controls="tabset-9-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-5" role="tab" aria-controls="tabset-9-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-6" role="tab" aria-controls="tabset-9-6" aria-selected="false">2017</a></li></ul>
 <div class="tab-content">
@@ -1224,11 +1300,6 @@ identical points</code></pre>
 </div>
 </div>
 </div>
-<ol type="1">
-<li><p><strong>High-High Clusters (Hotspots)</strong>: These areas, indicated by dark green, are likely the most economically vibrant regions. Urban centers or economically prosperous areas fall into this category.</p></li>
-<li><p><strong>Low-Low Clusters (Cold spots)</strong>: Dark red regions indicate significant economic challenges, highlighting areas needing substantial policy intervention and development efforts.</p></li>
-<li><p><strong>Transitional Zones</strong>: Yellow to light green areas represent moderate competitiveness. These regions are improving but still require support to sustain growth.</p></li>
-</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_2012)<span class="sc">+</span></span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()<span class="sc">+</span></span>
@@ -1249,12 +1320,6 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
-<ul>
-<li><p><strong>Low-Low Clusters (Light Blue)</strong>: These regions have low values surrounded by other low-value regions. They are likely areas with economic or developmental challenges.</p></li>
-<li><p><strong>High-Low Clusters (Green)</strong>: High-value regions surrounded by low-value areas. These might be urban centers or economically prosperous areas adjacent to less developed regions, indicating a stark socio-economic contrast.</p></li>
-<li><p><strong>Low-High Clusters (Purple)</strong>: Low-value regions surrounded by high-value areas. These could be rural or underdeveloped regions located near more prosperous areas.</p></li>
-<li><p><strong>High-High Clusters (Red)</strong>: High-value areas surrounded by other high-value regions. These are likely major urban centers or regions with significant economic activity.</p></li>
-</ul>
 </div>
 <div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
 <div class="cell">
@@ -1744,6 +1809,18 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<ol type="1">
+<li><p><strong>High-High Clusters (Hotspots)</strong>: These areas, indicated by dark green, are likely the most economically vibrant regions. Urban centers or economically prosperous areas fall into this category.</p></li>
+<li><p><strong>Low-Low Clusters (Cold spots)</strong>: Dark red regions indicate significant economic challenges, highlighting areas needing substantial policy intervention and development efforts.</p></li>
+<li><p><strong>Transitional Zones</strong>: Yellow to light green areas represent moderate competitiveness. These regions are improving but still require support to sustain growth.</p></li>
+</ol>
+<ul>
+<li><p><strong>Low-Low Clusters (Light Blue)</strong>: These regions have low values surrounded by other low-value regions. They are likely areas with economic or developmental challenges.</p></li>
+<li><p><strong>High-Low Clusters (Green)</strong>: High-value regions surrounded by low-value areas. These might be urban centers or economically prosperous areas adjacent to less developed regions, indicating a stark socio-economic contrast.</p></li>
+<li><p><strong>Low-High Clusters (Purple)</strong>: Low-value regions surrounded by high-value areas. These could be rural or underdeveloped regions located near more prosperous areas.</p></li>
+<li><p><strong>High-High Clusters (Red)</strong>: High-value areas surrounded by other high-value regions. These are likely major urban centers or regions with significant economic activity.</p></li>
+</ul>
+</section>
 </section>
 <section id="computing-local-gi-statistics-for-pci" class="level1">
 <h1>Computing local Gi* statistics for PCI</h1>
@@ -1764,6 +1841,34 @@ Caused by warning in `st_point_on_surface.sfc()`:
 ! st_point_on_surface may not give correct results for longitude/latitude data</code></pre>
 </div>
 </div>
+<ol type="1">
+<li><p><strong>Calculate Neighbor List</strong>:</p>
+<ul>
+<li><code>st_contiguity(geometry)</code> identifies neighboring provinces based on their geometry. This creates a list that shows which provinces are contiguous to each other.</li>
+</ul></li>
+<li><p><strong>Compute Weights Using Inverse Distance</strong>:</p>
+<ul>
+<li><p><code>st_inverse_distance(nb, geometry, scale=1, alpha=1)</code> calculates the inverse distance weights based on the contiguity of provinces:</p>
+<ul>
+<li><p><strong><code>nb</code></strong>: The neighbors list created from the <code>st_contiguity</code> function.</p></li>
+<li><p><strong><code>geometry</code></strong>: The geometrical representation of the provinces.</p></li>
+<li><p><strong><code>scale</code></strong>: This parameter controls the scaling of the distance; a value of 1 typically means that distances are used directly.</p></li>
+<li><p><strong><code>alpha</code></strong>: This parameter determines how much influence nearby provinces have compared to those farther away. An <code>alpha</code> of 1 indicates a direct inverse distance weighting, where closer provinces have significantly more influence than those farther away.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Store New Columns at the Beginning</strong>:</p>
+<ul>
+<li>The <code>.before = 1</code> argument ensures that the newly calculated columns (<code>nb</code> for neighbors and <code>wts</code> for weights) are placed at the beginning of the dataset, making them readily accessible for subsequent analysis.</li>
+</ul></li>
+</ol>
+<section id="overall-purpose" class="level3">
+<h3 class="anchored" data-anchor-id="overall-purpose">Overall Purpose</h3>
+<p>The resulting dataset <code>wm_idw_2022</code> now contains:</p>
+<ul>
+<li><p>A <code>nb</code> column indicating the neighboring provinces for each province.</p></li>
+<li><p>A <code>wts</code> column that holds the inverse distance weights, reflecting the spatial relationships among provinces based on their distances.</p></li>
+</ul>
+<p>This setup is useful for spatial interpolation or analysis, particularly in creating maps or conducting further spatial econometric modeling that accounts for the influence of nearby provinces on each other.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>HCSA_2022 <span class="ot">&lt;-</span> wm_idw_2022 <span class="sc">%&gt;%</span> </span>
 <span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_Gi =</span> <span class="fu">local_gstar_perm</span>(</span>
@@ -1771,6 +1876,13 @@ Caused by warning in `st_point_on_surface.sfc()`:
 <span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb150-5"><a href="#cb150-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unnest</span>(local_Gi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The resulting dataset <code>HCSA_2022</code> now contains:</p>
+<ul>
+<li><p>The original data from <code>wm_idw_2022</code>, including the weighted PCI scores and the neighbors list.</p></li>
+<li><p>A new column <code>local_Gi</code> that contains the local Getis-Ord Gi* statistics for each province, reflecting the degree of spatial clustering of high or low values in the weighted PCI scores.</p></li>
+</ul>
+<p>This setup allows for further analysis of spatial patterns in competitiveness scores, helping to identify areas of high performance (hot spots) or low performance (cold spots) in the context of provincial competitiveness in Vietnam for 2022.</p>
+</section>
 </section>
 <section id="visualising-hot-spot-and-cold-spot-areas" class="level1">
 <h1>Visualising hot spot and cold spot areas</h1>
@@ -1803,6 +1915,8 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<p>This map effectively visualizes significant hotspot areas in northern Vietnam, showing where high values of the analyzed variable (possibly conflict data, health statistics, or economic factors) cluster spatially. The stronger hotspots are concentrated around the Red River Delta area, suggesting important spatial trends. No cold spots are observed, indicating that the focus is primarily on regions with high-value clustering.</p>
+<p>For a geospatial analyst, this map offers insights into spatial patterns that could inform policy decisions, resource allocation, or further investigation into why certain areas exhibit higher intensity for the variable being analyzed.</p>
 <p>Below is my sdep for GI hotspot</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Getis-Ord Gi* statistic for each region</span></span>
@@ -1827,14 +1941,72 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<ul>
+<li><p><em>Getis-Ord Gi Statistic (Hotspot and Cold Spot Identification):</em>*</p>
+<ul>
+<li><p><strong>Hotspots (Red Areas):</strong></p>
+<ul>
+<li><p>Provinces colored in <strong>red</strong> show significant clustering of <strong>high PCI values</strong>, meaning these regions exhibit <strong>high competitiveness</strong> in business and economic performance.</p></li>
+<li><p>This suggests these provinces offer favorable conditions for businesses, such as efficient government services, good infrastructure, or policies that attract investment.</p></li>
+<li><p>Key regions with high competitiveness (hotspots) are:</p>
+<ul>
+<li><p><strong>Northern Vietnam</strong>: Several provinces show up as red, indicating this region is a competitive hub.</p></li>
+<li><p><strong>Central Vietnam</strong>: Another area of high competitiveness, likely with favorable governance or economic policies that contribute to its strong PCI score.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Cold Spots (Dark Areas):</strong></p>
+<ul>
+<li><p>The map also shows <strong>cold spots</strong> (with negative Gi* values), which represent provinces with <strong>low competitiveness</strong>. These are regions where low PCI scores cluster, indicating they are less attractive for business or have poor economic governance.</p></li>
+<li><p>A few provinces in <strong>central Vietnam</strong> fall into this category, suggesting these areas might face challenges such as bureaucracy, underdeveloped infrastructure, or less favorable conditions for economic growth.</p></li>
+</ul></li>
+<li><p><strong>Intermediate Areas (Yellow to Orange):</strong></p>
+<ul>
+<li>Provinces in <strong>yellow to orange</strong> have moderate PCI values, indicating no significant clustering of competitiveness. These areas are neither clear hotspots nor cold spots but fall somewhere in the middle in terms of their competitive standing.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Significant Regional Trends:</strong></p>
+<ul>
+<li><p><strong>Northern Vietnam</strong>:</p>
+<ul>
+<li>The northern provinces are a clear hotspot for competitiveness, particularly around the capital region of Hanoi. This likely reflects the concentration of government institutions, better infrastructure, and higher foreign direct investment (FDI) in the region.</li>
+</ul></li>
+<li><p><strong>Central Vietnam</strong>:</p>
+<ul>
+<li>The central regions of Vietnam are somewhat mixed, with both cold spots and hotspots present. Certain areas are performing well, while others lag in terms of competitiveness.</li>
+</ul></li>
+<li><p><strong>Southern Vietnam</strong>:</p>
+<ul>
+<li>A few provinces in the southern part of Vietnam, particularly around the Mekong Delta and near Ho Chi Minh City, are moderately competitive but don’t form strong clusters of high or low competitiveness.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Insights for Policy and Business:</strong></p>
+<ul>
+<li><p><strong>Hotspot Areas</strong> (Red) should be regarded as prime locations for further investment and expansion, given their strong competitive environment.</p></li>
+<li><p><strong>Cold Spot Areas</strong> (Dark) may require policy interventions, such as improvements in governance, infrastructure, or business regulations to enhance competitiveness.</p></li>
+<li><p><strong>Yellow to Orange Areas</strong> may be transitioning or developing regions where businesses might experience mixed results depending on local factors.</p></li>
+</ul></li>
+</ul>
+<section id="conclusion-10" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-10"><strong>Conclusion:</strong></h3>
+<p>This map is a useful tool for understanding the <strong>spatial patterns of competitiveness</strong> in Vietnam’s provinces. The identified <strong>hotspots</strong> in the north and central parts of the country represent regions where businesses are thriving, and the business environment is supportive of economic growth. Meanwhile, the <strong>cold spots</strong> point to provinces that may be struggling and in need of policy reforms or infrastructure investments to boost their competitiveness. This type of analysis can inform government initiatives, business decisions, and investments by highlighting where competitive advantages or disadvantages are geographically concentrated.</p>
+</section>
 </section>
 <section id="preparing-data-for-lisa-of-industrial-production" class="level1">
 <h1>Preparing data for LISA of industrial production</h1>
+<ol type="1">
+<li><strong>Ind Prod Data</strong> : These objects load <strong>Industrial Production data</strong> for Vietnam for each year from <strong>2012 to 2022</strong>. Each CSV file contains aspatial (non-geographic) data that includes indicators of industrial production at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of industrial production metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.</li>
+</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>ind_prod <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'data/aspatial/industrial_prod.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="joining-data-1" class="level3">
 <h3 class="anchored" data-anchor-id="joining-data-1">Joining data</h3>
+<p>This code joins the <strong>spatial boundary data</strong> and <strong>Industrial Production</strong> by:</p>
+<ol type="1">
+<li><p><strong>Merging Data</strong>: The <code>left_join</code> function merges <code>boundary_data</code> with <strong>Industrial Production</strong> using the <code>province</code> column as a common key. This results in a new <strong>Industrial Production</strong>dataset that includes spatial information (geometry) from <code>boundary_data</code> along with the <strong>Industrial Production</strong>indicators for 2012-2022. The <code>left_join</code> ensures that all records from <code>boundary_data</code> are kept, and matching rows from <strong>Industrial Production</strong>data are added.</p></li>
+<li><p><strong>Removing Rows with Missing Data</strong>: <code>drop_na</code> removes any rows with <code>NA</code> values from <strong>Industrial Production</strong>data, likely to ensure that only provinces with complete <strong>Industrial Production</strong> data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.</p></li>
+</ol>
+<p>This approach creates a complete dataset with both spatial and <strong>Industrial Production</strong>data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>ind_prod <span class="ot">&lt;-</span> boundary_data <span class="sc">%&gt;%</span></span>
 <span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ind_prod, <span class="at">by =</span> <span class="st">"province"</span>)</span>
@@ -1844,6 +2016,25 @@ tm_shape prior to each of them).</code></pre>
 </section>
 <section id="computing-lisa" class="level3">
 <h3 class="anchored" data-anchor-id="computing-lisa">Computing LISA</h3>
+<p>These codes enhances the <strong>Industrial Production 2012-2022</strong> dataset by adding spatial contiguity and weight information as new columns:</p>
+<ol type="1">
+<li><p><strong>Calculate Neighbor List</strong>: <code>st_contiguity(geometry)</code> identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column <code>nb</code>. This function creates a list where each province has a record of which other provinces are contiguous to it.</p></li>
+<li><p><strong>Assign Weights to Neighbors</strong>: <code>st_weights(nb, style="W")</code> calculates a <strong>row-standardized weight</strong> for each neighbor in <code>nb</code>, stored in the new column <code>wt</code>. The <code>style="W"</code> parameter means that the weights for each province’s neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.</p></li>
+<li><p><strong>Place Columns at the Beginning</strong>: The <code>.before = 1</code> argument ensures that the new columns (<code>nb</code> and <code>wt</code>) are positioned at the beginning of the dataset, making them easy to access and review during analysis.</p></li>
+</ol>
+<p>This setup embeds spatial structure directly into the <strong>Industrial Production</strong> dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.</p>
+<p>The 2nd code performs <strong>Local Moran’s I analysis</strong> on the <strong>PCI data for 2012-2022</strong> to identify spatial autocorrelation at the provincial level:</p>
+<ol type="1">
+<li><p><strong>Calculate Local Moran’s I</strong>: <code>local_moran(industrial_production, nb, wt, nsim=99)</code> computes Local Moran’s I statistic for the <strong>Industrial Production</strong> variable, which represents the <strong>Industrial Production</strong> for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low <strong>Industrial Production</strong> values relative to neighboring provinces:</p>
+<ul>
+<li><p><code>nb</code>: The neighbors list (spatial contiguity) column created earlier.</p></li>
+<li><p><code>wt</code>: The spatial weights column.</p></li>
+<li><p><code>nsim=99</code>: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.</p></li>
+</ul></li>
+<li><p><strong>Store Results in <code>local_moran</code> Column</strong>: This result is saved as a new column <code>local_moran</code>. The <code>.before=1</code> argument ensures that <code>local_moran</code> is placed at the start of the data frame for easy access.</p></li>
+<li><p><strong>Unnest the Results</strong>: <code>unnest(local_moran)</code> expands the <code>local_moran</code> column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran’s I values for each province more accessible for further analysis or visualization.</p></li>
+</ol>
+<p>The resulting lisa_ind_2012 dataset provides <strong>Local Moran’s I values</strong> for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in Industrial Production values across Vietnam. And I repeat the above steps for the remaining years</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>wm_q_ind <span class="ot">&lt;-</span> ind_prod <span class="sc">%&gt;%</span> </span>
 <span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
