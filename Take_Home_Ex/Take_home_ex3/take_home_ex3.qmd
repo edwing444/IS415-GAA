@@ -1829,7 +1829,7 @@ tm_shape(ind_prod) +
             legend.outside = TRUE)
 ```
 
-The Getis-Ord Gi∗G_i^*Gi∗​ Hotspot Analysis map provides insights into spatial clustering of high and low industrial production index (IPI) values across Vietnam. Here are some observations and conclusions based on this map:
+The Getis-Ord Gi∗G_i\^\*Gi∗​ Hotspot Analysis map provides insights into spatial clustering of high and low industrial production index (IPI) values across Vietnam. Here are some observations and conclusions based on this map:
 
 ### Observations
 
@@ -1901,4 +1901,4 @@ The Getis-Ord Gi∗G_i^*Gi∗​ Hotspot Analysis map provides insights into spa
 
 -   **Cold Spots**: Blue zones indicate regions with consistently low values, which may serve as control areas or benchmarks.
 
-![Clicking the navbar menu will drop down the menu to allow users to select between the LISA map for PCI or for index of industrial production ](images/2.png)
+![Clicking the navbar menu will drop down the menu to allow users to select between the LISA map for PCI or for index of industrial production](images/2.png)
