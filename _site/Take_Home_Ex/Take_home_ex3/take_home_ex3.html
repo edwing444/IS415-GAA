@@ -277,6 +277,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#visualising-lisa-of-pci" id="toc-visualising-lisa-of-pci" class="nav-link" data-scroll-target="#visualising-lisa-of-pci">Visualising LISA of PCI</a>
   <ul class="collapse">
   <li><a href="#reasons-for-using-the-5-threshold" id="toc-reasons-for-using-the-5-threshold" class="nav-link" data-scroll-target="#reasons-for-using-the-5-threshold">Reasons for Using the 5% Threshold</a></li>
+  <li><a href="#observations-trends-over-time" id="toc-observations-trends-over-time" class="nav-link" data-scroll-target="#observations-trends-over-time">Observations (Trends Over Time):</a></li>
+  <li><a href="#conclusion-10" id="toc-conclusion-10" class="nav-link" data-scroll-target="#conclusion-10">Conclusion:</a></li>
   </ul></li>
   <li><a href="#computing-local-gi-statistics-for-pci" id="toc-computing-local-gi-statistics-for-pci" class="nav-link" data-scroll-target="#computing-local-gi-statistics-for-pci">Computing local Gi* statistics for PCI</a>
   <ul class="collapse">
@@ -284,16 +286,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#visualising-hot-spot-and-cold-spot-areas" id="toc-visualising-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualising-hot-spot-and-cold-spot-areas">Visualising hot spot and cold spot areas</a>
   <ul class="collapse">
-  <li><a href="#conclusion-10" id="toc-conclusion-10" class="nav-link" data-scroll-target="#conclusion-10"><strong>Conclusion:</strong></a></li>
+  <li><a href="#conclusion-11" id="toc-conclusion-11" class="nav-link" data-scroll-target="#conclusion-11"><strong>Conclusion:</strong></a></li>
   </ul></li>
   <li><a href="#preparing-data-for-lisa-of-industrial-production" id="toc-preparing-data-for-lisa-of-industrial-production" class="nav-link" data-scroll-target="#preparing-data-for-lisa-of-industrial-production">Preparing data for LISA of industrial production</a>
   <ul class="collapse">
   <li><a href="#joining-data-1" id="toc-joining-data-1" class="nav-link" data-scroll-target="#joining-data-1">Joining data</a></li>
   <li><a href="#computing-lisa" id="toc-computing-lisa" class="nav-link" data-scroll-target="#computing-lisa">Computing LISA</a></li>
   </ul></li>
-  <li><a href="#visualising-lisa-of-industrial-production" id="toc-visualising-lisa-of-industrial-production" class="nav-link" data-scroll-target="#visualising-lisa-of-industrial-production">Visualising LISA of Industrial Production</a></li>
+  <li><a href="#visualising-lisa-of-industrial-production" id="toc-visualising-lisa-of-industrial-production" class="nav-link" data-scroll-target="#visualising-lisa-of-industrial-production">Visualising LISA of Industrial Production</a>
+  <ul class="collapse">
+  <li><a href="#observations-trends-over-time-1" id="toc-observations-trends-over-time-1" class="nav-link" data-scroll-target="#observations-trends-over-time-1">Observations (Trends Over Time):</a></li>
+  <li><a href="#conclusion-12" id="toc-conclusion-12" class="nav-link" data-scroll-target="#conclusion-12">Conclusion:</a></li>
+  </ul></li>
   <li><a href="#computing-local-gi-statistics-for-industrial-production" id="toc-computing-local-gi-statistics-for-industrial-production" class="nav-link" data-scroll-target="#computing-local-gi-statistics-for-industrial-production">Computing local Gi* statistics for Industrial Production</a></li>
-  <li><a href="#visualising-hotspot-map" id="toc-visualising-hotspot-map" class="nav-link" data-scroll-target="#visualising-hotspot-map">Visualising Hotspot Map</a></li>
+  <li><a href="#visualising-hotspot-map" id="toc-visualising-hotspot-map" class="nav-link" data-scroll-target="#visualising-hotspot-map">Visualising Hotspot Map</a>
+  <ul class="collapse">
+  <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations">Observations</a></li>
+  <li><a href="#conclusion-13" id="toc-conclusion-13" class="nav-link" data-scroll-target="#conclusion-13">Conclusion</a></li>
+  </ul></li>
+  <li><a href="#ui-design" id="toc-ui-design" class="nav-link" data-scroll-target="#ui-design">UI design</a>
+  <ul class="collapse">
+  <li><a href="#what-users-can-expect-from-the-lisa-map" id="toc-what-users-can-expect-from-the-lisa-map" class="nav-link" data-scroll-target="#what-users-can-expect-from-the-lisa-map"><strong>What Users Can Expect from the LISA Map</strong></a></li>
+  <li><a href="#how-to-interpret-lisa-clusters" id="toc-how-to-interpret-lisa-clusters" class="nav-link" data-scroll-target="#how-to-interpret-lisa-clusters"><strong>How to Interpret LISA Clusters</strong></a></li>
+  <li><a href="#what-users-can-expect-from-the-hotspot-map" id="toc-what-users-can-expect-from-the-hotspot-map" class="nav-link" data-scroll-target="#what-users-can-expect-from-the-hotspot-map"><strong>What Users Can Expect from the Hotspot Map</strong></a></li>
+  <li><a href="#how-to-interpret-hotspot-analysis" id="toc-how-to-interpret-hotspot-analysis" class="nav-link" data-scroll-target="#how-to-interpret-hotspot-analysis"><strong>How to Interpret Hotspot Analysis</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1788,7 +1805,54 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
-<p>Below is my sdep lisa cluster</p>
+<p>Conducting a Local Indicators of Spatial Association (LISA) analysis for PCI over multiple years, from 2012 to 2022, offers a powerful way to observe trends, patterns, and changes in spatial clustering across Vietnam. Here’s a structured approach for observations and conclusions when analyzing multi-year LISA cluster maps:</p>
+</section>
+<section id="observations-trends-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="observations-trends-over-time">Observations (Trends Over Time):</h3>
+<ol type="1">
+<li><p><strong>Consistency in Spatial Clustering</strong>:</p>
+<ul>
+<li><p><strong>Persistent Clusters</strong>: Identify if there are regions where high or low PCI clusters have remained stable over the years. This would indicate areas with long-standing socioeconomic or environmental characteristics.</p></li>
+<li><p><strong>Shifting Clusters</strong>: Observe if clusters have shifted geographically. For instance, regions that were high-PCI in 2012 but have declined by 2022, or vice versa, might reflect economic development or degradation in certain areas.</p></li>
+</ul></li>
+<li><p><strong>Emergence of New Clusters</strong>:</p>
+<ul>
+<li><p>If new clusters (either high or low) appear in certain regions over the years, it could suggest changes in local conditions, such as new infrastructure projects, changes in industrial activity, or environmental policies impacting PCI.</p></li>
+<li><p><strong>Central and Peripheral Changes</strong>: Note if certain central regions have consistently high PCI clusters compared to more peripheral regions that may struggle with low PCI clusters. This could hint at centralized development.</p></li>
+</ul></li>
+<li><p><strong>Magnitude of PCI Values</strong>:</p>
+<ul>
+<li><p><strong>Increasing High-PCI Clusters</strong>: A gradual increase in green shades (0.5 to 1.5) could indicate economic growth or improvements in living standards in certain areas.</p></li>
+<li><p><strong>Expanding Low-PCI Clusters</strong>: An increase in red or orange clusters (-1.0 to -1.5) over time might indicate growing socioeconomic challenges or environmental issues in specific regions.</p></li>
+</ul></li>
+<li><p><strong>Regional Policy Impact</strong>:</p>
+<ul>
+<li>Compare LISA maps pre- and post-specific policy interventions. For example, if a new economic development program was launched in a particular region around 2015, check for positive PCI clustering trends after that year. Similarly, if certain regions faced challenges like natural disasters, this could be reflected in their spatial patterns.</li>
+</ul></li>
+<li><p><strong>Inter-Regional Comparisons</strong>:</p>
+<ul>
+<li>Over time, you may see certain regions improving faster than others. This could highlight disparities in regional development and might suggest the need for targeted support in lagging areas.</li>
+</ul></li>
+</ol>
+</section>
+<section id="conclusion-10" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-10">Conclusion:</h3>
+<ol type="1">
+<li><p><strong>Identify Consistent and Changing Patterns</strong>:</p>
+<ul>
+<li>Conclude by highlighting regions with stable high or low PCI clusters, which suggest persistent conditions. For instance, if a particular province consistently shows high PCI values, it may be economically robust and potentially a model for other areas. Regions with stable low PCI clusters may need sustained assistance or new policy initiatives.</li>
+</ul></li>
+<li><p><strong>Analyze Temporal Changes</strong>:</p>
+<ul>
+<li>Recognize any significant shifts over the decade. For example, if northern Vietnam shows a gradual increase in PCI clusters, it may indicate that targeted development policies have been successful there. Conversely, areas with worsening PCI over time may require reevaluation of local policies.</li>
+</ul></li>
+<li><p><strong>Policy Implications</strong>:</p>
+<ul>
+<li><p>Suggest that policymakers focus on emerging low-PCI clusters or regions with persistent low values. The analysis can guide resource allocation, with higher investments in regions where PCI has not improved significantly over the years.</p></li>
+<li><p>For regions showing improvement, policymakers can investigate successful practices and potentially replicate these strategies in struggling areas.</p></li>
+</ul></li>
+</ol>
+<p>Below is my lisa cluster using sdep method</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the LISA cluster map</span></span>
 <span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(PCI_2022_data) <span class="sc">+</span></span>
@@ -1986,8 +2050,8 @@ tm_shape prior to each of them).</code></pre>
 <li><p><strong>Yellow to Orange Areas</strong> may be transitioning or developing regions where businesses might experience mixed results depending on local factors.</p></li>
 </ul></li>
 </ul>
-<section id="conclusion-10" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion-10"><strong>Conclusion:</strong></h3>
+<section id="conclusion-11" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-11"><strong>Conclusion:</strong></h3>
 <p>This map is a useful tool for understanding the <strong>spatial patterns of competitiveness</strong> in Vietnam’s provinces. The identified <strong>hotspots</strong> in the north and central parts of the country represent regions where businesses are thriving, and the business environment is supportive of economic growth. Meanwhile, the <strong>cold spots</strong> point to provinces that may be struggling and in need of policy reforms or infrastructure investments to boost their competitiveness. This type of analysis can inform government initiatives, business decisions, and investments by highlighting where competitive advantages or disadvantages are geographically concentrated.</p>
 </section>
 </section>
@@ -2438,6 +2502,55 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<p>Analyzing the Industrial Production Index (IPI) with a LISA Cluster Map across multiple years (2012–2022) provides insights into the spatial dynamics of industrial growth and development across Vietnam. This analysis can reveal regions that have experienced steady industrial growth, those that have faced declines, and areas where industrial activity has fluctuated.</p>
+<section id="observations-trends-over-time-1" class="level3">
+<h3 class="anchored" data-anchor-id="observations-trends-over-time-1">Observations (Trends Over Time):</h3>
+<ol type="1">
+<li><p><strong>Persistent Industrial Clusters</strong>:</p>
+<ul>
+<li><p><strong>High-IPI Clusters</strong>: Identify regions that consistently show high IPI values (green shades), suggesting areas with strong and stable industrial growth, possibly due to favorable policies, established infrastructure, or access to skilled labor. These regions might include industrial hubs or economic zones.</p></li>
+<li><p><strong>Low-IPI Clusters</strong>: Regions with persistent low IPI values (orange and red shades) might be areas struggling with industrialization. This could be due to lack of infrastructure, resources, or investment.</p></li>
+</ul></li>
+<li><p><strong>Emergence and Dissipation of Clusters</strong>:</p>
+<ul>
+<li><p><strong>Emerging High-IPI Clusters</strong>: Look for areas that shift from low to high IPI values over time. This change could indicate recent industrial development, possibly driven by new policies, foreign investments, or infrastructure projects.</p></li>
+<li><p><strong>Declining High-IPI Clusters</strong>: If some high-IPI clusters weaken or disappear over time, it could suggest industrial stagnation or relocation of industrial activity to other regions, possibly due to rising costs, regulatory changes, or economic shifts.</p></li>
+</ul></li>
+<li><p><strong>Geographic Spread of Industrial Growth</strong>:</p>
+<ul>
+<li>Determine if industrial growth is concentrated in specific regions or spreading across the country. A widening of high-IPI clusters over time suggests a decentralization of industrial growth, while concentration in a few areas may indicate limited industrial distribution.</li>
+</ul></li>
+<li><p><strong>Impact of Regional Policies and Economic Zones</strong>:</p>
+<ul>
+<li><p><strong>Economic Zones and Industrial Parks</strong>: Check if specific regions with economic zones or industrial parks show sustained high-IPI clusters. These areas are often intended to boost industrial activity, and sustained high-IPI values would indicate policy success.</p></li>
+<li><p><strong>Policy Interventions</strong>: Observe regions that experience noticeable changes in IPI clustering before and after key policies or investments. For instance, if a region shows growth following infrastructure improvements or incentives for industry, this can be seen in the clustering pattern.</p></li>
+</ul></li>
+<li><p><strong>Regional Disparities and Development Gaps</strong>:</p>
+<ul>
+<li>Compare growth patterns between urban and rural areas. Regions with high growth but persistent low-IPI areas nearby might suggest uneven industrial development, highlighting areas that might benefit from targeted support.</li>
+</ul></li>
+<li><p><strong>Economic Shocks or Market Trends</strong>:</p>
+<ul>
+<li>Significant global or national economic events, such as trade tensions or COVID-19, may disrupt clusters. For example, if some regions experienced lower IPI during 2020-2021, it may reflect pandemic-related industrial slowdowns, while recovery trends can be observed in subsequent years.</li>
+</ul></li>
+</ol>
+</section>
+<section id="conclusion-12" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-12">Conclusion:</h3>
+<ol type="1">
+<li><p><strong>Identify Regions of Consistent Industrial Growth and Stagnation</strong>:</p>
+<ul>
+<li><p>Regions with stable high IPI clusters over the years are likely industrial hubs, possibly contributing significantly to Vietnam’s GDP. These regions could serve as benchmarks for developing industrial policy elsewhere in the country.</p></li>
+<li><p>Persistent low-IPI clusters highlight areas that may require focused interventions, such as infrastructure upgrades, training programs, or investment incentives to encourage industrial growth.</p></li>
+</ul></li>
+<li><p><strong>Assess the Effectiveness of Policies and Economic Zones</strong>:</p>
+<ul>
+<li><p>LISA maps over multiple years can reveal how effective economic zones, industrial parks, or regional development policies have been in boosting industrial activity. Regions with emerging high-IPI clusters indicate that such policies may be working well.</p></li>
+<li><p>For regions where industrial growth has declined, policymakers may need to investigate the causes, such as increased production costs, lack of skilled labor, or inadequate infrastructure.</p></li>
+</ul></li>
+</ol>
+<p>Through this temporal LISA analysis, you can gain a nuanced understanding of how Vietnam’s industrial landscape has evolved, providing valuable insights for strategic planning, regional development, and economic policy formulation.</p>
+</section>
 </section>
 <section id="computing-local-gi-statistics-for-industrial-production" class="level1">
 <h1>Computing local Gi* statistics for Industrial Production</h1>
@@ -2477,8 +2590,90 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<p>The Getis-Ord Gi∗G_i^*Gi∗​ Hotspot Analysis map provides insights into spatial clustering of high and low industrial production index (IPI) values across Vietnam. Here are some observations and conclusions based on this map:</p>
+<section id="observations" class="level3">
+<h3 class="anchored" data-anchor-id="observations">Observations</h3>
+<ol type="1">
+<li><p><strong>High-Value Hotspots (Red and Orange Regions)</strong>:</p>
+<ul>
+<li><p>Regions shaded in red and orange, particularly in the southern and northern parts of Vietnam, indicate statistically significant high hotspots for industrial production. These areas have higher IPI values compared to neighboring regions, suggesting they are centers of concentrated industrial activity.</p></li>
+<li><p>In the south, industrial activity is strong near major economic areas, likely including regions around Ho Chi Minh City, where industrial zones and export processing areas are commonly located.</p></li>
+<li><p>In the north, there are also noticeable hotspots, potentially in the vicinity of Hanoi and other industrial centers, reflecting concentrated economic activities.</p></li>
+</ul></li>
+<li><p><strong>Low-Value Cold Spots (Dark Red Areas)</strong>:</p>
+<ul>
+<li>The map indicates cold spots, especially in parts of the northern regions. These areas have lower IPI values, reflecting lower industrial activity relative to their surrounding areas. This may be due to limited infrastructure, resources, or investment in industrial development in these regions.</li>
+</ul></li>
+<li><p><strong>Spatial Clustering</strong>:</p>
+<ul>
+<li><p>The pattern of clustering shows that industrial production is not uniformly distributed across Vietnam. Instead, it is concentrated in specific geographic clusters, with high-value hotspots in economically active areas and cold spots in less developed regions.</p></li>
+<li><p>The central part of the country has fewer hotspots, suggesting lower industrial activity compared to the northern and southern regions.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="conclusion-13" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-13">Conclusion</h3>
+<ol type="1">
+<li><p><strong>Industrial Concentration in Key Regions</strong>:</p>
+<ul>
+<li>The hotspot analysis highlights Vietnam’s reliance on specific regions for industrial output. The northern and southern clusters align with the locations of major cities and industrial zones, suggesting that these regions are driving the country’s industrial economy. These areas are likely benefiting from better infrastructure, investment, and access to markets.</li>
+</ul></li>
+<li><p><strong>Potential for Targeted Development</strong>:</p>
+<ul>
+<li>The low-value cold spots in the north indicate potential areas for targeted industrial development. Policy measures, such as infrastructure development, investment incentives, and workforce training, could help boost industrial production in these regions, addressing regional disparities.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="ui-design" class="level1">
+<h1>UI design</h1>
+<p><img src="images/1.png" class="img-fluid"></p>
+<section id="what-users-can-expect-from-the-lisa-map" class="level3">
+<h3 class="anchored" data-anchor-id="what-users-can-expect-from-the-lisa-map"><strong>What Users Can Expect from the LISA Map</strong></h3>
+<ul>
+<li><p><strong>Cluster Types</strong>: Users will see color-coded clusters that indicate areas of similar or contrasting values. For instance:</p>
+<ul>
+<li><p><strong>HH (High-High)</strong>: Areas with high values surrounded by other high values, indicating potential clusters of high activity.</p></li>
+<li><p><strong>LL (Low-Low)</strong>: Areas with low values surrounded by other low values, suggesting clusters of inactivity or lower intensity.</p></li>
+<li><p><strong>HL (High-Low) and LH (Low-High)</strong>: These patterns indicate spatial outliers, where values contrast with their neighbors.</p></li>
+</ul></li>
+<li><p><strong>Interactive Map</strong>: Users can zoom in and out to examine specific regions and hover over locations to view additional data or summary statistics for each area.</p></li>
+</ul>
+</section>
+<section id="how-to-interpret-lisa-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-lisa-clusters"><strong>How to Interpret LISA Clusters</strong></h3>
+<ul>
+<li><p><strong>Significant Clusters</strong>: High-High and Low-Low clusters often signify spatial patterns that may require further investigation (e.g., clusters of high incidents in certain neighborhoods).</p></li>
+<li><p><strong>Spatial Outliers</strong>: High-Low and Low-High clusters suggest anomalies, where values in a location differ from the surrounding areas.</p></li>
+</ul>
+</section>
+<section id="what-users-can-expect-from-the-hotspot-map" class="level3">
+<h3 class="anchored" data-anchor-id="what-users-can-expect-from-the-hotspot-map"><strong>What Users Can Expect from the Hotspot Map</strong></h3>
+<ul>
+<li><p><strong>Color-Coded Hotspots</strong>: Users will see areas marked in gradients of red and blue:</p>
+<ul>
+<li><p><strong>Red (Hotspots)</strong>: Locations with statistically significant high values, indicating clusters of intense activity.</p></li>
+<li><p><strong>Blue (Cold Spots)</strong>: Areas of statistically significant low values, indicating lower-than-average activity.</p></li>
+</ul></li>
+<li><p><strong>Confidence Levels</strong>: The intensity of color reflects the statistical significance of the hotspot or cold spot (e.g., 90%, 95%, or 99% confidence).</p></li>
+<li><p><strong>Interactivity</strong>: Similar to the LISA map, users can interact with this map to explore individual areas in more detail.</p></li>
+</ul>
+</section>
+<section id="how-to-interpret-hotspot-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-hotspot-analysis"><strong>How to Interpret Hotspot Analysis</strong></h3>
+<ul>
+<li><p><strong>Hotspots</strong>: Red zones highlight areas where values (e.g., crime rates, disease cases) are unusually high. Users might consider these areas as needing targeted attention.</p></li>
+<li><p><strong>Cold Spots</strong>: Blue zones indicate regions with consistently low values, which may serve as control areas or benchmarks.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2.png" class="img-fluid figure-img"></p>
+<figcaption>Clicking the navbar menu will drop down the menu to allow users to select between the LISA map for PCI or for index of industrial production</figcaption>
+</figure>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
