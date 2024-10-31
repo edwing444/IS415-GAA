@@ -172,6 +172,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex10/hands_on_ex10.html">
  <span class="dropdown-text">Hands-on Exercise 10</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex11/hands_on_ex11.html">
+ <span class="dropdown-text">Hands-on Exercise 11</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands_On_Ex/Hands_On_Ex12/hands_on_ex12.html">
+ <span class="dropdown-text">Hands-on Exercise 12</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -286,30 +294,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#visualising-hot-spot-and-cold-spot-areas" id="toc-visualising-hot-spot-and-cold-spot-areas" class="nav-link" data-scroll-target="#visualising-hot-spot-and-cold-spot-areas">Visualising hot spot and cold spot areas</a>
   <ul class="collapse">
+  <li><a href="#key-observations" id="toc-key-observations" class="nav-link" data-scroll-target="#key-observations"><strong>Key Observations:</strong></a></li>
   <li><a href="#conclusion-11" id="toc-conclusion-11" class="nav-link" data-scroll-target="#conclusion-11"><strong>Conclusion:</strong></a></li>
-  </ul></li>
-  <li><a href="#preparing-data-for-lisa-of-industrial-production" id="toc-preparing-data-for-lisa-of-industrial-production" class="nav-link" data-scroll-target="#preparing-data-for-lisa-of-industrial-production">Preparing data for LISA of industrial production</a>
-  <ul class="collapse">
-  <li><a href="#joining-data-1" id="toc-joining-data-1" class="nav-link" data-scroll-target="#joining-data-1">Joining data</a></li>
-  <li><a href="#computing-lisa" id="toc-computing-lisa" class="nav-link" data-scroll-target="#computing-lisa">Computing LISA</a></li>
-  </ul></li>
-  <li><a href="#visualising-lisa-of-industrial-production" id="toc-visualising-lisa-of-industrial-production" class="nav-link" data-scroll-target="#visualising-lisa-of-industrial-production">Visualising LISA of Industrial Production</a>
-  <ul class="collapse">
-  <li><a href="#observations-trends-over-time-1" id="toc-observations-trends-over-time-1" class="nav-link" data-scroll-target="#observations-trends-over-time-1">Observations (Trends Over Time):</a></li>
-  <li><a href="#conclusion-12" id="toc-conclusion-12" class="nav-link" data-scroll-target="#conclusion-12">Conclusion:</a></li>
-  </ul></li>
-  <li><a href="#computing-local-gi-statistics-for-industrial-production" id="toc-computing-local-gi-statistics-for-industrial-production" class="nav-link" data-scroll-target="#computing-local-gi-statistics-for-industrial-production">Computing local Gi* statistics for Industrial Production</a></li>
-  <li><a href="#visualising-hotspot-map" id="toc-visualising-hotspot-map" class="nav-link" data-scroll-target="#visualising-hotspot-map">Visualising Hotspot Map</a>
-  <ul class="collapse">
-  <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations">Observations</a></li>
-  <li><a href="#conclusion-13" id="toc-conclusion-13" class="nav-link" data-scroll-target="#conclusion-13">Conclusion</a></li>
+  <li><a href="#the-first-map-hotspotcold-spot-areas-hcsa" id="toc-the-first-map-hotspotcold-spot-areas-hcsa" class="nav-link" data-scroll-target="#the-first-map-hotspotcold-spot-areas-hcsa"><strong>The First Map: Hotspot/Cold Spot Areas (HCSA)</strong></a></li>
+  <li><a href="#the-second-map-provincial-competitiveness-index-pci" id="toc-the-second-map-provincial-competitiveness-index-pci" class="nav-link" data-scroll-target="#the-second-map-provincial-competitiveness-index-pci">2. <strong>The Second Map: Provincial Competitiveness Index (PCI)</strong></a></li>
+  <li><a href="#key-differences" id="toc-key-differences" class="nav-link" data-scroll-target="#key-differences"><strong>Key Differences:</strong></a></li>
+  <li><a href="#conclusion-12" id="toc-conclusion-12" class="nav-link" data-scroll-target="#conclusion-12"><strong>Conclusion:</strong></a></li>
   </ul></li>
   <li><a href="#ui-design" id="toc-ui-design" class="nav-link" data-scroll-target="#ui-design">UI design</a>
   <ul class="collapse">
-  <li><a href="#what-users-can-expect-from-the-lisa-map" id="toc-what-users-can-expect-from-the-lisa-map" class="nav-link" data-scroll-target="#what-users-can-expect-from-the-lisa-map"><strong>What Users Can Expect from the LISA Map</strong></a></li>
-  <li><a href="#how-to-interpret-lisa-clusters" id="toc-how-to-interpret-lisa-clusters" class="nav-link" data-scroll-target="#how-to-interpret-lisa-clusters"><strong>How to Interpret LISA Clusters</strong></a></li>
-  <li><a href="#what-users-can-expect-from-the-hotspot-map" id="toc-what-users-can-expect-from-the-hotspot-map" class="nav-link" data-scroll-target="#what-users-can-expect-from-the-hotspot-map"><strong>What Users Can Expect from the Hotspot Map</strong></a></li>
-  <li><a href="#how-to-interpret-hotspot-analysis" id="toc-how-to-interpret-hotspot-analysis" class="nav-link" data-scroll-target="#how-to-interpret-hotspot-analysis"><strong>How to Interpret Hotspot Analysis</strong></a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#layout" id="toc-layout" class="nav-link" data-scroll-target="#layout">Layout</a></li>
+  <li><a href="#sidebar-panel-calibration-inputs" id="toc-sidebar-panel-calibration-inputs" class="nav-link" data-scroll-target="#sidebar-panel-calibration-inputs">Sidebar Panel (Calibration Inputs)</a></li>
+  <li><a href="#main-panel-maps-and-charts" id="toc-main-panel-maps-and-charts" class="nav-link" data-scroll-target="#main-panel-maps-and-charts">Main Panel (Maps and Charts)</a></li>
+  <li><a href="#how-to-use-the-app" id="toc-how-to-use-the-app" class="nav-link" data-scroll-target="#how-to-use-the-app">How to Use the App</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1979,6 +1977,31 @@ tm_shape prior to each of them).</code></pre>
 </div>
 </div>
 </div>
+<section id="key-observations" class="level3">
+<h3 class="anchored" data-anchor-id="key-observations"><strong>Key Observations:</strong></h3>
+<ol type="1">
+<li><p><em>Gi Statistic (Hotspot and Cold Spot Identification):</em>*</p>
+<ul>
+<li><p>The <code>gi_star</code> variable, shown in the legend, represents the Gi* statistic values.</p></li>
+<li><p>The shaded areas in varying tones of orange and yellow likely represent hotspots where there is a significant clustering of high values. These are areas where the variable being analyzed (perhaps a social, economic, or conflict-related metric) shows statistically significant concentrations.</p></li>
+<li><p>The color scale on the map legend represents the range of Gi* values:</p>
+<ul>
+<li><p>Light yellow (<code>2.6 to 2.8</code>): Lower intensity of clustering.</p></li>
+<li><p>Darker orange (<code>3.4 to 3.6</code>): Higher intensity of clustering, indicating stronger hotspots.</p></li>
+</ul></li>
+<li><p>The non-colored regions do not appear to show statistically significant hotspots or cold spots.</p></li>
+</ul></li>
+<li><p><strong>Significant Areas:</strong></p>
+<ul>
+<li><p>The map emphasizes the northern region of Vietnam, particularly around the Red River Delta, which is shown in darker orange shades.</p></li>
+<li><p>This suggests that the region around the capital, Hanoi, or its surroundings might be a significant hotspot for the analyzed variable (perhaps economic activity, conflict events, or health-related data).</p></li>
+<li><p>The surrounding provinces have slightly lower Gi* values but are still within the statistically significant range, as represented by lighter shades.</p></li>
+</ul></li>
+<li><p><strong>Statistical Significance:</strong></p>
+<ul>
+<li>The filtering process using <code>p_sim &lt; 0.05</code> implies that the areas highlighted in the map have passed a threshold of statistical significance (p-value &lt; 0.05). This means the clustering is unlikely to be due to random chance and points to real spatial patterns in the data.</li>
+</ul></li>
+</ol>
 <p>This map effectively visualizes significant hotspot areas in northern Vietnam, showing where high values of the analyzed variable (possibly conflict data, health statistics, or economic factors) cluster spatially. The stronger hotspots are concentrated around the Red River Delta area, suggesting important spatial trends. No cold spots are observed, indicating that the focus is primarily on regions with high-value clustering.</p>
 <p>For a geospatial analyst, this map offers insights into spatial patterns that could inform policy decisions, resource allocation, or further investigation into why certain areas exhibit higher intensity for the variable being analyzed.</p>
 <p>Below is my sdep for GI hotspot</p>
@@ -2050,627 +2073,188 @@ tm_shape prior to each of them).</code></pre>
 <li><p><strong>Yellow to Orange Areas</strong> may be transitioning or developing regions where businesses might experience mixed results depending on local factors.</p></li>
 </ul></li>
 </ul>
+</section>
 <section id="conclusion-11" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion-11"><strong>Conclusion:</strong></h3>
 <p>This map is a useful tool for understanding the <strong>spatial patterns of competitiveness</strong> in Vietnam’s provinces. The identified <strong>hotspots</strong> in the north and central parts of the country represent regions where businesses are thriving, and the business environment is supportive of economic growth. Meanwhile, the <strong>cold spots</strong> point to provinces that may be struggling and in need of policy reforms or infrastructure investments to boost their competitiveness. This type of analysis can inform government initiatives, business decisions, and investments by highlighting where competitive advantages or disadvantages are geographically concentrated.</p>
 </section>
-</section>
-<section id="preparing-data-for-lisa-of-industrial-production" class="level1">
-<h1>Preparing data for LISA of industrial production</h1>
-<ol type="1">
-<li><strong>Ind Prod Data</strong> : These objects load <strong>Industrial Production data</strong> for Vietnam for each year from <strong>2012 to 2022</strong>. Each CSV file contains aspatial (non-geographic) data that includes indicators of industrial production at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of industrial production metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>ind_prod <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'data/aspatial/industrial_prod.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="joining-data-1" class="level3">
-<h3 class="anchored" data-anchor-id="joining-data-1">Joining data</h3>
-<p>This code joins the <strong>spatial boundary data</strong> and <strong>Industrial Production</strong> by:</p>
-<ol type="1">
-<li><p><strong>Merging Data</strong>: The <code>left_join</code> function merges <code>boundary_data</code> with <strong>Industrial Production</strong> using the <code>province</code> column as a common key. This results in a new <strong>Industrial Production</strong>dataset that includes spatial information (geometry) from <code>boundary_data</code> along with the <strong>Industrial Production</strong>indicators for 2012-2022. The <code>left_join</code> ensures that all records from <code>boundary_data</code> are kept, and matching rows from <strong>Industrial Production</strong>data are added.</p></li>
-<li><p><strong>Removing Rows with Missing Data</strong>: <code>drop_na</code> removes any rows with <code>NA</code> values from <strong>Industrial Production</strong>data, likely to ensure that only provinces with complete <strong>Industrial Production</strong> data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.</p></li>
-</ol>
-<p>This approach creates a complete dataset with both spatial and <strong>Industrial Production</strong>data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>ind_prod <span class="ot">&lt;-</span> boundary_data <span class="sc">%&gt;%</span></span>
-<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ind_prod, <span class="at">by =</span> <span class="st">"province"</span>)</span>
-<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a>ind_prod <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(ind_prod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="computing-lisa" class="level3">
-<h3 class="anchored" data-anchor-id="computing-lisa">Computing LISA</h3>
-<p>These codes enhances the <strong>Industrial Production 2012-2022</strong> dataset by adding spatial contiguity and weight information as new columns:</p>
-<ol type="1">
-<li><p><strong>Calculate Neighbor List</strong>: <code>st_contiguity(geometry)</code> identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column <code>nb</code>. This function creates a list where each province has a record of which other provinces are contiguous to it.</p></li>
-<li><p><strong>Assign Weights to Neighbors</strong>: <code>st_weights(nb, style="W")</code> calculates a <strong>row-standardized weight</strong> for each neighbor in <code>nb</code>, stored in the new column <code>wt</code>. The <code>style="W"</code> parameter means that the weights for each province’s neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.</p></li>
-<li><p><strong>Place Columns at the Beginning</strong>: The <code>.before = 1</code> argument ensures that the new columns (<code>nb</code> and <code>wt</code>) are positioned at the beginning of the dataset, making them easy to access and review during analysis.</p></li>
-</ol>
-<p>This setup embeds spatial structure directly into the <strong>Industrial Production</strong> dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.</p>
-<p>The 2nd code performs <strong>Local Moran’s I analysis</strong> on the <strong>PCI data for 2012-2022</strong> to identify spatial autocorrelation at the provincial level:</p>
-<ol type="1">
-<li><p><strong>Calculate Local Moran’s I</strong>: <code>local_moran(industrial_production, nb, wt, nsim=99)</code> computes Local Moran’s I statistic for the <strong>Industrial Production</strong> variable, which represents the <strong>Industrial Production</strong> for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low <strong>Industrial Production</strong> values relative to neighboring provinces:</p>
+<section id="the-first-map-hotspotcold-spot-areas-hcsa" class="level3">
+<h3 class="anchored" data-anchor-id="the-first-map-hotspotcold-spot-areas-hcsa"><strong>The First Map: Hotspot/Cold Spot Areas (HCSA)</strong></h3>
+<section id="purpose-and-data" class="level4">
+<h4 class="anchored" data-anchor-id="purpose-and-data"><strong>Purpose and Data:</strong></h4>
 <ul>
-<li><p><code>nb</code>: The neighbors list (spatial contiguity) column created earlier.</p></li>
-<li><p><code>wt</code>: The spatial weights column.</p></li>
-<li><p><code>nsim=99</code>: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.</p></li>
+<li><p>This map focuses on <strong>hotspot and cold spot areas</strong> in Vietnam using a general clustering method (as per the provided screenshot).</p></li>
+<li><p>It seems to visualize the <strong>spatial autocorrelation</strong> of some variable, though the specific indicator (HCSA) isn’t explicitly provided.</p></li>
+<li><p>The focus is on identifying statistically significant clusters of high or low values of this variable across Vietnamese provinces.</p></li>
+</ul>
+</section>
+<section id="analysis" class="level4">
+<h4 class="anchored" data-anchor-id="analysis"><strong>Analysis:</strong></h4>
+<ul>
+<li><p><strong>Hotspots (colored regions)</strong>:</p>
+<ul>
+<li><p>The map shows clusters in the <strong>northern part of Vietnam</strong> with higher significance, implying these regions are “hotspots” for the analyzed variable.</p></li>
+<li><p>These might represent areas with heightened activity (such as economic growth, conflict, population density, etc.) depending on the variable measured.</p></li>
 </ul></li>
-<li><p><strong>Store Results in <code>local_moran</code> Column</strong>: This result is saved as a new column <code>local_moran</code>. The <code>.before=1</code> argument ensures that <code>local_moran</code> is placed at the start of the data frame for easy access.</p></li>
-<li><p><strong>Unnest the Results</strong>: <code>unnest(local_moran)</code> expands the <code>local_moran</code> column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran’s I values for each province more accessible for further analysis or visualization.</p></li>
-</ol>
-<p>The resulting lisa_ind_2012 dataset provides <strong>Local Moran’s I values</strong> for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in Industrial Production values across Vietnam. And I repeat the above steps for the remaining years</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>wm_q_ind <span class="ot">&lt;-</span> ind_prod <span class="sc">%&gt;%</span> </span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb=</span><span class="fu">st_contiguity</span>(geometry),</span>
-<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt=</span><span class="fu">st_weights</span>(nb,</span>
-<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">style=</span><span class="st">"W"</span>),</span>
-<span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-3" role="tab" aria-controls="tabset-11-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-4" role="tab" aria-controls="tabset-11-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-5" role="tab" aria-controls="tabset-11-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-6" role="tab" aria-controls="tabset-11-6" aria-selected="false">2017</a></li></ul>
-<div class="tab-content">
-<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2012 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a>    Y2012,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb160-4"><a href="#cb160-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb160-5"><a href="#cb160-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2013 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>    Y2013,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb161-4"><a href="#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb161-5"><a href="#cb161-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-11-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-3-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2014 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>    Y2014,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb162-5"><a href="#cb162-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-11-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-4-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2015 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>    Y2015,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb163-4"><a href="#cb163-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb163-5"><a href="#cb163-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-11-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-5-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2016 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>    Y2016,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-11-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-6-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2017 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>    Y2017,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true">2018</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-2" role="tab" aria-controls="tabset-12-2" aria-selected="false">2019</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-3" role="tab" aria-controls="tabset-12-3" aria-selected="false">2020</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-4" role="tab" aria-controls="tabset-12-4" aria-selected="false">2021</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-5" role="tab" aria-controls="tabset-12-5" aria-selected="false">2022</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-6" role="tab" aria-controls="tabset-12-6" aria-selected="false">2023</a></li></ul>
-<div class="tab-content">
-<div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2018 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>    Y2018,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb166-4"><a href="#cb166-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb166-5"><a href="#cb166-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-12-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2019 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>    Y2019,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-12-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-3-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2020 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a>    Y2020,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb168-4"><a href="#cb168-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb168-5"><a href="#cb168-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-12-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-4-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2021 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>    Y2021,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-12-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-5-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2022 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb170-2"><a href="#cb170-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb170-3"><a href="#cb170-3" aria-hidden="true" tabindex="-1"></a>    Y2022,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb170-4"><a href="#cb170-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb170-5"><a href="#cb170-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-12-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-6-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>lisa_ind_2023 <span class="ot">&lt;-</span> wm_q_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>    Y2012,nb,wt,<span class="at">nsim=</span><span class="dv">99</span>),</span>
-<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb171-5"><a href="#cb171-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
+<li><p><strong>Cold spots (gray regions)</strong>:</p>
+<ul>
+<li>Areas without strong statistical significance (gray areas) represent regions that do not exhibit clustering of high or low values. They could be either average or neutral in the context of the analyzed variable.</li>
+</ul></li>
+<li><p><strong>Significance Filter</strong>:</p>
+<ul>
+<li>The map uses a significance filter (<code>p &lt; 0.05</code>), which focuses only on regions where clustering is statistically significant, discarding areas that do not meet the threshold.</li>
+</ul></li>
+</ul>
 </section>
 </section>
-<section id="visualising-lisa-of-industrial-production" class="level1">
-<h1>Visualising LISA of Industrial Production</h1>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true">2012</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false">2013</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-3" role="tab" aria-controls="tabset-13-3" aria-selected="false">2014</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-4" role="tab" aria-controls="tabset-13-4" aria-selected="false">2015</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-5" role="tab" aria-controls="tabset-13-5" aria-selected="false">2016</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-6" role="tab" aria-controls="tabset-13-6" aria-selected="false">2017</a></li></ul>
-<div class="tab-content">
-<div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2012)<span class="sc">+</span></span>
-<span id="cb172-2"><a href="#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb172-3"><a href="#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb172-4"><a href="#cb172-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb172-5"><a href="#cb172-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb172-6"><a href="#cb172-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb172-7"><a href="#cb172-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb172-8"><a href="#cb172-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-126-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-13-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2013)<span class="sc">+</span></span>
-<span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb174-3"><a href="#cb174-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb174-4"><a href="#cb174-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb174-5"><a href="#cb174-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb174-6"><a href="#cb174-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb174-7"><a href="#cb174-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb174-8"><a href="#cb174-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-127-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-13-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-3-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2014)<span class="sc">+</span></span>
-<span id="cb176-2"><a href="#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb176-3"><a href="#cb176-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb176-4"><a href="#cb176-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb176-5"><a href="#cb176-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb176-6"><a href="#cb176-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb176-7"><a href="#cb176-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb176-8"><a href="#cb176-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-128-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-13-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-4-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2015)<span class="sc">+</span></span>
-<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb178-3"><a href="#cb178-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb178-4"><a href="#cb178-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb178-5"><a href="#cb178-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb178-6"><a href="#cb178-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb178-7"><a href="#cb178-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb178-8"><a href="#cb178-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-129-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-13-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-5-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2016)<span class="sc">+</span></span>
-<span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb180-3"><a href="#cb180-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb180-4"><a href="#cb180-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb180-5"><a href="#cb180-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb180-6"><a href="#cb180-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb180-7"><a href="#cb180-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb180-8"><a href="#cb180-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-130-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-13-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-6-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2017)<span class="sc">+</span></span>
-<span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb182-3"><a href="#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb182-4"><a href="#cb182-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb182-5"><a href="#cb182-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb182-6"><a href="#cb182-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb182-7"><a href="#cb182-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb182-8"><a href="#cb182-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-131-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true">2018</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-2" role="tab" aria-controls="tabset-14-2" aria-selected="false">2019</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-3" role="tab" aria-controls="tabset-14-3" aria-selected="false">2020</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-4" role="tab" aria-controls="tabset-14-4" aria-selected="false">2021</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-5" role="tab" aria-controls="tabset-14-5" aria-selected="false">2022</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-6" role="tab" aria-controls="tabset-14-6" aria-selected="false">2023</a></li></ul>
-<div class="tab-content">
-<div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2018)<span class="sc">+</span></span>
-<span id="cb184-2"><a href="#cb184-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb184-3"><a href="#cb184-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb184-4"><a href="#cb184-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb184-5"><a href="#cb184-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb184-6"><a href="#cb184-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb184-7"><a href="#cb184-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb184-8"><a href="#cb184-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-132-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-14-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2019)<span class="sc">+</span></span>
-<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb186-3"><a href="#cb186-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb186-4"><a href="#cb186-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb186-5"><a href="#cb186-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb186-6"><a href="#cb186-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb186-7"><a href="#cb186-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb186-8"><a href="#cb186-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-133-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-14-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-3-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2020)<span class="sc">+</span></span>
-<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb188-3"><a href="#cb188-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb188-4"><a href="#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb188-5"><a href="#cb188-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb188-6"><a href="#cb188-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb188-7"><a href="#cb188-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb188-8"><a href="#cb188-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-134-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-14-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-4-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2021)<span class="sc">+</span></span>
-<span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb190-3"><a href="#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb190-4"><a href="#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb190-5"><a href="#cb190-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb190-6"><a href="#cb190-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb190-7"><a href="#cb190-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb190-8"><a href="#cb190-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-135-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-14-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-5-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2022)<span class="sc">+</span></span>
-<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb192-4"><a href="#cb192-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb192-5"><a href="#cb192-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb192-6"><a href="#cb192-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb192-7"><a href="#cb192-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb192-8"><a href="#cb192-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-136-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-14-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-6-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_ind_2023)<span class="sc">+</span></span>
-<span id="cb194-2"><a href="#cb194-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">'ii'</span>)<span class="sc">+</span></span>
-<span id="cb194-3"><a href="#cb194-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb194-4"><a href="#cb194-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))<span class="sc">+</span></span>
-<span id="cb194-5"><a href="#cb194-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb194-6"><a href="#cb194-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title =</span> <span class="st">"local Moran's I of G"</span>,</span>
-<span id="cb194-7"><a href="#cb194-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main.title.size =</span> <span class="dv">1</span></span>
-<span id="cb194-8"><a href="#cb194-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Variable(s) "ii" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-137-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Analyzing the Industrial Production Index (IPI) with a LISA Cluster Map across multiple years (2012–2022) provides insights into the spatial dynamics of industrial growth and development across Vietnam. This analysis can reveal regions that have experienced steady industrial growth, those that have faced declines, and areas where industrial activity has fluctuated.</p>
-<section id="observations-trends-over-time-1" class="level3">
-<h3 class="anchored" data-anchor-id="observations-trends-over-time-1">Observations (Trends Over Time):</h3>
+<section id="the-second-map-provincial-competitiveness-index-pci" class="level3">
+<h3 class="anchored" data-anchor-id="the-second-map-provincial-competitiveness-index-pci">2. <strong>The Second Map: Provincial Competitiveness Index (PCI)</strong></h3>
+<section id="purpose-and-data-1" class="level4">
+<h4 class="anchored" data-anchor-id="purpose-and-data-1"><strong>Purpose and Data:</strong></h4>
+<ul>
+<li>This map visualizes <strong>hotspots and cold spots</strong> of competitiveness using the <strong>Provincial Competitiveness Index (PCI)</strong>, which measures the economic governance, infrastructure, and ease of doing business across Vietnamese provinces.</li>
+</ul>
+</section>
+<section id="analysis-1" class="level4">
+<h4 class="anchored" data-anchor-id="analysis-1"><strong>Analysis:</strong></h4>
+<ul>
+<li><p><strong>Hotspots (red areas)</strong>:</p>
+<ul>
+<li><p>The red-colored provinces are <strong>competitive hotspots</strong>, indicating they have high PCI values. These are areas with business-friendly environments, strong governance, and infrastructure, likely promoting economic growth.</p></li>
+<li><p>Regions in <strong>Northern Vietnam</strong> are highlighted as the most competitive, which is likely driven by proximity to Hanoi and other key economic hubs.</p></li>
+</ul></li>
+<li><p>*<em>Cold spots (negative Gi</em> values, darker areas)**:</p>
+<ul>
+<li><p>The dark-colored provinces are <strong>less competitive</strong> regions with low PCI values. These areas may have poor infrastructure, more bureaucratic hurdles, or other barriers to business growth.</p></li>
+<li><p>Central and southern Vietnam seem to exhibit mixed levels of competitiveness, with some areas lagging in their PCI scores.</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="key-differences" class="level3">
+<h3 class="anchored" data-anchor-id="key-differences"><strong>Key Differences:</strong></h3>
 <ol type="1">
-<li><p><strong>Persistent Industrial Clusters</strong>:</p>
+<li><p><strong>Variable Analyzed</strong>:</p>
 <ul>
-<li><p><strong>High-IPI Clusters</strong>: Identify regions that consistently show high IPI values (green shades), suggesting areas with strong and stable industrial growth, possibly due to favorable policies, established infrastructure, or access to skilled labor. These regions might include industrial hubs or economic zones.</p></li>
-<li><p><strong>Low-IPI Clusters</strong>: Regions with persistent low IPI values (orange and red shades) might be areas struggling with industrialization. This could be due to lack of infrastructure, resources, or investment.</p></li>
+<li><p>The <strong>first map</strong> (HCSA) visualizes a general hotspot/cold spot analysis, but the specific variable isn’t named. It likely measures clusters of significance for a variable like population density, conflict, or another socioeconomic metric.</p></li>
+<li><p>The <strong>second map</strong> clearly visualizes <strong>competitiveness</strong> using the PCI, which is an economic indicator measuring how conducive regions are to business activity.</p></li>
 </ul></li>
-<li><p><strong>Emergence and Dissipation of Clusters</strong>:</p>
+<li><p><strong>Spatial Pattern and Hotspot Distribution</strong>:</p>
 <ul>
-<li><p><strong>Emerging High-IPI Clusters</strong>: Look for areas that shift from low to high IPI values over time. This change could indicate recent industrial development, possibly driven by new policies, foreign investments, or infrastructure projects.</p></li>
-<li><p><strong>Declining High-IPI Clusters</strong>: If some high-IPI clusters weaken or disappear over time, it could suggest industrial stagnation or relocation of industrial activity to other regions, possibly due to rising costs, regulatory changes, or economic shifts.</p></li>
+<li><p>The <strong>first map</strong> shows hotspots mostly in the northern region of Vietnam but in a broader and less defined context.</p></li>
+<li><p>The <strong>second map</strong> shows more detailed hotspots of high competitiveness (high PCI values) with a clearer focus on economic performance, with key competitiveness clusters in the north, central, and parts of the south.</p></li>
 </ul></li>
-<li><p><strong>Geographic Spread of Industrial Growth</strong>:</p>
+<li><p><strong>Geospatial Significance</strong>:</p>
 <ul>
-<li>Determine if industrial growth is concentrated in specific regions or spreading across the country. A widening of high-IPI clusters over time suggests a decentralization of industrial growth, while concentration in a few areas may indicate limited industrial distribution.</li>
+<li><p>The <strong>first map</strong> focuses purely on <strong>statistical significance</strong> (<code>p &lt; 0.05</code>), meaning it highlights areas where clustering is statistically reliable without necessarily specifying the nature (positive or negative).</p></li>
+<li><p>The <strong>second map</strong> focuses on both <strong>positive (hotspots)</strong> and <strong>negative (cold spots)</strong> in the context of competitiveness, offering a clear contrast between provinces that are competitive and those that are not.</p></li>
 </ul></li>
-<li><p><strong>Impact of Regional Policies and Economic Zones</strong>:</p>
+<li><p><strong>Interpretation and Policy Implications</strong>:</p>
 <ul>
-<li><p><strong>Economic Zones and Industrial Parks</strong>: Check if specific regions with economic zones or industrial parks show sustained high-IPI clusters. These areas are often intended to boost industrial activity, and sustained high-IPI values would indicate policy success.</p></li>
-<li><p><strong>Policy Interventions</strong>: Observe regions that experience noticeable changes in IPI clustering before and after key policies or investments. For instance, if a region shows growth following infrastructure improvements or incentives for industry, this can be seen in the clustering pattern.</p></li>
-</ul></li>
-<li><p><strong>Regional Disparities and Development Gaps</strong>:</p>
-<ul>
-<li>Compare growth patterns between urban and rural areas. Regions with high growth but persistent low-IPI areas nearby might suggest uneven industrial development, highlighting areas that might benefit from targeted support.</li>
-</ul></li>
-<li><p><strong>Economic Shocks or Market Trends</strong>:</p>
-<ul>
-<li>Significant global or national economic events, such as trade tensions or COVID-19, may disrupt clusters. For example, if some regions experienced lower IPI during 2020-2021, it may reflect pandemic-related industrial slowdowns, while recovery trends can be observed in subsequent years.</li>
+<li><p>The <strong>first map</strong> is more general and could apply to any socioeconomic or environmental variable, depending on what HCSA represents.</p></li>
+<li><p>The <strong>second map</strong> provides actionable insights specific to <strong>economic policy</strong> and <strong>business development</strong>, showing where investments or policy interventions could improve provincial competitiveness.</p></li>
 </ul></li>
 </ol>
 </section>
 <section id="conclusion-12" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion-12">Conclusion:</h3>
-<ol type="1">
-<li><p><strong>Identify Regions of Consistent Industrial Growth and Stagnation</strong>:</p>
-<ul>
-<li><p>Regions with stable high IPI clusters over the years are likely industrial hubs, possibly contributing significantly to Vietnam’s GDP. These regions could serve as benchmarks for developing industrial policy elsewhere in the country.</p></li>
-<li><p>Persistent low-IPI clusters highlight areas that may require focused interventions, such as infrastructure upgrades, training programs, or investment incentives to encourage industrial growth.</p></li>
-</ul></li>
-<li><p><strong>Assess the Effectiveness of Policies and Economic Zones</strong>:</p>
-<ul>
-<li><p>LISA maps over multiple years can reveal how effective economic zones, industrial parks, or regional development policies have been in boosting industrial activity. Regions with emerging high-IPI clusters indicate that such policies may be working well.</p></li>
-<li><p>For regions where industrial growth has declined, policymakers may need to investigate the causes, such as increased production costs, lack of skilled labor, or inadequate infrastructure.</p></li>
-</ul></li>
-</ol>
-<p>Through this temporal LISA analysis, you can gain a nuanced understanding of how Vietnam’s industrial landscape has evolved, providing valuable insights for strategic planning, regional development, and economic policy formulation.</p>
-</section>
-</section>
-<section id="computing-local-gi-statistics-for-industrial-production" class="level1">
-<h1>Computing local Gi* statistics for Industrial Production</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a spatial weights matrix</span></span>
-<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a>coords_prod <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(<span class="fu">st_centroid</span>(ind_prod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: st_centroid assumes attributes are constant over geometries</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>nb_prod <span class="ot">&lt;-</span> <span class="fu">knn2nb</span>(<span class="fu">knearneigh</span>(coords_prod, <span class="at">k =</span> <span class="dv">4</span>)) <span class="co"># K-nearest neighbors</span></span>
-<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>lw_prod <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_prod, <span class="at">style =</span> <span class="st">"W"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Getis-Ord Gi* statistic for each region</span></span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>gi_star_prod <span class="ot">&lt;-</span> <span class="fu">localG</span>(ind_prod<span class="sc">$</span>Y2022, lw_prod)</span>
-<span id="cb199-3"><a href="#cb199-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-4"><a href="#cb199-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Gi* values to the data</span></span>
-<span id="cb199-5"><a href="#cb199-5" aria-hidden="true" tabindex="-1"></a>ind_prod<span class="sc">$</span>gi_star_prod <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(gi_star_prod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="visualising-hotspot-map" class="level1">
-<h1>Visualising Hotspot Map</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a hotspot map</span></span>
-<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(ind_prod) <span class="sc">+</span></span>
-<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"gi_star_prod"</span>, </span>
-<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"Getis-Ord Gi* (Indistrial Production Hotspots)"</span>, </span>
-<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">palette =</span> <span class="st">"YlOrRd"</span>, </span>
-<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">style =</span> <span class="st">"cont"</span>) <span class="sc">+</span> </span>
-<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"Hotspot Analysis: Industrial Production"</span>, </span>
-<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.outside =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="take_home_ex3_files/figure-html/unnamed-chunk-140-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The Getis-Ord Gi∗G_i^*Gi∗​ Hotspot Analysis map provides insights into spatial clustering of high and low industrial production index (IPI) values across Vietnam. Here are some observations and conclusions based on this map:</p>
-<section id="observations" class="level3">
-<h3 class="anchored" data-anchor-id="observations">Observations</h3>
-<ol type="1">
-<li><p><strong>High-Value Hotspots (Red and Orange Regions)</strong>:</p>
-<ul>
-<li><p>Regions shaded in red and orange, particularly in the southern and northern parts of Vietnam, indicate statistically significant high hotspots for industrial production. These areas have higher IPI values compared to neighboring regions, suggesting they are centers of concentrated industrial activity.</p></li>
-<li><p>In the south, industrial activity is strong near major economic areas, likely including regions around Ho Chi Minh City, where industrial zones and export processing areas are commonly located.</p></li>
-<li><p>In the north, there are also noticeable hotspots, potentially in the vicinity of Hanoi and other industrial centers, reflecting concentrated economic activities.</p></li>
-</ul></li>
-<li><p><strong>Low-Value Cold Spots (Dark Red Areas)</strong>:</p>
-<ul>
-<li>The map indicates cold spots, especially in parts of the northern regions. These areas have lower IPI values, reflecting lower industrial activity relative to their surrounding areas. This may be due to limited infrastructure, resources, or investment in industrial development in these regions.</li>
-</ul></li>
-<li><p><strong>Spatial Clustering</strong>:</p>
-<ul>
-<li><p>The pattern of clustering shows that industrial production is not uniformly distributed across Vietnam. Instead, it is concentrated in specific geographic clusters, with high-value hotspots in economically active areas and cold spots in less developed regions.</p></li>
-<li><p>The central part of the country has fewer hotspots, suggesting lower industrial activity compared to the northern and southern regions.</p></li>
-</ul></li>
-</ol>
-</section>
-<section id="conclusion-13" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion-13">Conclusion</h3>
-<ol type="1">
-<li><p><strong>Industrial Concentration in Key Regions</strong>:</p>
-<ul>
-<li>The hotspot analysis highlights Vietnam’s reliance on specific regions for industrial output. The northern and southern clusters align with the locations of major cities and industrial zones, suggesting that these regions are driving the country’s industrial economy. These areas are likely benefiting from better infrastructure, investment, and access to markets.</li>
-</ul></li>
-<li><p><strong>Potential for Targeted Development</strong>:</p>
-<ul>
-<li>The low-value cold spots in the north indicate potential areas for targeted industrial development. Policy measures, such as infrastructure development, investment incentives, and workforce training, could help boost industrial production in these regions, addressing regional disparities.</li>
-</ul></li>
-</ol>
+<h3 class="anchored" data-anchor-id="conclusion-12"><strong>Conclusion:</strong></h3>
+<p>Both maps provide insight into spatial clustering in Vietnam but do so for different purposes and variables. The <strong>first map</strong> highlights general hotspots and cold spots based on statistical clustering, while the <strong>second map</strong> gives specific information on provincial competitiveness. The second map is more directly tied to economic and business strategy, while the first could have a broader set of applications depending on the variable being analyzed.</p>
 </section>
 </section>
 <section id="ui-design" class="level1">
 <h1>UI design</h1>
 <p><img src="images/1.png" class="img-fluid"></p>
-<section id="what-users-can-expect-from-the-lisa-map" class="level3">
-<h3 class="anchored" data-anchor-id="what-users-can-expect-from-the-lisa-map"><strong>What Users Can Expect from the LISA Map</strong></h3>
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<p>This Shiny app allows users to analyze the Provincial Competitiveness Index (PCI) for Vietnam. It features spatial analysis tools, including the Gi* hotspot and Local Moran’s I (LISA) maps, to identify significant spatial patterns in PCI data.</p>
+</section>
+<section id="layout" class="level3">
+<h3 class="anchored" data-anchor-id="layout">Layout</h3>
 <ul>
-<li><p><strong>Cluster Types</strong>: Users will see color-coded clusters that indicate areas of similar or contrasting values. For instance:</p>
+<li><p><strong>Title of Application</strong>: Displays the app’s name or purpose.</p></li>
+<li><p><strong>Navigation Bar Menu</strong>: Includes options to switch between different analysis sections:</p>
 <ul>
-<li><p><strong>HH (High-High)</strong>: Areas with high values surrounded by other high values, indicating potential clusters of high activity.</p></li>
-<li><p><strong>LL (Low-Low)</strong>: Areas with low values surrounded by other low values, suggesting clusters of inactivity or lower intensity.</p></li>
-<li><p><strong>HL (High-Low) and LH (Low-High)</strong>: These patterns indicate spatial outliers, where values contrast with their neighbors.</p></li>
+<li><p><strong>Emerging Hotspot Analysis of PCI</strong>: Displays the Gi* hotspot analysis for PCI.</p></li>
+<li><p><strong>Local Moran of PCI</strong>: Shows the LISA map for PCI.</p></li>
 </ul></li>
-<li><p><strong>Interactive Map</strong>: Users can zoom in and out to examine specific regions and hover over locations to view additional data or summary statistics for each area.</p></li>
 </ul>
 </section>
-<section id="how-to-interpret-lisa-clusters" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-interpret-lisa-clusters"><strong>How to Interpret LISA Clusters</strong></h3>
+<section id="sidebar-panel-calibration-inputs" class="level3">
+<h3 class="anchored" data-anchor-id="sidebar-panel-calibration-inputs">Sidebar Panel (Calibration Inputs)</h3>
+<p>Each analysis section has unique calibration inputs to customize the displayed maps:</p>
+<section id="gi-hotspot-analysis-of-pci" class="level4">
+<h4 class="anchored" data-anchor-id="gi-hotspot-analysis-of-pci"><em>Gi Hotspot Analysis of PCI</em>*</h4>
+<p>In this section, users can view the Gi* hotspot map, which identifies spatial clusters of high and low PCI values.</p>
+<ol type="1">
+<li><p><strong>Mapping Variable (Year)</strong>: Select the PCI year to analyze.</p>
 <ul>
-<li><p><strong>Significant Clusters</strong>: High-High and Low-Low clusters often signify spatial patterns that may require further investigation (e.g., clusters of high incidents in certain neighborhoods).</p></li>
-<li><p><strong>Spatial Outliers</strong>: High-Low and Low-High clusters suggest anomalies, where values in a location differ from the surrounding areas.</p></li>
-</ul>
-</section>
-<section id="what-users-can-expect-from-the-hotspot-map" class="level3">
-<h3 class="anchored" data-anchor-id="what-users-can-expect-from-the-hotspot-map"><strong>What Users Can Expect from the Hotspot Map</strong></h3>
-<ul>
-<li><p><strong>Color-Coded Hotspots</strong>: Users will see areas marked in gradients of red and blue:</p>
-<ul>
-<li><p><strong>Red (Hotspots)</strong>: Locations with statistically significant high values, indicating clusters of intense activity.</p></li>
-<li><p><strong>Blue (Cold Spots)</strong>: Areas of statistically significant low values, indicating lower-than-average activity.</p></li>
+<li>Options: 2019, 2020, 2021, 2022.</li>
 </ul></li>
-<li><p><strong>Confidence Levels</strong>: The intensity of color reflects the statistical significance of the hotspot or cold spot (e.g., 90%, 95%, or 99% confidence).</p></li>
-<li><p><strong>Interactivity</strong>: Similar to the LISA map, users can interact with this map to explore individual areas in more detail.</p></li>
-</ul>
-</section>
-<section id="how-to-interpret-hotspot-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-interpret-hotspot-analysis"><strong>How to Interpret Hotspot Analysis</strong></h3>
+<li><p><strong>Classification Method</strong>: Choose a method for classifying PCI values on the map.</p>
 <ul>
-<li><p><strong>Hotspots</strong>: Red zones highlight areas where values (e.g., crime rates, disease cases) are unusually high. Users might consider these areas as needing targeted attention.</p></li>
-<li><p><strong>Cold Spots</strong>: Blue zones indicate regions with consistently low values, which may serve as control areas or benchmarks.</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/2.png" class="img-fluid figure-img"></p>
-<figcaption>Clicking the navbar menu will drop down the menu to allow users to select between the LISA map for PCI or for index of industrial production</figcaption>
-</figure>
-</div>
+<li>Options: <code>cont</code>, <code>equal</code>, <code>pretty</code>, <code>quantile</code>, <code>kmeans</code>, <code>hclust</code>, <code>bclust</code>, <code>fisher</code>, <code>jenks</code>.</li>
+</ul></li>
+<li><p><strong>Number of Classes</strong>: Set the number of classification levels (between 5 and 10) for the PCI values.</p></li>
+<li><p><strong>Colour Scheme</strong>: Select a color scheme to visualize PCI hotspots and cold spots.</p>
+<ul>
+<li>Options: Blues, Reds, Greens, Yellow-Orange-Red, Yellow-Orange-Brown, Yellow-Green, Orange-Red.</li>
+</ul></li>
+<li><p><strong>Level of Transparency</strong>: Adjust the map’s opacity for better visual contrast (range: 0 to 1).</p></li>
+</ol>
+</section>
+<section id="local-moran-of-pci" class="level4">
+<h4 class="anchored" data-anchor-id="local-moran-of-pci"><strong>Local Moran of PCI</strong></h4>
+<p>This section displays the LISA map, which highlights local clusters and spatial outliers based on Local Moran’s I statistic.</p>
+<ol type="1">
+<li><p><strong>Mapping Variable (Year)</strong>: Select the PCI year to analyze.</p>
+<ul>
+<li>Options are dynamically populated based on available data.</li>
+</ul></li>
+<li><p><strong>Contiguity Method</strong>: Choose the spatial contiguity method.</p>
+<ul>
+<li>Options: <code>Queen</code> (default) or <code>Rook</code>.</li>
+</ul></li>
+<li><p><strong>Spatial Weights Style</strong>: Select a weighting style for spatial association.</p>
+<ul>
+<li>Options: <code>W</code> (Row standardized), <code>B</code> (Binary), <code>C</code> (Globally standardized), <code>U</code> (C / number of neighbors), <code>minmax</code>, <code>S</code> (Variance).</li>
+</ul></li>
+<li><p><strong>Number of Simulations</strong>: Set the number of simulations for significance testing (between 99 and 499).</p></li>
+<li><p><strong>Confidence Level</strong>: Select the confidence level for the LISA significance results.</p>
+<ul>
+<li>Options: 95% (0.05) or 99% (0.01).</li>
+</ul></li>
+<li><p><strong>LISA Classification</strong>: Select a classification method for the LISA clusters.</p>
+<ul>
+<li>Options: <code>mean</code>, <code>median</code>, <code>pysal</code>.</li>
+</ul></li>
+<li><p><strong>Local Moran’s Statistic</strong>: Choose the type of Local Moran’s statistic to display.</p>
+<ul>
+<li>Options: <code>local moran(ii)</code>, <code>expectation(eii)</code>, <code>variance(var_ii)</code>, <code>std deviation(z_ii)</code>, <code>P-value</code>.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="main-panel-maps-and-charts" class="level3">
+<h3 class="anchored" data-anchor-id="main-panel-maps-and-charts">Main Panel (Maps and Charts)</h3>
+<p>The Main Panel displays the results based on the selected calibration inputs:</p>
+<ol type="1">
+<li><p><strong>Emerging Hotspot Analysis of PCI</strong>: The Gi* hotspot map highlights significant PCI hotspots (high PCI clusters) and cold spots (low PCI clusters) across provinces for the selected year.</p></li>
+<li><p><strong>Local Moran of PCI</strong>: The LISA map shows spatial clusters of similar PCI levels and outliers, indicating local dependencies or deviations.</p></li>
+</ol>
+</section>
+<section id="how-to-use-the-app" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-use-the-app">How to Use the App</h3>
+<ol type="1">
+<li><p><strong>Select the desired analysis in the Navigation Bar</strong>: Choose either “Emerging Hotspot Analysis of PCI” or “Local Moran of PCI” to start.</p></li>
+<li><p><strong>Adjust Calibration Inputs in the Sidebar</strong>:</p>
+<ul>
+<li>Configure settings such as the year, classification method, color scheme, and others to customize the map.</li>
+</ul></li>
+<li><p><strong>View the Map in the Main Panel</strong>:</p>
+<ul>
+<li>The selected map (Gi* hotspot or LISA) will display spatial clusters or significant hotspots based on the specified inputs.</li>
+</ul></li>
+</ol>
 
 
 </section>

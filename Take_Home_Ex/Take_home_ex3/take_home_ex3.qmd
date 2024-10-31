@@ -1329,6 +1329,34 @@ tm_shape(HCSA_sig_2022)+
   tm_borders(alpha=0.4)
 ```
 
+### **Key Observations:**
+
+1.  *Gi Statistic (Hotspot and Cold Spot Identification):*\*
+
+    -   The `gi_star` variable, shown in the legend, represents the Gi\* statistic values.
+
+    -   The shaded areas in varying tones of orange and yellow likely represent hotspots where there is a significant clustering of high values. These are areas where the variable being analyzed (perhaps a social, economic, or conflict-related metric) shows statistically significant concentrations.
+
+    -   The color scale on the map legend represents the range of Gi\* values:
+
+        -   Light yellow (`2.6 to 2.8`): Lower intensity of clustering.
+
+        -   Darker orange (`3.4 to 3.6`): Higher intensity of clustering, indicating stronger hotspots.
+
+    -   The non-colored regions do not appear to show statistically significant hotspots or cold spots.
+
+2.  **Significant Areas:**
+
+    -   The map emphasizes the northern region of Vietnam, particularly around the Red River Delta, which is shown in darker orange shades.
+
+    -   This suggests that the region around the capital, Hanoi, or its surroundings might be a significant hotspot for the analyzed variable (perhaps economic activity, conflict events, or health-related data).
+
+    -   The surrounding provinces have slightly lower Gi\* values but are still within the statistically significant range, as represented by lighter shades.
+
+3.  **Statistical Significance:**
+
+    -   The filtering process using `p_sim < 0.05` implies that the areas highlighted in the map have passed a threshold of statistical significance (p-value \< 0.05). This means the clustering is unlikely to be due to random chance and points to real spatial patterns in the data.
+
 This map effectively visualizes significant hotspot areas in northern Vietnam, showing where high values of the analyzed variable (possibly conflict data, health statistics, or economic factors) cluster spatially. The stronger hotspots are concentrated around the Red River Delta area, suggesting important spatial trends. No cold spots are observed, indicating that the focus is primarily on regions with high-value clustering.
 
 For a geospatial analyst, this map offers insights into spatial patterns that could inform policy decisions, resource allocation, or further investigation into why certain areas exhibit higher intensity for the variable being analyzed.
@@ -1402,503 +1430,170 @@ tm_shape(PCI_2022_data) +
 
 This map is a useful tool for understanding the **spatial patterns of competitiveness** in Vietnam's provinces. The identified **hotspots** in the north and central parts of the country represent regions where businesses are thriving, and the business environment is supportive of economic growth. Meanwhile, the **cold spots** point to provinces that may be struggling and in need of policy reforms or infrastructure investments to boost their competitiveness. This type of analysis can inform government initiatives, business decisions, and investments by highlighting where competitive advantages or disadvantages are geographically concentrated.
 
-# Preparing data for LISA of industrial production
+### **The First Map: Hotspot/Cold Spot Areas (HCSA)**
 
-1.  **Ind Prod Data** : These objects load **Industrial Production data** for Vietnam for each year from **2012 to 2022**. Each CSV file contains aspatial (non-geographic) data that includes indicators of industrial production at the provincial level. By reading the data for each year separately, it prepares for a time-series analysis of industrial production metrics across provinces, allowing insights into trends or patterns in competitiveness and governance over time.
+#### **Purpose and Data:**
 
-```{r}
-ind_prod <- read.csv('data/aspatial/industrial_prod.csv')
-```
+-   This map focuses on **hotspot and cold spot areas** in Vietnam using a general clustering method (as per the provided screenshot).
 
-### Joining data
+-   It seems to visualize the **spatial autocorrelation** of some variable, though the specific indicator (HCSA) isn’t explicitly provided.
 
-This code joins the **spatial boundary data** and **Industrial Production** by:
+-   The focus is on identifying statistically significant clusters of high or low values of this variable across Vietnamese provinces.
 
-1.  **Merging Data**: The `left_join` function merges `boundary_data` with **Industrial Production** using the `province` column as a common key. This results in a new **Industrial Production**dataset that includes spatial information (geometry) from `boundary_data` along with the **Industrial Production**indicators for 2012-2022. The `left_join` ensures that all records from `boundary_data` are kept, and matching rows from **Industrial Production**data are added.
+#### **Analysis:**
 
-2.  **Removing Rows with Missing Data**: `drop_na` removes any rows with `NA` values from **Industrial Production**data, likely to ensure that only provinces with complete **Industrial Production** data and spatial information are retained for further analysis. This prevents issues that could arise from missing values during analysis or visualization.
+-   **Hotspots (colored regions)**:
 
-This approach creates a complete dataset with both spatial and **Industrial Production**data for 2012-2022, facilitating spatial analysis and mapping of competitiveness indicators across Vietnamese provinces.
+    -   The map shows clusters in the **northern part of Vietnam** with higher significance, implying these regions are “hotspots” for the analyzed variable.
 
-```{r}
-ind_prod <- boundary_data %>%
-  left_join(ind_prod, by = "province")
+    -   These might represent areas with heightened activity (such as economic growth, conflict, population density, etc.) depending on the variable measured.
 
-ind_prod <- drop_na(ind_prod)
-```
+-   **Cold spots (gray regions)**:
 
-### Computing LISA
+    -   Areas without strong statistical significance (gray areas) represent regions that do not exhibit clustering of high or low values. They could be either average or neutral in the context of the analyzed variable.
 
-These codes enhances the **Industrial Production 2012-2022** dataset by adding spatial contiguity and weight information as new columns:
+-   **Significance Filter**:
 
-1.  **Calculate Neighbor List**: `st_contiguity(geometry)` identifies neighboring provinces for each province based on contiguity, and the result is stored in the new column `nb`. This function creates a list where each province has a record of which other provinces are contiguous to it.
+    -   The map uses a significance filter (`p < 0.05`), which focuses only on regions where clustering is statistically significant, discarding areas that do not meet the threshold.
 
-2.  **Assign Weights to Neighbors**: `st_weights(nb, style="W")` calculates a **row-standardized weight** for each neighbor in `nb`, stored in the new column `wt`. The `style="W"` parameter means that the weights for each province's neighbors will sum to 1. This type of weight structure is useful for spatial analysis, as it standardizes the influence each neighboring province has on the focal province.
+### 2. **The Second Map: Provincial Competitiveness Index (PCI)**
 
-3.  **Place Columns at the Beginning**: The `.before = 1` argument ensures that the new columns (`nb` and `wt`) are positioned at the beginning of the dataset, making them easy to access and review during analysis.
+#### **Purpose and Data:**
 
-This setup embeds spatial structure directly into the **Industrial Production** dataset, preparing it for further spatial econometric analysis by linking each province with its neighbors and assigning standardized weights.
+-   This map visualizes **hotspots and cold spots** of competitiveness using the **Provincial Competitiveness Index (PCI)**, which measures the economic governance, infrastructure, and ease of doing business across Vietnamese provinces.
 
-The 2nd code performs **Local Moran's I analysis** on the **PCI data for 2012-2022** to identify spatial autocorrelation at the provincial level:
+#### **Analysis:**
 
-1.  **Calculate Local Moran's I**: `local_moran(industrial_production, nb, wt, nsim=99)` computes Local Moran's I statistic for the **Industrial Production** variable, which represents the **Industrial Production** for each province. This function assesses the degree of spatial autocorrelation locally, identifying clusters and outliers of high or low **Industrial Production** values relative to neighboring provinces:
+-   **Hotspots (red areas)**:
 
-    -   `nb`: The neighbors list (spatial contiguity) column created earlier.
+    -   The red-colored provinces are **competitive hotspots**, indicating they have high PCI values. These are areas with business-friendly environments, strong governance, and infrastructure, likely promoting economic growth.
 
-    -   `wt`: The spatial weights column.
+    -   Regions in **Northern Vietnam** are highlighted as the most competitive, which is likely driven by proximity to Hanoi and other key economic hubs.
 
-    -   `nsim=99`: Sets the number of simulations to 99, used for significance testing to evaluate if the observed spatial patterns are statistically significant.
+-   \**Cold spots (negative Gi* values, darker areas)\*\*:
 
-2.  **Store Results in `local_moran` Column**: This result is saved as a new column `local_moran`. The `.before=1` argument ensures that `local_moran` is placed at the start of the data frame for easy access.
+    -   The dark-colored provinces are **less competitive** regions with low PCI values. These areas may have poor infrastructure, more bureaucratic hurdles, or other barriers to business growth.
 
-3.  **Unnest the Results**: `unnest(local_moran)` expands the `local_moran` column if it contains nested data (e.g., lists of statistics for each province), spreading them into separate columns. This makes the Local Moran's I values for each province more accessible for further analysis or visualization.
+    -   Central and southern Vietnam seem to exhibit mixed levels of competitiveness, with some areas lagging in their PCI scores.
 
-The resulting lisa_ind_2012 dataset provides **Local Moran's I values** for each province, allowing me to map spatial clusters and test for the presence of spatially structured patterns in Industrial Production values across Vietnam. And I repeat the above steps for the remaining years
+### **Key Differences:**
 
-```{r}
-wm_q_ind <- ind_prod %>% 
-  mutate(nb=st_contiguity(geometry),
-         wt=st_weights(nb,
-                       style="W"),
-         .before = 1)
-```
+1.  **Variable Analyzed**:
 
-::: panel-tabset
-#### 2012
+    -   The **first map** (HCSA) visualizes a general hotspot/cold spot analysis, but the specific variable isn't named. It likely measures clusters of significance for a variable like population density, conflict, or another socioeconomic metric.
 
-```{r}
-lisa_ind_2012 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2012,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
+    -   The **second map** clearly visualizes **competitiveness** using the PCI, which is an economic indicator measuring how conducive regions are to business activity.
 
-#### 2013
+2.  **Spatial Pattern and Hotspot Distribution**:
 
-```{r}
-lisa_ind_2013 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2013,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
+    -   The **first map** shows hotspots mostly in the northern region of Vietnam but in a broader and less defined context.
 
-#### 2014
+    -   The **second map** shows more detailed hotspots of high competitiveness (high PCI values) with a clearer focus on economic performance, with key competitiveness clusters in the north, central, and parts of the south.
 
-```{r}
-lisa_ind_2014 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2014,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
+3.  **Geospatial Significance**:
 
-#### 2015
+    -   The **first map** focuses purely on **statistical significance** (`p < 0.05`), meaning it highlights areas where clustering is statistically reliable without necessarily specifying the nature (positive or negative).
 
-```{r}
-lisa_ind_2015 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2015,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-#### 2016
-
-```{r}
-lisa_ind_2016 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2016,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-#### 2017
-
-```{r}
-lisa_ind_2017 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2017,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-:::
-
-::: panel-tabset
-## 2018
-
-```{r}
-lisa_ind_2018 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2018,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-## 2019
-
-```{r}
-lisa_ind_2019 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2019,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-## 2020
-
-```{r}
-lisa_ind_2020 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2020,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-## 2021
-
-```{r}
-lisa_ind_2021 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2021,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-## 2022
-
-```{r}
-lisa_ind_2022 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2022,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-
-## 2023
-
-```{r}
-lisa_ind_2023 <- wm_q_ind %>% 
-  mutate(local_moran = local_moran(
-    Y2012,nb,wt,nsim=99),
-    .before=1) %>% 
-  unnest(local_moran)
-```
-:::
-
-# Visualising LISA of Industrial Production
-
-::: panel-tabset
-## 2012
-
-```{r}
-tm_shape(lisa_ind_2012)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2013
-
-```{r}
-tm_shape(lisa_ind_2013)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2014
-
-```{r}
-tm_shape(lisa_ind_2014)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2015
-
-```{r}
-tm_shape(lisa_ind_2015)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2016
-
-```{r}
-tm_shape(lisa_ind_2016)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2017
-
-```{r}
-tm_shape(lisa_ind_2017)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-:::
-
-::: panel-tabset
-## 2018
-
-```{r}
-tm_shape(lisa_ind_2018)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2019
-
-```{r}
-tm_shape(lisa_ind_2019)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2020
-
-```{r}
-tm_shape(lisa_ind_2020)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2021
-
-```{r}
-tm_shape(lisa_ind_2021)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2022
-
-```{r}
-tm_shape(lisa_ind_2022)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-
-## 2023
-
-```{r}
-tm_shape(lisa_ind_2023)+
-  tm_fill('ii')+
-  tm_borders(alpha=0.5)+
-  tm_view(set.zoom.limits = c(3,6))+
-  tm_layout(
-    main.title = "local Moran's I of G",
-    main.title.size = 1
-  )
-```
-:::
-
-Analyzing the Industrial Production Index (IPI) with a LISA Cluster Map across multiple years (2012–2022) provides insights into the spatial dynamics of industrial growth and development across Vietnam. This analysis can reveal regions that have experienced steady industrial growth, those that have faced declines, and areas where industrial activity has fluctuated.
-
-### Observations (Trends Over Time):
-
-1.  **Persistent Industrial Clusters**:
-
-    -   **High-IPI Clusters**: Identify regions that consistently show high IPI values (green shades), suggesting areas with strong and stable industrial growth, possibly due to favorable policies, established infrastructure, or access to skilled labor. These regions might include industrial hubs or economic zones.
-
-    -   **Low-IPI Clusters**: Regions with persistent low IPI values (orange and red shades) might be areas struggling with industrialization. This could be due to lack of infrastructure, resources, or investment.
-
-2.  **Emergence and Dissipation of Clusters**:
-
-    -   **Emerging High-IPI Clusters**: Look for areas that shift from low to high IPI values over time. This change could indicate recent industrial development, possibly driven by new policies, foreign investments, or infrastructure projects.
-
-    -   **Declining High-IPI Clusters**: If some high-IPI clusters weaken or disappear over time, it could suggest industrial stagnation or relocation of industrial activity to other regions, possibly due to rising costs, regulatory changes, or economic shifts.
-
-3.  **Geographic Spread of Industrial Growth**:
-
-    -   Determine if industrial growth is concentrated in specific regions or spreading across the country. A widening of high-IPI clusters over time suggests a decentralization of industrial growth, while concentration in a few areas may indicate limited industrial distribution.
-
-4.  **Impact of Regional Policies and Economic Zones**:
-
-    -   **Economic Zones and Industrial Parks**: Check if specific regions with economic zones or industrial parks show sustained high-IPI clusters. These areas are often intended to boost industrial activity, and sustained high-IPI values would indicate policy success.
-
-    -   **Policy Interventions**: Observe regions that experience noticeable changes in IPI clustering before and after key policies or investments. For instance, if a region shows growth following infrastructure improvements or incentives for industry, this can be seen in the clustering pattern.
-
-5.  **Regional Disparities and Development Gaps**:
-
-    -   Compare growth patterns between urban and rural areas. Regions with high growth but persistent low-IPI areas nearby might suggest uneven industrial development, highlighting areas that might benefit from targeted support.
-
-6.  **Economic Shocks or Market Trends**:
-
-    -   Significant global or national economic events, such as trade tensions or COVID-19, may disrupt clusters. For example, if some regions experienced lower IPI during 2020-2021, it may reflect pandemic-related industrial slowdowns, while recovery trends can be observed in subsequent years.
-
-### Conclusion:
-
-1.  **Identify Regions of Consistent Industrial Growth and Stagnation**:
-
-    -   Regions with stable high IPI clusters over the years are likely industrial hubs, possibly contributing significantly to Vietnam’s GDP. These regions could serve as benchmarks for developing industrial policy elsewhere in the country.
-
-    -   Persistent low-IPI clusters highlight areas that may require focused interventions, such as infrastructure upgrades, training programs, or investment incentives to encourage industrial growth.
-
-2.  **Assess the Effectiveness of Policies and Economic Zones**:
-
-    -   LISA maps over multiple years can reveal how effective economic zones, industrial parks, or regional development policies have been in boosting industrial activity. Regions with emerging high-IPI clusters indicate that such policies may be working well.
-
-    -   For regions where industrial growth has declined, policymakers may need to investigate the causes, such as increased production costs, lack of skilled labor, or inadequate infrastructure.
-
-Through this temporal LISA analysis, you can gain a nuanced understanding of how Vietnam's industrial landscape has evolved, providing valuable insights for strategic planning, regional development, and economic policy formulation.
-
-# Computing local Gi\* statistics for Industrial Production
-
-```{r}
-# Create a spatial weights matrix
-coords_prod <- st_coordinates(st_centroid(ind_prod))
-nb_prod <- knn2nb(knearneigh(coords_prod, k = 4)) # K-nearest neighbors
-lw_prod <- nb2listw(nb_prod, style = "W")
-```
-
-```{r}
-# Calculate Getis-Ord Gi* statistic for each region
-gi_star_prod <- localG(ind_prod$Y2022, lw_prod)
-
-# Add Gi* values to the data
-ind_prod$gi_star_prod <- as.numeric(gi_star_prod)
-```
-
-# Visualising Hotspot Map
-
-```{r}
-# Create a hotspot map
-tm_shape(ind_prod) +
-  tm_polygons("gi_star_prod", 
-              title = "Getis-Ord Gi* (Indistrial Production Hotspots)", 
-              palette = "YlOrRd", 
-              style = "cont") + 
-  tm_layout(main.title = "Hotspot Analysis: Industrial Production", 
-            legend.outside = TRUE)
-```
-
-The Getis-Ord Gi∗G_i\^\*Gi∗​ Hotspot Analysis map provides insights into spatial clustering of high and low industrial production index (IPI) values across Vietnam. Here are some observations and conclusions based on this map:
-
-### Observations
-
-1.  **High-Value Hotspots (Red and Orange Regions)**:
-
-    -   Regions shaded in red and orange, particularly in the southern and northern parts of Vietnam, indicate statistically significant high hotspots for industrial production. These areas have higher IPI values compared to neighboring regions, suggesting they are centers of concentrated industrial activity.
-
-    -   In the south, industrial activity is strong near major economic areas, likely including regions around Ho Chi Minh City, where industrial zones and export processing areas are commonly located.
-
-    -   In the north, there are also noticeable hotspots, potentially in the vicinity of Hanoi and other industrial centers, reflecting concentrated economic activities.
-
-2.  **Low-Value Cold Spots (Dark Red Areas)**:
-
-    -   The map indicates cold spots, especially in parts of the northern regions. These areas have lower IPI values, reflecting lower industrial activity relative to their surrounding areas. This may be due to limited infrastructure, resources, or investment in industrial development in these regions.
-
-3.  **Spatial Clustering**:
-
-    -   The pattern of clustering shows that industrial production is not uniformly distributed across Vietnam. Instead, it is concentrated in specific geographic clusters, with high-value hotspots in economically active areas and cold spots in less developed regions.
-
-    -   The central part of the country has fewer hotspots, suggesting lower industrial activity compared to the northern and southern regions.
-
-### Conclusion
-
-1.  **Industrial Concentration in Key Regions**:
-
-    -   The hotspot analysis highlights Vietnam’s reliance on specific regions for industrial output. The northern and southern clusters align with the locations of major cities and industrial zones, suggesting that these regions are driving the country’s industrial economy. These areas are likely benefiting from better infrastructure, investment, and access to markets.
-
-2.  **Potential for Targeted Development**:
-
-    -   The low-value cold spots in the north indicate potential areas for targeted industrial development. Policy measures, such as infrastructure development, investment incentives, and workforce training, could help boost industrial production in these regions, addressing regional disparities.
+    -   The **second map** focuses on both **positive (hotspots)** and **negative (cold spots)** in the context of competitiveness, offering a clear contrast between provinces that are competitive and those that are not.
+
+4.  **Interpretation and Policy Implications**:
+
+    -   The **first map** is more general and could apply to any socioeconomic or environmental variable, depending on what HCSA represents.
+
+    -   The **second map** provides actionable insights specific to **economic policy** and **business development**, showing where investments or policy interventions could improve provincial competitiveness.
+
+### **Conclusion:**
+
+Both maps provide insight into spatial clustering in Vietnam but do so for different purposes and variables. The **first map** highlights general hotspots and cold spots based on statistical clustering, while the **second map** gives specific information on provincial competitiveness. The second map is more directly tied to economic and business strategy, while the first could have a broader set of applications depending on the variable being analyzed.
 
 # UI design
 
 ![](images/1.png)
 
-### **What Users Can Expect from the LISA Map**
+### Overview
 
--   **Cluster Types**: Users will see color-coded clusters that indicate areas of similar or contrasting values. For instance:
+This Shiny app allows users to analyze the Provincial Competitiveness Index (PCI) for Vietnam. It features spatial analysis tools, including the Gi\* hotspot and Local Moran’s I (LISA) maps, to identify significant spatial patterns in PCI data.
 
-    -   **HH (High-High)**: Areas with high values surrounded by other high values, indicating potential clusters of high activity.
+### Layout
 
-    -   **LL (Low-Low)**: Areas with low values surrounded by other low values, suggesting clusters of inactivity or lower intensity.
+-   **Title of Application**: Displays the app's name or purpose.
 
-    -   **HL (High-Low) and LH (Low-High)**: These patterns indicate spatial outliers, where values contrast with their neighbors.
+-   **Navigation Bar Menu**: Includes options to switch between different analysis sections:
 
--   **Interactive Map**: Users can zoom in and out to examine specific regions and hover over locations to view additional data or summary statistics for each area.
+    -   **Emerging Hotspot Analysis of PCI**: Displays the Gi\* hotspot analysis for PCI.
 
-### **How to Interpret LISA Clusters**
+    -   **Local Moran of PCI**: Shows the LISA map for PCI.
 
--   **Significant Clusters**: High-High and Low-Low clusters often signify spatial patterns that may require further investigation (e.g., clusters of high incidents in certain neighborhoods).
+### Sidebar Panel (Calibration Inputs)
 
--   **Spatial Outliers**: High-Low and Low-High clusters suggest anomalies, where values in a location differ from the surrounding areas.
+Each analysis section has unique calibration inputs to customize the displayed maps:
 
-### **What Users Can Expect from the Hotspot Map**
+#### *Gi Hotspot Analysis of PCI*\*
 
--   **Color-Coded Hotspots**: Users will see areas marked in gradients of red and blue:
+In this section, users can view the Gi\* hotspot map, which identifies spatial clusters of high and low PCI values.
 
-    -   **Red (Hotspots)**: Locations with statistically significant high values, indicating clusters of intense activity.
+1.  **Mapping Variable (Year)**: Select the PCI year to analyze.
 
-    -   **Blue (Cold Spots)**: Areas of statistically significant low values, indicating lower-than-average activity.
+    -   Options: 2019, 2020, 2021, 2022.
 
--   **Confidence Levels**: The intensity of color reflects the statistical significance of the hotspot or cold spot (e.g., 90%, 95%, or 99% confidence).
+2.  **Classification Method**: Choose a method for classifying PCI values on the map.
 
--   **Interactivity**: Similar to the LISA map, users can interact with this map to explore individual areas in more detail.
+    -   Options: `cont`, `equal`, `pretty`, `quantile`, `kmeans`, `hclust`, `bclust`, `fisher`, `jenks`.
 
-### **How to Interpret Hotspot Analysis**
+3.  **Number of Classes**: Set the number of classification levels (between 5 and 10) for the PCI values.
 
--   **Hotspots**: Red zones highlight areas where values (e.g., crime rates, disease cases) are unusually high. Users might consider these areas as needing targeted attention.
+4.  **Colour Scheme**: Select a color scheme to visualize PCI hotspots and cold spots.
 
--   **Cold Spots**: Blue zones indicate regions with consistently low values, which may serve as control areas or benchmarks.
+    -   Options: Blues, Reds, Greens, Yellow-Orange-Red, Yellow-Orange-Brown, Yellow-Green, Orange-Red.
 
-![Clicking the navbar menu will drop down the menu to allow users to select between the LISA map for PCI or for index of industrial production](images/2.png)
+5.  **Level of Transparency**: Adjust the map's opacity for better visual contrast (range: 0 to 1).
+
+#### **Local Moran of PCI**
+
+This section displays the LISA map, which highlights local clusters and spatial outliers based on Local Moran's I statistic.
+
+1.  **Mapping Variable (Year)**: Select the PCI year to analyze.
+
+    -   Options are dynamically populated based on available data.
+
+2.  **Contiguity Method**: Choose the spatial contiguity method.
+
+    -   Options: `Queen` (default) or `Rook`.
+
+3.  **Spatial Weights Style**: Select a weighting style for spatial association.
+
+    -   Options: `W` (Row standardized), `B` (Binary), `C` (Globally standardized), `U` (C / number of neighbors), `minmax`, `S` (Variance).
+
+4.  **Number of Simulations**: Set the number of simulations for significance testing (between 99 and 499).
+
+5.  **Confidence Level**: Select the confidence level for the LISA significance results.
+
+    -   Options: 95% (0.05) or 99% (0.01).
+
+6.  **LISA Classification**: Select a classification method for the LISA clusters.
+
+    -   Options: `mean`, `median`, `pysal`.
+
+7.  **Local Moran's Statistic**: Choose the type of Local Moran’s statistic to display.
+
+    -   Options: `local moran(ii)`, `expectation(eii)`, `variance(var_ii)`, `std deviation(z_ii)`, `P-value`.
+
+### Main Panel (Maps and Charts)
+
+The Main Panel displays the results based on the selected calibration inputs:
+
+1.  **Emerging Hotspot Analysis of PCI**: The Gi\* hotspot map highlights significant PCI hotspots (high PCI clusters) and cold spots (low PCI clusters) across provinces for the selected year.
+
+2.  **Local Moran of PCI**: The LISA map shows spatial clusters of similar PCI levels and outliers, indicating local dependencies or deviations.
+
+### How to Use the App
+
+1.  **Select the desired analysis in the Navigation Bar**: Choose either "Emerging Hotspot Analysis of PCI" or "Local Moran of PCI" to start.
+
+2.  **Adjust Calibration Inputs in the Sidebar**:
+
+    -   Configure settings such as the year, classification method, color scheme, and others to customize the map.
+
+3.  **View the Map in the Main Panel**:
+
+    -   The selected map (Gi\* hotspot or LISA) will display spatial clusters or significant hotspots based on the specified inputs.
