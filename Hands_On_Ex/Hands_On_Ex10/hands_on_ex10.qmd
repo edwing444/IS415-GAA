@@ -4,7 +4,7 @@ author: "Edwin Tan"
 date: "October 01,2024"
 date-modified: "last-modified"
 execute: 
-  eval: false
+  eval: true
   echo: true
   freeze: true
 ---
@@ -373,7 +373,7 @@ The [**gtsummary**](https://www.danieldsjoberg.com/gtsummary/index.html) package
 In the code chunk below, [`tbl_regression()`](https://www.danieldsjoberg.com/gtsummary/reference/tbl_regression.html) is used to create a well formatted regression report.
 
 ```{r}
-tbl_regression(condo.mlr1, intercept = TRUE)1
+tbl_regression(condo.mlr1, intercept = TRUE)
 ```
 
 With gtsummary package, model statistics can be included in the report by either appending them to the report table by using [`add_glance_table()`](https://www.danieldsjoberg.com/gtsummary/reference/add_glance.html) or adding as a table source note by using [`add_glance_source_note()`](https://www.danieldsjoberg.com/gtsummary/reference/add_glance.html) as shown in the code chunk below.
