@@ -4,7 +4,7 @@ author: "Edwin Tan"
 ---
 
 ```{r}
-pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep)
+pacman::p_load(sf,tmap,tidyverse,spatstat,raster,sparr,spdep,sfdep,openxlsx, readxl, kableExtra,animation, png, magick)
 ```
 
 # Reading data
@@ -48,7 +48,13 @@ Overall, these changes prepare the `boundary_data` for integration with other da
 ```{r}
 boundary_data <- boundary_data %>%
   dplyr::select(-ADM1_VI,-ADM1_REF,-ADM1ALT1EN,-ADM1ALT2EN,-ADM1ALT1VI,-ADM1ALT2EN, -ADM1ALT2VI, -ADM0_VI,-ADM0_EN,-ADM0_PCODE,-date,-validOn,-validTo,-ADM1_PCODE) %>% 
-  rename(province = ADM1_EN)
+  rename(province = ADM1_EN) %>% 
+  mutate(province = recode(province,"Ba Ria - Vung Tau" = "BRVT",
+         "Thua Thien Hue" = "TT-Hue",
+         "Ho Chi Minh city" = "HCMC",
+         "Can Tho city" = "Can Tho",
+         "Da Nang city" = "Da Nang",
+         "Hai Phong city" = "Hai Phong"))
 
 ```
 
@@ -166,7 +172,7 @@ This approach creates a complete dataset with both spatial and PCI data for 2012
 PCI_2012_data <- boundary_data %>%
   left_join(PCI_2012_data, by = "province")
 
-PCI_2012_data <- drop_na(PCI_2012_data)
+
 ```
 
 ## 2013
@@ -175,7 +181,6 @@ PCI_2012_data <- drop_na(PCI_2012_data)
 PCI_2013_data <- boundary_data %>%
   left_join(PCI_2013_data, by = "province")
 
-PCI_2013_data <- drop_na(PCI_2013_data)
 ```
 
 ## 2014
@@ -184,7 +189,7 @@ PCI_2013_data <- drop_na(PCI_2013_data)
 PCI_2014_data <- boundary_data %>%
   left_join(PCI_2014_data, by = "province")
 
-PCI_2014_data <- drop_na(PCI_2014_data)
+
 ```
 
 ## 2015
@@ -193,7 +198,7 @@ PCI_2014_data <- drop_na(PCI_2014_data)
 PCI_2015_data <- boundary_data %>%
   left_join(PCI_2015_data, by = "province")
 
-PCI_2015_data <- drop_na(PCI_2015_data)
+
 ```
 
 ## 2016
@@ -202,7 +207,7 @@ PCI_2015_data <- drop_na(PCI_2015_data)
 PCI_2016_data <- boundary_data %>%
   left_join(PCI_2016_data, by = "province")
 
-PCI_2016_data <- drop_na(PCI_2016_data)
+
 ```
 
 ## 2017
@@ -211,7 +216,7 @@ PCI_2016_data <- drop_na(PCI_2016_data)
 PCI_2017_data <- boundary_data %>%
   left_join(PCI_2017_data, by = "province")
 
-PCI_2017_data <- drop_na(PCI_2017_data)
+
 ```
 :::
 
@@ -222,7 +227,7 @@ PCI_2017_data <- drop_na(PCI_2017_data)
 PCI_2018_data <- boundary_data %>%
   left_join(PCI_2018_data, by = "province")
 
-PCI_2018_data <- drop_na(PCI_2018_data)
+
 ```
 
 ## 2019
@@ -231,7 +236,7 @@ PCI_2018_data <- drop_na(PCI_2018_data)
 PCI_2019_data <- boundary_data %>%
   left_join(PCI_2019_data, by = "province")
 
-PCI_2019_data <- drop_na(PCI_2019_data)
+
 ```
 
 ## 2020
@@ -240,7 +245,7 @@ PCI_2019_data <- drop_na(PCI_2019_data)
 PCI_2020_data <- boundary_data %>%
   left_join(PCI_2020_data, by = "province")
 
-PCI_2020_data <- drop_na(PCI_2020_data)
+
 ```
 
 ## 2021
@@ -249,7 +254,7 @@ PCI_2020_data <- drop_na(PCI_2020_data)
 PCI_2021_data <- boundary_data %>%
   left_join(PCI_2021_data, by = "province")
 
-PCI_2021_data <- drop_na(PCI_2021_data)
+
 ```
 
 ## 2022
@@ -258,7 +263,7 @@ PCI_2021_data <- drop_na(PCI_2021_data)
 PCI_2022_data <- boundary_data %>%
   left_join(PCI_2022_data, by = "province")
 
-PCI_2022_data <- drop_na(PCI_2022_data)
+
 ```
 :::
 
@@ -1231,7 +1236,7 @@ Conducting a Local Indicators of Spatial Association (LISA) analysis for PCI ove
 
     -   For regions showing improvement, policymakers can investigate successful practices and potentially replicate these strategies in struggling areas.
 
-Below is my lisa cluster using sdep method
+***Below is my lisa cluster using sdep method***
 
 ```{r}
 # Create the LISA cluster map
@@ -1505,6 +1510,385 @@ This map is a useful tool for understanding the **spatial patterns of competitiv
 ### **Conclusion:**
 
 Both maps provide insight into spatial clustering in Vietnam but do so for different purposes and variables. The **first map** highlights general hotspots and cold spots based on statistical clustering, while the **second map** gives specific information on provincial competitiveness. The second map is more directly tied to economic and business strategy, while the first could have a broader set of applications depending on the variable being analyzed.
+
+# **Importing the clean set of FDI data** 
+
+```{r}
+provincial_boundaries <- read_rds("kf analysis/data/rds/provincial_boundaries.rds")
+
+economy_pie <- read_xlsx("kf analysis/data/economy_pie.xlsx")
+
+fdi <- read_rds("kf analysis/data/rds/fdi.rds")
+```
+
+# **Exploratory Data Analysis of FDI**
+
+## Key backbone industries Performance
+
+```{r}
+# Clean and ensure the percentage columns are numeric
+data <- economy_pie %>%
+  mutate(
+    agriculture_forestry_fishing = as.numeric(gsub("[^0-9.]", "", `Agriculture, forestry and fishing (%)`)),
+    industry_construction = as.numeric(gsub("[^0-9.]", "", `Industry and construction (%)`)),
+    service = as.numeric(gsub("[^0-9.]", "", `Service (%)`)),
+  )
+
+# Convert wide format to long format for easier analysis
+data_long <- data %>%
+  pivot_longer(cols = c(agriculture_forestry_fishing, industry_construction, service), 
+               names_to = "industry", 
+               values_to = "percent")
+
+# Calculate yearly percentage change for each sector
+data_long <- data_long %>%
+  group_by(industry) %>%
+  arrange(year) %>%
+  mutate(percent_change = (percent - lag(percent)) / lag(percent) * 100) %>%
+  ungroup()
+
+# Identify the sector with the highest average growth
+upcoming_sector <- data_long %>%
+  group_by(industry) %>%
+  summarise(avg_percent_change = mean(percent_change, na.rm = TRUE)) %>%
+  arrange(desc(avg_percent_change))
+```
+
+### Sector Performance Summary
+
+```{r}
+upcoming_sector <- upcoming_sector %>% 
+  mutate(avg_percent_change = sprintf("%.2f%%", avg_percent_change)) %>% 
+  rename("Industry" = industry,
+         "Avg Percentage Change" = avg_percent_change)
+
+# Create a table with formatted values, borders, and centered second column
+kable(upcoming_sector, align = 'c') %>%  # Center all columns
+  kable_styling(full_width = FALSE, position = "left") %>%
+  add_header_above(c(" " = ncol(upcoming_sector)), border_left = TRUE, border_right = TRUE) %>%
+  row_spec(0, bold = TRUE, color = "white", background = "gray") # header styling
+```
+
+### Sector Trend
+
+```{r}
+ggplot(data_long, aes(x = year, y = percent, color = industry, group = industry)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Sector Percentage Contribution Over Time",
+       x = "Year", y = "Percentage (%)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14), 
+    legend.title = element_text(size = 16), 
+    legend.key.size = unit(1.5, "cm") 
+  )
+```
+
+## FDI Global Moran' I Analysis
+
+### Prepare the neighbours and weight (Queen's Contiguity weights)
+
+```{r}
+nb_fdi <- st_contiguity(fdi$geometry)
+wt_fdi <- st_weights(nb_fdi, style = "W", allow_zero = TRUE)
+
+wm_q_fdi <- fdi %>% 
+  mutate(
+    nb = nb_fdi,
+    wt = wt_fdi,
+    .before = 1
+  )
+
+# Convert column into numeric
+wm_q_fdi$total_project_count <- 
+  as.numeric(wm_q_fdi$total_project_count)
+
+wm_q_fdi$total_registered_capital <- 
+  as.numeric(wm_q_fdi$total_registered_capital)
+```
+
+### Test
+
+::: panel-tabset
+## Number of Projects
+
+```{r}
+# Perform Global Moran's I test
+global_moran_test(wm_q_fdi$total_project_count,
+                  wm_q_fdi$nb,
+                  wm_q_fdi$wt,
+                  zero.policy = TRUE)
+
+# Performing Global Moran’s I permutation test (Monte Carlo)
+set.seed(1234)
+global_moran_perm_result_project_count <- 
+  global_moran_perm(wm_q_fdi$total_project_count,
+                    wm_q_fdi$nb,
+                    wm_q_fdi$wt,
+                    zero.policy = TRUE,
+                    nsim = 99)
+
+global_moran_perm_result_project_count
+
+
+###### Increasing Simulation
+# Performing Global Moran’s I permutation test (Monte Carlo)
+set.seed(1234)
+global_moran_perm_result_project_count <- 
+  global_moran_perm(wm_q_fdi$total_project_count,
+                    wm_q_fdi$nb,
+                    wm_q_fdi$wt,
+                    zero.policy = TRUE,
+                    nsim = 999)
+
+global_moran_perm_result_project_count
+```
+
+**Moran's I Test**
+
+The positive Moran's I statistic (0.169) suggests a tendency for projects to cluster spatially.
+
+Since p-value of 0.002187 \< 0.05, there's strong statistical evidence against the null hypothesis no of spatial autocorrelation.
+
+This means we can conclude there's significant positive spatial clustering in our data -areas with high values are near other areas with high values
+
+**Monte Carlo Simulation**
+
+Since p-value of 0.1 \> 0.05, this suggests that while the result is suggestive of spatial clustering, it is not statistically significant
+
+After increasing the number of simulations, the result is still around 0.05.
+
+Thus, we conclude that while there is a suggestive pattern of clustering, the results do not provide sufficient statistical evidence for significant spatial autocorrelation in the Monte Carlo analysis.
+
+## Total Registered Capital
+
+```{r}
+# Perform Global Moran's I test
+global_moran_test(wm_q_fdi$total_registered_capital,
+                  wm_q_fdi$nb,
+                  wm_q_fdi$wt,
+                  zero.policy = TRUE)
+
+# Performing Global Moran’s I permutation test (Monte Carlo)
+set.seed(1234)
+global_moran_perm_result_registered_capital <- global_moran_perm(wm_q_fdi$total_registered_capital,
+                                              wm_q_fdi$nb,
+                                              wm_q_fdi$wt,
+                                              zero.policy = TRUE,
+                                              nsim = 99)
+
+global_moran_perm_result_registered_capital
+```
+
+**Moran's I Test**
+
+The positive Moran's I statistic (0.3977) suggests a tendency for projects to cluster spatially.
+
+Since p-value of 3.004e-07 \< 0.05, there's strong statistical evidence against the null hypothesis no of spatial autocorrelation
+
+This means we can conclude there's significant positive spatial clustering in our data -areas with high values are near other areas with high values
+
+**Monte Carlo Simulation**
+
+Since p-value of 2.2e-16 \< 0.05, there's strong statistical evidence against the null hypothesis no of spatial autocorrelation
+
+This p-value, being far below 0.05, reinforces the conclusion of significant spatial autocorrelation.
+
+Therefore, we conclude that the clustering observed in total registered capital is statistically significant, indicating a robust spatial pattern in the data.
+:::
+
+The analysis reveals significant spatial clustering for **Total Registered Capital**, suggesting that regions with high registered capital are often near other high-value areas. (Vice versa)
+
+In contrast, while the **Total Projects** analysis suggests some spatial clustering, the results from the Monte Carlo simulation do not show statistical significance. This indicates that the clustering observed for total projects may not be robust enough to inform strategic decisions.
+
+## FDI Local Indicator of Spatial Association (LISA) Analysis
+
+::: panel-tabset
+## Number of Projects
+
+```{r}
+image_read("kf analysis/data/rds/total_projects_lisa_map.png")
+```
+
+```{r}
+#| eval: false
+
+png("kf analysis/data/rds/total_projects_lisa_map.png", width = 1600, height = 1200)
+
+# Perform Local Moran's I test
+lisa_fdi <- wm_q_fdi %>% 
+  mutate(local_moran = local_moran(
+    total_project_count, 
+    nb, 
+    wt, 
+    nsim = 99, 
+    zero.policy = TRUE),
+    .before = 1) %>% 
+  unnest(local_moran)
+
+lisa_fdi <- st_as_sf(lisa_fdi)
+
+
+lisa_sig_fdi <- lisa_fdi  %>%
+  filter(p_ii_sim < 0.05)
+tmap_mode("plot")
+
+# Visualize Lisa
+tm_shape(lisa_fdi) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(lisa_sig_fdi) +
+  tm_fill("mean") + 
+  tm_borders(alpha = 0.4) +
+  tm_layout(main.title = "LISA Map",   
+            main.title.size = 3.0,              
+            legend.text.size = 2.0,           
+            legend.title.size = 3.0,         
+            legend.position = c("right", "bottom"), 
+            frame = TRUE)  # Add a frame around the map
+
+# Close the graphic device
+dev.off()
+```
+
+## Total Registered Capital
+
+```{r} image_read("data/rds/registered_capital_lisa_map.png")}
+```
+
+```{r}
+#| eval: false
+
+png("kf analysis/data/rds/total_projects_lisa_map.png", width = 1600, height = 1200)
+
+# Perform Local Moran's I test
+lisa_fdi <- wm_q_fdi %>% 
+  mutate(local_moran = local_moran(
+    total_project_count, 
+    nb, 
+    wt, 
+    nsim = 99, 
+    zero.policy = TRUE),
+    .before = 1) %>% 
+  unnest(local_moran)
+
+lisa_fdi <- st_as_sf(lisa_fdi)
+
+
+lisa_sig_fdi <- lisa_fdi  %>%
+  filter(p_ii_sim < 0.05)
+tmap_mode("plot")
+
+# Visualize Lisa
+tm_shape(lisa_fdi) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(lisa_sig_fdi) +
+  tm_fill("mean") + 
+  tm_borders(alpha = 0.4) +
+  tm_layout(main.title = "LISA Map",   
+            main.title.size = 3.0,              
+            legend.text.size = 2.0,           
+            legend.title.size = 3.0,         
+            legend.position = c("right", "bottom"), 
+            frame = TRUE)  # Add a frame around the map
+
+# Close the graphic device
+dev.off()
+```
+:::
+
+## FDI Hot Spot & Cold Spot Area Analysis (HCSA)
+
+::: panel-tabset
+## Number of Projects
+
+```{r}
+image_read("kf analysis/data/rds/total_project_hcsa_map.png")
+```
+
+```{r}
+#| eval: false
+
+png("kf analysis/data/rds/total_project_hcsa_map.png", width = 1600, height = 1200)
+
+## Computing local Gi\* statistics
+hcsa_project_count <- wm_q_fdi %>% 
+  mutate(local_Gi = local_gstar_perm(
+    total_project_count, nb, wts, nsim = 99),
+         .before = 1) %>%
+  unnest(local_Gi)
+
+hcsa_project_count <- st_as_sf(hcsa_project_count)
+
+
+HCSA_sig_fdi <- hcsa_project_count  %>%
+  filter(p_sim < 0.05)
+tmap_mode("plot")
+
+# Visualize HCSA
+tm_shape(hcsa_project_count) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(HCSA_sig_fdi) +
+  tm_fill("cluster") + 
+  tm_borders(alpha = 0.4) +
+  tm_layout(main.title = "HCSA",
+            main.title.size = 3.0,              
+            legend.text.size = 2.0,           
+            legend.title.size = 3.0,   
+            legend.position = c("right", "bottom"), 
+            frame = TRUE) 
+
+# Close the graphic device
+dev.off()
+```
+
+## Total Registered Capital
+
+```{r}
+image_read("kf analysis/data/rds/registered_capital_hcsa_map.png")
+```
+
+```{r}
+#| eval: false
+
+png("kf analysis/data/rds/registered_capital_hcsa_map.png", width = 1600, height = 1200)
+
+## Computing local Gi\* statistics
+hcsa_registered_capital <- wm_q_fdi %>% 
+  mutate(local_Gi = local_gstar_perm(
+    total_registered_capital, nb, wts, nsim = 99),
+         .before = 1) %>%
+  unnest(local_Gi)
+
+hcsa_registered_capital <- st_as_sf(hcsa_registered_capital)
+
+
+HCSA_sig_fdi <- hcsa_registered_capital  %>%
+  filter(p_sim < 0.05)
+tmap_mode("plot")
+
+# Visualize HCSA
+tm_shape(hcsa_registered_capital) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(HCSA_sig_fdi) +
+  tm_fill("cluster") + 
+  tm_borders(alpha = 0.4) +
+  tm_layout(main.title = "HCSA",
+            main.title.size = 3.0,              
+            legend.text.size = 2.0,           
+            legend.title.size = 3.0,   
+            legend.position = c("right", "bottom"), 
+            frame = TRUE) 
+
+# Close the graphic device
+dev.off()
+```
+:::
 
 # UI design
 
