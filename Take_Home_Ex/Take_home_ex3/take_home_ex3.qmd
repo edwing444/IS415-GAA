@@ -1760,13 +1760,13 @@ dev.off()
 ## Total Registered Capital
 
 ```{r}
-image_read("data/rds/registered_capital_lisa_map.png")
+image_read("kf analysis/data/rds/registered_capital_lisa_map.png")
 ```
 
 ```{r}
 #| eval: false
 
-png("data/rds/registered_capital_lisa_map.png", width = 1600, height = 1200)
+png("kf analysis/data/rds/registered_capital_lisa_map.png", width = 1600, height = 1200)
 
 # Perform Local Moran's I test
 lisa <- wm_q_fdi %>% 
