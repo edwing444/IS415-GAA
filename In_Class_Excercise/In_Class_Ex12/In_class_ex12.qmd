@@ -9,7 +9,7 @@ author: "Edwin Tan"
 
 ```{r}
 pacman::p_load(sf, spdep, GWmodel, SpatialML, 
-               tmap, rsample, yardstick, tidyverse,knitr,kableExtra,spatialRF)
+               tmap, rsample, yardstick, tidyverse,knitr,kableExtra,spatialRF,rlang)
 ```
 
 # Preparing data
